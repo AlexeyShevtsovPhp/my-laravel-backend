@@ -1,0 +1,201 @@
+body {
+    background-image: url('../images/interface/');
+    background-repeat: no-repeat;
+    background-size: 730px 385px;
+    background-position-x: 560px;
+    background-position-y: 297px;
+
+}
+
+.back {
+    color: #333;
+    text-decoration: none;
+    font-weight: normal;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #f0f4f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: fixed;
+    margin-top: 53px;
+    margin-left: -2px;
+}
+
+.back-icon {
+    width: 38px;
+    height: 38px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    object-fit: contain;
+}
+
+.back-style {
+    color: #333;
+    text-decoration: none;
+    font-weight: normal;
+    padding: 8px 8px;
+    border-radius: 5px;
+    background-color: #f0f4f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: fixed;
+    margin-top: -53px;
+    margin-left: -2px;
+}
+
+.back-style:hover {
+    background-color: #f1f8f4;
+    color: #00010b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid #ddd;
+}
+
+.greetings a {
+    margin-left: 1700px;
+
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #3f8756;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: #f2f5f6;
+    padding: 4px;
+    border-radius: 8px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 130px;
+    transition: all 0.5s ease;
+}
+
+.greetings a:hover {
+    background-color: #a3aef4;
+    color: #eaefe8;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    transform: translateY(-1.5px);
+    cursor: pointer;
+}
+
+a {
+    padding: 16px 24px;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    background-color: #ffffff;
+    outline: none;
+}
+
+.feedBack-container {
+    position: fixed;
+    margin-top: 40px;
+    margin-left: 20px;
+    width: 15%;
+    max-width: 900px;
+    border-collapse: collapse;
+    display: inline-block;
+}
+
+
+textarea {
+    width: 230%;
+    height: 300px;
+    padding: 8px;
+    border: 2px solid #741faa;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-left: 575px;
+    margin-top: 285px;
+    resize: none;
+}
+
+input {
+    margin-left: 575px;
+    margin-top: 230px;
+    width: 33.4%;
+    height: 25px;
+    position: fixed;
+    padding: 8px;
+    border: 2px solid #741faa;
+    border-radius: 8px;
+}
+
+.form-submit {
+    margin-left: 1071px;
+    margin-top: 15px;
+    display: block;
+    transition: 0.5s;
+}
+
+button {
+    font-family: 'Roboto', sans-serif;
+    padding: 8px 24px;
+    font-size: 1.2em;
+    font-weight: 300;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #454242;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    height: 45px;
+    display: inline-block;
+}
+
+button:hover {
+    transform: scale(1.05);
+    background-color: #e6dbfb;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.e-mail-info-1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    color: #333;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    margin-left: 917px;
+    margin-top: 75px;
+    transform: translateX(-50%);
+    max-width: 590px;
+    width: 100%;
+    z-index: 1000;
+}
+
+.e-mail-info-2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    color: #333;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    margin-left: 917px;
+    margin-top: 150px;
+    transform: translateX(-50%);
+    max-width: 590px;
+    width: 100%;
+    z-index: 1000;
+}
+
