@@ -12,9 +12,9 @@ class ChatUpdated implements ShouldBroadcast
 {
     use SerializesModels;
 
-    public $userId;
-    public $comment;
-    public $username;
+    public int $userId;
+    public Comment $comment;
+    public string $username;
 
     public function __construct(User $user, Comment $comment)
     {
@@ -23,12 +23,12 @@ class ChatUpdated implements ShouldBroadcast
         $this->username = $user->name;
     }
 
-    public function broadcastOn()
+    public function broadcastOn(): Channel
     {
         return new Channel('chat.' . $this->userId);
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'chat.updated';
     }

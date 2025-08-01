@@ -6,14 +6,14 @@ use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddCartItemRequest;
 use App\Models\User as ModelsUser;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class CartApiController extends Controller
 {
-    public function all(ModelsUser $user)
+    public function all(ModelsUser $user): JsonResponse
     {
-
+        /** @var ModelsUser $userSelf */
         $userSelf = Auth::user();
         if ($userSelf->role !== 'admin' && $user->id !== $userSelf->id) {
             return response()->json(['message' => 'Доступ запрещён'], 403);
@@ -41,9 +41,13 @@ class CartApiController extends Controller
         ]);
     }
 
-    public function show(ModelsUser $user)
+    /**
+     * @param ModelsUser $user
+     * @return JsonResponse
+     */
+    public function show(ModelsUser $user): JsonResponse
     {
-
+        /** @var ModelsUser $userSelf */
         $userSelf = Auth::user();
         if ($userSelf->role !== 'admin' && $user->id !== $userSelf->id) {
             return response()->json(['message' => 'Доступ запрещён'], 403);
@@ -73,9 +77,14 @@ class CartApiController extends Controller
         ]);
     }
 
-    public function create(AddCartItemRequest $request)
+    /**
+     * @param AddCartItemRequest $request
+     * @return JsonResponse
+     */
+    public function create(AddCartItemRequest $request): JsonResponse
     {
         $validated = $request->validated();
+        /** @var ModelsUser $user */
         $user = Auth::user();
         $productId = $validated['product_id'];
         $exists = $user->goods()->where('product_id', $productId)->first();
@@ -93,11 +102,18 @@ class CartApiController extends Controller
         $totalQuantity = $user->goods()->count();
 
         event(new CartUpdated($user, $totalQuantity));
+
         return response()->json(['message' => 'Товар добавлен в корзину']);
     }
 
-    public function delete(Request $request, $productId)
+    /**
+     * @param int $productId
+     *
+     * @return JsonResponse
+     */
+    public function delete(int $productId): JsonResponse
     {
+        /** @var ModelsUser $user */
         $user = Auth::user();
 
         $existing = $user->goods()->where('product_id', $productId)->first();
@@ -119,8 +135,12 @@ class CartApiController extends Controller
         return response()->json(['message' => 'Товар обновлён или удалён']);
     }
 
-    public function clearAll(Request $request)
+    /**
+     * @return JsonResponse
+     */
+    public function clearAll(): JsonResponse
     {
+        /** @var ModelsUser $user */
         $user = Auth::user();
 
         $user->goods()->detach();

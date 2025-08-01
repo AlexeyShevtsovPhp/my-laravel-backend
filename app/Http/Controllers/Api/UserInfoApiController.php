@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Good;
 use App\Models\User as ModelsUser;
 use App\Models\Comment;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class UserInfoApiController extends Controller
 {
-    public function show(ModelsUser $user)
+    /**
+     * @param ModelsUser $user
+     * @return JsonResponse
+     */
+    public function show(ModelsUser $user): JsonResponse
     {
+        /** @var ModelsUser $userSelf */
         $userSelf = Auth::user();
 
         $liked = $user->likedGoods()->pluck('goods.id');

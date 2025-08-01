@@ -13,20 +13,20 @@ class ChatDelete implements ShouldBroadcast
     use SerializesModels;
 
 
-    public $comment;
-    public $commentId;
+    public Comment $comment;
+    public int $commentId;
 
-    public function __construct($comment)
+    public function __construct(Comment $comment)
     {
         $this->commentId = $comment->id;
     }
 
-    public function broadcastOn()
+    public function broadcastOn(): Channel
     {
         return new Channel('deleteComment' );
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'chat.delete';
     }

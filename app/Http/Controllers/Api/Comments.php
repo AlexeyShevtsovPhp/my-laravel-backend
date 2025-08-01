@@ -57,6 +57,10 @@ class Comments extends Controller
         return response()->json($response);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function delete(Request $request): JsonResponse
     {
         $commentId = $request->input('id');
@@ -94,6 +98,10 @@ class Comments extends Controller
         return response()->json($response);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function read(Request $request): JsonResponse
     {
         $userId = $request->input('user_id');
@@ -108,7 +116,7 @@ class Comments extends Controller
         $comments = $query->paginate(Comment::PER_PAGE);
 
         $response = [
-            'comments' => $comments->transform(function ($comment) {
+            'comments' => $comments->transform(function (Comment $comment) {
                 return [
                     'id' => $comment->id,
                     'content' => $comment->content,
@@ -120,7 +128,7 @@ class Comments extends Controller
                 'current_page' => $comments->currentPage(),
             ]
         ];
+
         return response()->json($response);
     }
-
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\CartUpdated;
 use App\Events\ChatDelete;
 use App\Events\ChatUpdated;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -15,10 +15,13 @@ use Illuminate\Support\Facades\Validator;
 class CommentApiController extends Controller
 {
     /**
-     * Создать комментарий.
+     * @param Request $request
+     *
+     * @return JsonResponse
      */
     public function create(Request $request): JsonResponse
     {
+        /** @var User $user */
         $user = Auth::user();
 
         if (!$user) {
@@ -57,10 +60,12 @@ class CommentApiController extends Controller
     }
 
     /**
-     * Удалить комментарий.
+     * @param Comment $comment
+     * @return JsonResponse
      */
-    public function delete(Request $request, Comment $comment): JsonResponse
+    public function delete(Comment $comment): JsonResponse
     {
+        /** @var User $user */
         $user = Auth::user();
 
         if (!$user) {
@@ -88,8 +93,8 @@ class CommentApiController extends Controller
     }
 
     /**
-     * Получить список комментариев.
-     * Можно фильтровать по user_id или category_id через query params.
+     * @param Request $request
+     * @return JsonResponse
      */
     public function read(Request $request): JsonResponse
     {

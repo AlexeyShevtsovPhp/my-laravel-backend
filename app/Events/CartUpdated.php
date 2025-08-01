@@ -11,21 +11,25 @@ class CartUpdated implements ShouldBroadcast
 {
     use SerializesModels;
 
-    public $userId;
-    public $totalQuantity;
+    public int $userId;
+    public int $totalQuantity;
 
-    public function __construct(User $user, $totalQuantity)
+    /**
+     * @param User $user
+     * @param int $totalQuantity
+     */
+    public function __construct(User $user, int $totalQuantity)
     {
         $this->userId = $user->id;
         $this->totalQuantity = $totalQuantity;
     }
 
-    public function broadcastOn()
+    public function broadcastOn(): Channel
     {
         return new Channel('cart.' . $this->userId);
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'cart.updated';
     }

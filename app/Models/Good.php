@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property int $price
+ * @property int $name
+ */
 class Good extends Model
 {
     protected $fillable = ['name', 'price','category_id','image'];

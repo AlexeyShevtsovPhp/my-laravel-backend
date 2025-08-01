@@ -4,14 +4,22 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Random\RandomException;
 
 class RegistrationApiController extends Controller
 {
-    public function create(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     * @throws RandomException
+     */
+    public function create(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:users,name',

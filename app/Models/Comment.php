@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property int $id
+ * @property string $content
+ * @property User $user
+ * @property int $user_id
+ */
 class Comment extends Model
 {
 

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\UserApiController;
 use App\Http\Controllers\Feedback;
 use App\Http\Controllers\Monolit\Cart;
 use App\Http\Controllers\Monolit\Search;

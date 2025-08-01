@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
 use App\Http\Requests\ChangeGoodRequest;
-use App\Http\Requests\CreateGoodRequest;
 use App\Models\Good;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 #[AllowDynamicProperties]
 class CreateGoodApiController extends Controller
 {
+    /**
+     * @param ChangeGoodRequest $request
+     * @return JsonResponse
+     */
     public function create(ChangeGoodRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -37,9 +39,15 @@ class CreateGoodApiController extends Controller
             'message' => 'Товар успешно добавлен',
             'good' => $good,
         ];
+
         return response()->json($response);
     }
 
+    /**
+     * @param ChangeGoodRequest $request
+     * @param Good $good
+     * @return JsonResponse
+     */
     public function change(ChangeGoodRequest $request, Good $good): JsonResponse
     {
         $validated = $request->validated();

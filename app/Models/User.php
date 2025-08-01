@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,18 +17,20 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $name
  * @property string $created_at
  * @property string $role
+ * @property string $email
+ * @property Collection<int, Good> $goods
  */
 class User extends Authenticatable
 {
-    public const ROLE_ADMIN = 'admin';
-    protected $table = 'users';
     use HasApiTokens;
-
-    public const PER_PAGE = 100;
-    public $timestamps = true;
-
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    public const ROLE_ADMIN = 'admin';
+
+    public const PER_PAGE = 100;
+
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -64,19 +69,28 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * @return HasMany
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function goods()
+    /**
+     * @return BelongsToMany
+     */
+    public function goods(): BelongsToMany
     {
         return $this->belongsToMany(Good::class, 'carts', 'user_id', 'product_id')
             ->withPivot('quantity')
             ->withTimestamps();
     }
 
-    public function likedGoods()
+    /**
+     * @return BelongsToMany
+     */
+    public function likedGoods(): BelongsToMany
     {
         return $this->belongsToMany(Good::class, 'likes', 'user_id', 'good_id');
     }

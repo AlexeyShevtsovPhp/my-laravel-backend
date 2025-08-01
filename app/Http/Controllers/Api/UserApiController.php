@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\User as ModelsUser;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 class UserApiController extends Controller
 {
     /**
-     * Логин пользователя и получение токена
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
@@ -45,7 +45,11 @@ class UserApiController extends Controller
         ]);
     }
 
-    public function delete(ModelsUser $user)
+    /**
+     * @param ModelsUser $user
+     * @return JsonResponse
+     */
+    public function delete(ModelsUser $user): JsonResponse
     {
         if ($user->role === 'admin') {
             return response()->json([

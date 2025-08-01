@@ -13,15 +13,20 @@ use Illuminate\Routing\Controller;
 class Category extends Controller
 {
     /**
-     * @return object
+     * @return JsonResponse
      */
-    public function index(): object
+    public function index(): JsonResponse
     {
-        $categories = CategoryModel::paginate(CategoryModel::PER_PAGE);
+        $categories = CategoryModel::query()
+            ->paginate(CategoryModel::PER_PAGE);
 
         return response()->json($categories);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function read(Request $request): JsonResponse
     {
         $comments = Comment::query()
@@ -30,7 +35,7 @@ class Category extends Controller
             ->paginate(Comment::PER_PAGE);
 
         $response = [
-            'comments' => $comments->transform(function ($comment) {
+            'comments' => $comments->transform(function (Comment $comment) {
                 return [
                     'id' => $comment->id,
                     'content' => $comment->content,

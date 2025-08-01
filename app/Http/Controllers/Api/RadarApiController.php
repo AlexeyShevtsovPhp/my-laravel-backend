@@ -13,6 +13,12 @@ class RadarApiController extends Controller
     /**
      * @throws ConnectionException
      */
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ConnectionException
+     */
     public function load(Request $request): JsonResponse
     {
         $apiKey = config('radar.api_key');
