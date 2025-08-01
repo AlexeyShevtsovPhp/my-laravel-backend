@@ -18,6 +18,7 @@ class ChatDelete implements ShouldBroadcast
 
     public function __construct(Comment $comment)
     {
+        $this->comment = $comment;
         $this->commentId = $comment->id;
     }
 

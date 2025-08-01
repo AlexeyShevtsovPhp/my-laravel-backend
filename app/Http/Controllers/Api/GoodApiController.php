@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class GoodApiController extends Controller
 {
     /**
-     * Создать комментарий.
+     * @param int $category_id
+     * @return JsonResponse
      */
     public function show(int $category_id): JsonResponse
     {
