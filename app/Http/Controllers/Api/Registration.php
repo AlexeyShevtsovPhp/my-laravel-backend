@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Random\RandomException;
@@ -13,45 +15,38 @@ class Registration extends Controller
 {
     /**
      * @param Request $request
-     * @return object
+     * @return JsonResponse
      * @throws ValidationException
      * @throws RandomException
      */
-    public function create(Request $request): object
+    public function create(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:users,name',
             'password' => 'required|string|min:4',
         ]);
 
         if ($validator->fails()) {
-            return redirect('/registration?registered=false');
+            return response()->json([
+                'message' => 'Ошибка валидации',
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         $validated = $validator->validated();
 
-        $username = $validated['name'];
-        $password = $validated['password'];
-
-        $user = User::query()
-            ->where('name', $username)
-            ->first();
-
-        if ($user) {
-            return redirect('/registration?error=taken');
-        }
-
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        User::create([
-            'name' => $username,
-            'password' => $hashedPassword,
-            'created_at' => now(),
+        $user = User::create([
+            'name' => $validated['name'],
+            'password' => Hash::make($validated['password']),
             'role' => 'guest',
             'email' => 'user' . bin2hex(random_bytes(5)) . '@mail.com',
             'email_verified_at' => now(),
+            'created_at' => now(),
         ]);
 
-        return redirect('/registration?registered=true');
+        return response()->json([
+            'message' => 'Пользователь успешно зарегистрирован',
+            'user' => $user,
+        ], 201);
     }
 }

@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddCartItemRequest;
+use App\Http\Requests\AddCartItem;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-class CartApiController extends Controller
+class Cart extends Controller
 {
     public function all(ModelsUser $user): JsonResponse
     {
@@ -78,10 +78,10 @@ class CartApiController extends Controller
     }
 
     /**
-     * @param AddCartItemRequest $request
+     * @param AddCartItem $request
      * @return JsonResponse
      */
-    public function create(AddCartItemRequest $request): JsonResponse
+    public function create(AddCartItem $request): JsonResponse
     {
         $validated = $request->validated();
         /** @var ModelsUser $user */

@@ -1,59 +1,54 @@
 <?php
 
-use App\Http\Controllers\Api\CartApiController;
-use App\Http\Controllers\Api\CreateGoodApiController;
-use App\Http\Controllers\Api\FeedbackApiController;
-use App\Http\Controllers\Api\LikeApiController;
-use App\Http\Controllers\Api\RadarApiController;
+use App\Http\Controllers\Api\AllUsers;
+use App\Http\Controllers\Api\Cart;
+use App\Http\Controllers\Api\CommentManage;
+use App\Http\Controllers\Api\CreateGood;
+use App\Http\Controllers\Api\Feedback;
+use App\Http\Controllers\Api\Like;
+use App\Http\Controllers\Api\UserManage;
+use App\Http\Controllers\Api\Radar;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserApiController;
-use App\Http\Controllers\Api\RegistrationApiController;
-use App\Http\Controllers\Api\Category as ApiCategories;
-use App\Http\Controllers\Api\CommentApiController;
-use App\Http\Controllers\Api\User as ApiUser;
-use App\Http\Controllers\Api\GoodApiController;
-use App\Http\Controllers\Api\UserInfoApiController;
-use App\Http\Controllers\MessageController;
+use App\Http\Controllers\Api\Registration;
+use App\Http\Controllers\Api\CategoryApiController;
+use App\Http\Controllers\Api\GoodManage;
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/comments', [CommentApiController::class, 'create']);
-    Route::delete('/comments/{comment}', [CommentApiController::class, 'delete']);
-    Route::get('/cart/{user}', [CartApiController::class, 'show']);
-    Route::get('/cart/all/{user}', [CartApiController::class, 'all']);
-    Route::get('/comments/user/{userId}', [CommentApiController::class, 'show']);
-    Route::delete('/cart/{product_id}', [CartApiController::class, 'delete']);
-    Route::post('/cart', [CartApiController::class, 'create']);
-    Route::post('/feedback', [FeedbackApiController::class, 'send']);
-    Route::post('/buy', [FeedbackApiController::class, 'get']);
-    Route::post('/goods/like/{good}', [LikeApiController::class, 'toggleLike']);
-    Route::post('/cart/clear', [CartApiController::class, 'clearAll']);
-    Route::get('/users', [ApiUser::class, 'index'])->middleware(['auth:sanctum', 'admin']);
-    Route::delete('/user/{user}', [UserApiController::class, 'delete'])->middleware(['auth:sanctum', 'admin']);
-    Route::post('/create', [CreateGoodApiController::class, 'create'])->middleware(['auth:sanctum', 'admin']);
-    Route::put('/change/{good}', [CreateGoodApiController::class, 'change'])->middleware(['auth:sanctum', 'admin']);
-    Route::get('/user', [UserApiController::class, 'currentUser']);
-    Route::get('/users/{user}', [UserApiController::class, 'show'])->whereNumber('user');
-    Route::get('/goods/{category_id}', [GoodApiController::class, 'show']);
-    Route::middleware('auth:sanctum')->get('/users/{user}', [UserInfoApiController::class, 'show']);
+
+    Route::get('/comments/user/{userId}', [CommentManage::class, 'show']);
+    Route::post('/comments', [CommentManage::class, 'create']);
+    Route::delete('/comments/{comment}', [CommentManage::class, 'delete']);
+
+    Route::get('/cart/all/{user}', [Cart::class, 'all']);
+    Route::get('/cart/{user}', [Cart::class, 'show']);
+    Route::post('/cart', [Cart::class, 'create']);
+    Route::post('/cart/clear', [Cart::class, 'clearAll']);
+    Route::delete('/cart/{product_id}', [Cart::class, 'delete']);
+
+    Route::post('/feedback', [Feedback::class, 'send']);
+    Route::post('/buy', [Feedback::class, 'get']);
+
+    Route::post('/goods/like/{good}', [Like::class, 'toggleLike']);
+
+    Route::get('/users', [UserManage::class, 'index'])->middleware(['auth:sanctum', 'admin']);
+    Route::delete('/user/{user}', [UserManage::class, 'delete'])->middleware(['auth:sanctum', 'admin']);
+
+    Route::post('/create', [CreateGood::class, 'create'])->middleware(['auth:sanctum', 'admin']);
+    Route::put('/change/{good}', [CreateGood::class, 'change'])->middleware(['auth:sanctum', 'admin']);
+
+    Route::get('/goods/{category_id}', [GoodManage::class, 'show']);
+
+    Route::middleware('auth:sanctum')->get('/users/{user}', [AllUsers::class, 'info']);
 });
 
-Route::get('/comments', [CommentApiController::class, 'read']);
+Route::post('/register', [Registration::class, 'create']);
 
-Route::post('/login', [UserApiController::class, 'login']);
+Route::post('/login', [UserManage::class, 'login']);
 
-Route::post('/register', [RegistrationApiController::class, 'create']);
+Route::get('/categories', [CategoryApiController::class, 'index']);
 
-Route::get('/categories', [ApiCategories::class, 'index']);
+Route::get('/comments', [CommentManage::class, 'read']);
 
-Route::get('/search', [RadarApiController::class, 'load']);
+Route::get('/comments/user/{userId}', [CommentManage::class, 'show']);
 
-Route::get('/comments/user/{userId}', [CommentApiController::class, 'show']);
-
-Route::post('/send-message', [MessageController::class, 'send']);
-
-
-
-
-
-
-
+Route::get('/search', [Radar::class, 'load']);

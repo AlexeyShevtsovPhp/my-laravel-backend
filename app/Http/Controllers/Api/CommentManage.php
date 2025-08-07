@@ -12,7 +12,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class CommentApiController extends Controller
+class CommentManage extends Controller
 {
     /**
      * @param Request $request

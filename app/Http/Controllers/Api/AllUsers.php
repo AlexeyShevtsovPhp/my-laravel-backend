@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Good;
 use App\Models\User as ModelsUser;
-use App\Models\Comment;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class UserInfoApiController extends Controller
+class AllUsers extends Controller
 {
-    /**
-     * @param ModelsUser $user
-     * @return JsonResponse
-     */
-    public function show(ModelsUser $user): JsonResponse
+    public function info(ModelsUser $user): JsonResponse
     {
         /** @var ModelsUser $userSelf */
         $userSelf = Auth::user();

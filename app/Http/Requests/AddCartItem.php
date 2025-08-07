@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class BuyMailRequest extends FormRequest
+class AddCartItem extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,16 @@ class BuyMailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'message' => 'required|string|max:2550',
-            'email' => 'required|string|max:255',
+            'product_id' => 'required|integer|exists:goods,id',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'Должно быть обязательно указано имя отправителя',
-            'message.required' => 'Поле с письмом не должно быть пустым',
+            'product_id.required' => 'Идентификатор товара обязателен',
+            'product_id.integer' => 'Идентификатор товара должен быть числом',
+            'product_id.exists' => 'Товар с таким идентификатором не найден',
         ];
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ChangeGoodRequest extends FormRequest
+class CreateNewGood extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,9 +27,10 @@ class ChangeGoodRequest extends FormRequest
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'category_id' => 'required|integer|exists:categories,id',
-            'image' => 'nullable|image|mimes:png|max:1024',
+            'image' => 'nullable|file|image|mimes:png|max:1024',
         ];
     }
+
     public function messages(): array
     {
         return [

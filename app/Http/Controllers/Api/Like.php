@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 #[AllowDynamicProperties]
-class LikeApiController extends Controller
+class Like extends Controller
 {
     /**
      * @param Good $good

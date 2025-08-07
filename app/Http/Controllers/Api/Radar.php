@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
 
-class RadarApiController extends Controller
+class Radar extends Controller
 {
     /**
      * @throws ConnectionException

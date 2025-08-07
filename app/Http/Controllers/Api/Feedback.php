@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
-use App\Http\Requests\SendMailRequest;
+use App\Http\Requests\SendMail;
 use App\Models\Good;
 use App\Models\User;
 use Exception;
@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 #[AllowDynamicProperties]
-class FeedbackApiController extends Controller
+class Feedback extends Controller
 {
     /**
-     * @param SendMailRequest $request
+     * @param SendMail $request
      * @return JsonResponse
      */
-    public function send(SendMailRequest $request): JsonResponse
+    public function send(SendMail $request): JsonResponse
     {
         $validated = $request->validated();
 

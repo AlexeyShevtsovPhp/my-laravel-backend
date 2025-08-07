@@ -9,8 +9,27 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class UserApiController extends Controller
+class UserManage extends Controller
 {
+
+    public function index(): JsonResponse
+    {
+        $usersPerPage = ModelsUser::PER_PAGE;
+        $users = ModelsUser::query()->paginate($usersPerPage);
+
+        $meta = [
+            'total' => $users->total(),
+            'max_per_page' => $usersPerPage,
+            'total_pages' => $users->lastPage(),
+        ];
+        $response = [
+            'users' => $users->items(),
+            'meta' => $meta,
+        ];
+
+        return response()->json($response);
+    }
+
     /**
      * @param Request $request
      * @return JsonResponse
@@ -62,5 +81,4 @@ class UserApiController extends Controller
             'message' => 'Пользователь успешно удалён',
             'success' => true,], 200);
     }
-
 }
