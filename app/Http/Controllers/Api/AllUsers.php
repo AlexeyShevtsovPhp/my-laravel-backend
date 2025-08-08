@@ -1,16 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Good;
 use App\Models\User as ModelsUser;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class AllUsers extends Controller
 {
+
+    /**
+     * @param ModelsUser $user
+     * @return JsonResponse
+     */
+
     public function info(ModelsUser $user): JsonResponse
     {
         /** @var ModelsUser $userSelf */
@@ -31,17 +40,25 @@ class AllUsers extends Controller
 
         $allGoods = Good::all();
 
-        $items = $goods->getCollection()->transform(function ($item) {
+        $items = $goods->getCollection()->map(function ($item) {
+
+            /** @var Pivot&object{quantity: int} $pivot */
+            $pivot = $item->pivot;
+
             return [
                 'id' => $item->id,
                 'name' => $item->name,
                 'price' => $item->price,
-                'quantity' => $item->pivot->quantity,
+                'quantity' => $pivot->quantity,
             ];
         });
 
         $totalSum = $user->goods->sum(function ($item) {
-            return $item->price * $item->pivot->quantity;
+
+            /** @var Pivot&object{quantity: int} $pivot */
+            $pivot = $item->pivot;
+
+            return $item->price * $pivot->quantity;
         });
 
         return response()->json([
@@ -49,7 +66,7 @@ class AllUsers extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'role' => $user->role,
-                'created_at' => $user->created_at->toDateTimeString(),
+                'created_at' => optional($user->created_at)->toDateTimeString(),
                 'content' => $user->content ?? null,
             ],
             'comments' => [

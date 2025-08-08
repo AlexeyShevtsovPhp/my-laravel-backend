@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
@@ -12,10 +14,12 @@ use Illuminate\Support\Facades\Auth;
 #[AllowDynamicProperties]
 class Like extends Controller
 {
+
     /**
      * @param Good $good
      * @return JsonResponse
      */
+
     public function toggleLike(Good $good): JsonResponse
     {
         /** @var User $user */

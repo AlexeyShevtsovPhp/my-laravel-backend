@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Client\ConnectionException;
@@ -15,16 +17,21 @@ class Radar extends Controller
      */
 
     /**
+     * @throws ConnectionException
+     */
+
+    /**
      * @param Request $request
      * @return JsonResponse
      * @throws ConnectionException
      */
+
     public function load(Request $request): JsonResponse
     {
         $apiKey = config('radar.api_key');
         $query = $request->input('query');
 
-        if (!$query) {
+        if (! $query) {
             return response()->json([
                 'addresses' => [],
             ]);
@@ -38,8 +45,10 @@ class Radar extends Controller
         ]);
         if ($response->successful()) {
             $data = $response->json();
+
             return response()->json($data);
         }
+
         return response()->json([
             'error' => 'Не удалось получить данные от Radar API',
         ], $response->status());

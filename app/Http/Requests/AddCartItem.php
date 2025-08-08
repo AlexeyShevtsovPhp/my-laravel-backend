@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class AddCartItem extends FormRequest
 {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * @return bool
      */
+
     public function authorize(): bool
     {
         return true;
@@ -21,12 +24,21 @@ class AddCartItem extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
+    /**
+     * @return string[]
+     */
+
     public function rules(): array
     {
         return [
             'product_id' => 'required|integer|exists:goods,id',
         ];
     }
+
+    /**
+     * @return string[]
+     */
 
     public function messages(): array
     {

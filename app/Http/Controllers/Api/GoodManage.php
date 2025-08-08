@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Models\Good;
@@ -10,10 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class GoodManage extends Controller
 {
+
     /**
      * @param int $category_id
      * @return JsonResponse
      */
+
     public function show(int $category_id): JsonResponse
     {
         /** @var User $user */
@@ -32,4 +36,3 @@ class GoodManage extends Controller
         ]);
     }
 }
-

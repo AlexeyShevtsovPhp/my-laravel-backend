@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Database\Factories\CommentFactory;
@@ -16,6 +18,10 @@ class Category extends Model
     use HasFactory, Notifiable;
 
     public const PER_PAGE = 10;
+
+    /**
+     * @return HasMany<Good, $this>
+     */
 
     public function goods(): HasMany
     {

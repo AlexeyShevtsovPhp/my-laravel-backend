@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -53,7 +55,6 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-
     protected $hidden = [
         'password',
         'remember_token',
@@ -68,20 +69,22 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'created_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
 
     /**
-     * @return HasMany
+     * @return HasMany<Comment, $this>
      */
+
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
     /**
-     * @return BelongsToMany
+     * @return BelongsToMany<Good, $this>
      */
     public function goods(): BelongsToMany
     {
@@ -91,7 +94,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @return BelongsToMany
+     * @return BelongsToMany<Good, $this>
      */
     public function likedGoods(): BelongsToMany
     {

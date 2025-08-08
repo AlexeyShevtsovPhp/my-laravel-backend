@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
-use App\Http\Controllers\Category;
-use App\Models\Comment;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -13,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class CommentFactory extends Factory
 {
     /**
-     * Define the model's default state.
      *
      * @return array<string, mixed>
      */
@@ -21,7 +19,7 @@ class CommentFactory extends Factory
     {
         return [
             'content' => $this->faker->sentence(),
-            'category_id' => rand(1, 10)
+            'category_id' => rand(1, 10),
         ];
     }
 }

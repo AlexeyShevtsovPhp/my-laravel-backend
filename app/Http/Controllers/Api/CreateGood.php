@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
@@ -12,10 +14,12 @@ use Illuminate\Routing\Controller;
 #[AllowDynamicProperties]
 class CreateGood extends Controller
 {
+
     /**
      * @param CreateNewGood $request
      * @return JsonResponse
      */
+
     public function create(CreateNewGood $request): JsonResponse
     {
         $validated = $request->validated();
@@ -49,6 +53,7 @@ class CreateGood extends Controller
      * @param Good $good
      * @return JsonResponse
      */
+
     public function change(ChangeGood $request, Good $good): JsonResponse
     {
         $validated = $request->validated();

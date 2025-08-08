@@ -1,16 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddCartItem;
 use App\Models\User as ModelsUser;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class Cart extends Controller
 {
+
+    /**
+     * @param ModelsUser $user
+     * @return JsonResponse
+     */
+
     public function all(ModelsUser $user): JsonResponse
     {
         /** @var ModelsUser $userSelf */
@@ -22,16 +31,22 @@ class Cart extends Controller
         $goods = $user->goods()->get();
 
         $items = $goods->map(function ($item) {
+            /** @var Pivot&object{quantity: int} $pivot */
+            $pivot = $item->pivot;
             return [
                 'id' => $item->id,
                 'name' => $item->name,
                 'price' => $item->price,
-                'quantity' => $item->pivot->quantity,
+                'quantity' => $pivot->quantity,
             ];
         });
 
         $totalSum = $user->goods->sum(function ($item) {
-            return $item->price * $item->pivot->quantity;
+
+            /** @var Pivot&object{quantity: int} $pivot */
+            $pivot = $item->pivot;
+
+            return $item->price * $pivot->quantity;
         });
 
         return response()->json([
@@ -45,6 +60,7 @@ class Cart extends Controller
      * @param ModelsUser $user
      * @return JsonResponse
      */
+
     public function show(ModelsUser $user): JsonResponse
     {
         /** @var ModelsUser $userSelf */
@@ -56,16 +72,24 @@ class Cart extends Controller
         $goods = $user->goods()->paginate(5);
 
         $items = $goods->map(function ($item) {
+
+            /** @var Pivot&object{quantity: int} $pivot */
+            $pivot = $item->pivot;
+
             return [
                 'id' => $item->id,
                 'name' => $item->name,
                 'price' => $item->price,
-                'quantity' => $item->pivot->quantity,
+                'quantity' => $pivot->quantity,
             ];
         });
 
         $totalSum = $user->goods->sum(function ($item) {
-            return $item->price * $item->pivot->quantity;
+
+            /** @var Pivot&object{quantity: int} $pivot */
+            $pivot = $item->pivot;
+
+            return $item->price * $pivot->quantity;
         });
 
         return response()->json([
@@ -81,6 +105,7 @@ class Cart extends Controller
      * @param AddCartItem $request
      * @return JsonResponse
      */
+
     public function create(AddCartItem $request): JsonResponse
     {
         $validated = $request->validated();
@@ -90,7 +115,11 @@ class Cart extends Controller
         $exists = $user->goods()->where('product_id', $productId)->first();
 
         if ($exists) {
-            $currentQuantity = $exists->pivot->quantity;
+
+            /** @var Pivot&object{quantity: int} $pivot */
+            $pivot = $exists->pivot;
+
+            $currentQuantity = $pivot->quantity;
             $user->goods()->updateExistingPivot($productId, [
                 'quantity' => $currentQuantity + 1,
             ]);
@@ -108,9 +137,9 @@ class Cart extends Controller
 
     /**
      * @param int $productId
-     *
      * @return JsonResponse
      */
+
     public function delete(int $productId): JsonResponse
     {
         /** @var ModelsUser $user */
@@ -118,11 +147,13 @@ class Cart extends Controller
 
         $existing = $user->goods()->where('product_id', $productId)->first();
 
-        if (!$existing) {
+        if (! $existing) {
             return response()->json(['message' => 'Товар не найден в корзине'], 404);
         }
 
-        $currentQuantity = $existing->pivot->quantity;
+        /** @var Pivot&object{quantity: int} $pivot */
+        $pivot = $existing->pivot;
+        $currentQuantity = $pivot->quantity;
 
         if ($currentQuantity > 1) {
             $user->goods()->updateExistingPivot($productId, [
@@ -138,13 +169,14 @@ class Cart extends Controller
     /**
      * @return JsonResponse
      */
+
     public function clearAll(): JsonResponse
     {
         /** @var ModelsUser $user */
         $user = Auth::user();
 
         $user->goods()->detach();
+
         return response()->json(['message' => 'Корзина успешно очищена']);
     }
-
 }

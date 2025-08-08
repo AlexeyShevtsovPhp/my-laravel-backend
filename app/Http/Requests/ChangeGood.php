@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class ChangeGood extends FormRequest
 {
+
     /**
-     * Determine if the user is authorized to make this request.
+     * @return bool
      */
+
     public function authorize(): bool
     {
         return true;
@@ -21,6 +24,7 @@ class ChangeGood extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         return [
@@ -30,6 +34,11 @@ class ChangeGood extends FormRequest
             'image' => 'nullable|image|mimes:png|max:1024',
         ];
     }
+
+    /**
+     * @return string[]
+     */
+
     public function messages(): array
     {
         return [

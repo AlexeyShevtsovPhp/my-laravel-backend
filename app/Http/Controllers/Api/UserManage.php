@@ -1,16 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class UserManage extends Controller
 {
+
+    /**
+     * @return JsonResponse
+     */
 
     public function index(): JsonResponse
     {
@@ -34,6 +40,7 @@ class UserManage extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+
     public function login(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -47,7 +54,7 @@ class UserManage extends Controller
 
         $user = User::where('name', $request->name)->first();
 
-        if (!$user || !password_verify($request->password, $user->password)) {
+        if (! $user || ! password_verify($request->password, $user->password)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
@@ -56,11 +63,11 @@ class UserManage extends Controller
         return response()->json([
             'token' => $token,
             'user' => [
-            'id' => $user->id,
-            'name' => $user->name,
+                'id' => $user->id,
+                'name' => $user->name,
                 'role' => $user->role,
                 'email' => $user->email,
-                ]
+            ],
         ]);
     }
 
@@ -68,17 +75,19 @@ class UserManage extends Controller
      * @param ModelsUser $user
      * @return JsonResponse
      */
+
     public function delete(ModelsUser $user): JsonResponse
     {
         if ($user->role === 'admin') {
             return response()->json([
                 'message' => 'Нельзя удалить администратора',
-                'success' => false,], 403);
+                'success' => false, ], 403);
         }
 
         $user->delete();
+
         return response()->json([
             'message' => 'Пользователь успешно удалён',
-            'success' => true,], 200);
+            'success' => true, ], 200);
     }
 }

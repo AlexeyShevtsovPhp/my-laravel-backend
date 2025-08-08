@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class CreateNewGood extends FormRequest
 {
@@ -30,6 +31,10 @@ class CreateNewGood extends FormRequest
             'image' => 'nullable|file|image|mimes:png|max:1024',
         ];
     }
+
+    /**
+     * @return string[]
+     */
 
     public function messages(): array
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -14,11 +16,17 @@ use Random\RandomException;
 class Registration extends Controller
 {
     /**
-     * @param Request $request
-     * @return JsonResponse
      * @throws ValidationException
      * @throws RandomException
      */
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws RandomException
+     * @throws ValidationException
+     */
+
     public function create(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -29,7 +37,7 @@ class Registration extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Ошибка валидации',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -39,7 +47,7 @@ class Registration extends Controller
             'name' => $validated['name'],
             'password' => Hash::make($validated['password']),
             'role' => 'guest',
-            'email' => 'user' . bin2hex(random_bytes(5)) . '@mail.com',
+            'email' => 'user'.bin2hex(random_bytes(5)).'@mail.com',
             'email_verified_at' => now(),
             'created_at' => now(),
         ]);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
@@ -12,9 +14,11 @@ use Illuminate\Routing\Controller;
 #[AllowDynamicProperties]
 class CategoryApiController extends Controller
 {
+
     /**
      * @return JsonResponse
      */
+
     public function index(): JsonResponse
     {
         $categories = CategoryModel::query()
@@ -27,6 +31,7 @@ class CategoryApiController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+
     public function read(Request $request): JsonResponse
     {
         $comments = Comment::query()
@@ -35,19 +40,19 @@ class CategoryApiController extends Controller
             ->paginate(Comment::PER_PAGE);
 
         $response = [
-            'comments' => $comments->transform(function (Comment $comment) {
+            'comments' => $comments->map(function (Comment $comment) {
                 return [
                     'id' => $comment->id,
                     'content' => $comment->content,
-                    'username' => $comment->user ? $comment->user->name : 'Guest',
+                    'username' => $comment->user->name,
                 ];
             }),
             'meta' => [
                 'total_pages' => $comments->lastPage(),
                 'current_page' => $comments->currentPage(),
-            ]
+            ],
         ];
+
         return response()->json($response);
     }
 }
-

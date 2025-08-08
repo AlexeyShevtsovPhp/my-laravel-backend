@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Events\ChatDelete;
@@ -16,18 +18,17 @@ class CommentManage extends Controller
 {
     /**
      * @param Request $request
-     *
      * @return JsonResponse
      */
     public function create(Request $request): JsonResponse
     {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = Auth::user();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Требуется аутентификация'
+                'message' => 'Требуется аутентификация',
             ], 401);
         }
 
@@ -63,15 +64,16 @@ class CommentManage extends Controller
      * @param Comment $comment
      * @return JsonResponse
      */
+
     public function delete(Comment $comment): JsonResponse
     {
-        /** @var User $user */
+        /** @var User|null $user */
         $user = Auth::user();
 
         if (!$user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Требуется аутентификация'
+                'message' => 'Требуется аутентификация',
             ], 401);
         }
 
@@ -96,6 +98,7 @@ class CommentManage extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+
     public function read(Request $request): JsonResponse
     {
         $query = Comment::query()->with('user');
@@ -111,13 +114,13 @@ class CommentManage extends Controller
         $comments = $query->paginate(5);
 
         $response = [
-            'comments' => $comments->transform(function ($comment) {
+            'comments' => $comments->getCollection()->map(function ($comment) {
                 return [
                     'id' => $comment->id,
                     'content' => $comment->content,
-                    'username' => $comment->user ? $comment->user->name : 'Guest',
+                    'username' => $comment->user->name,
                     'category_id' => $comment->category_id,
-                    'created_at' => $comment->created_at->toDateTimeString(),
+                    'created_at' => $comment->created_at?->toDateTimeString() ?? 'N/A',
                 ];
             }),
             'meta' => [

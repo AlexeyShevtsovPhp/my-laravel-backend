@@ -2,16 +2,16 @@
 
 use App\Http\Controllers\Api\AllUsers;
 use App\Http\Controllers\Api\Cart;
+use App\Http\Controllers\Api\CategoryApiController;
 use App\Http\Controllers\Api\CommentManage;
 use App\Http\Controllers\Api\CreateGood;
 use App\Http\Controllers\Api\Feedback;
-use App\Http\Controllers\Api\Like;
-use App\Http\Controllers\Api\UserManage;
-use App\Http\Controllers\Api\Radar;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Registration;
-use App\Http\Controllers\Api\CategoryApiController;
 use App\Http\Controllers\Api\GoodManage;
+use App\Http\Controllers\Api\Like;
+use App\Http\Controllers\Api\Radar;
+use App\Http\Controllers\Api\Registration;
+use App\Http\Controllers\Api\UserManage;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
 
