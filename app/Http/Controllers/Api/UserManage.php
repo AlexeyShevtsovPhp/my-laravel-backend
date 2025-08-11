@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UserManage extends Controller
 {
-
     /**
      * @return JsonResponse
      */

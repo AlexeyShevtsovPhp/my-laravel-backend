@@ -12,10 +12,10 @@ use Illuminate\Notifications\Notifiable;
 
 class Category extends Model
 {
-    public $timestamps = false;
-
     /** @use HasFactory<CommentFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
+    public $timestamps = false;
 
     public const PER_PAGE = 10;
 

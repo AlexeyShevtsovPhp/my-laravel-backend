@@ -9,7 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AddCartItem extends FormRequest
 {
-
     /**
      * @return bool
      */

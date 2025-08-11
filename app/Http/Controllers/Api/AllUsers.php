@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AllUsers extends Controller
 {
-
     /**
      * @param ModelsUser $user
      * @return JsonResponse
@@ -41,7 +40,6 @@ class AllUsers extends Controller
         $allGoods = Good::all();
 
         $items = $goods->getCollection()->map(function ($item) {
-
             /** @var Pivot&object{quantity: int} $pivot */
             $pivot = $item->pivot;
 
@@ -54,7 +52,6 @@ class AllUsers extends Controller
         });
 
         $totalSum = $user->goods->sum(function ($item) {
-
             /** @var Pivot&object{quantity: int} $pivot */
             $pivot = $item->pivot;
 

@@ -26,7 +26,8 @@ class User extends Authenticatable
     use HasApiTokens;
 
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     public const ROLE_ADMIN = 'admin';
 

@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class GoodManage extends Controller
 {
-
     /**
      * @param int $category_id
      * @return JsonResponse

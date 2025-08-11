@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 #[AllowDynamicProperties]
 class Like extends Controller
 {
-
     /**
      * @param Good $good
      * @return JsonResponse

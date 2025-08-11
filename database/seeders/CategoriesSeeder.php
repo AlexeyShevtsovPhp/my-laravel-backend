@@ -33,7 +33,6 @@ class CategoriesSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
 
         foreach ($categories as $category) {
-
             Category::query()->create($category);
         }
     }

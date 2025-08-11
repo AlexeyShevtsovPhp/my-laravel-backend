@@ -21,5 +21,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'cors' => Cors::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {})
+    ->withExceptions(function (Exceptions $exceptions) {
+    })
     ->create();

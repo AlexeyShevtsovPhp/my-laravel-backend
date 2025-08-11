@@ -18,7 +18,6 @@ class CommentsSeeder extends Seeder
         $users = User::query()->whereIn('role', ['admin', 'guest'])->get();
 
         foreach ($users as $user) {
-
             Comment::factory()->count(10)->create([
                 'user_id' => $user->id,
             ]);

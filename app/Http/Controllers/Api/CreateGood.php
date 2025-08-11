@@ -14,7 +14,6 @@ use Illuminate\Routing\Controller;
 #[AllowDynamicProperties]
 class CreateGood extends Controller
 {
-
     /**
      * @param CreateNewGood $request
      * @return JsonResponse

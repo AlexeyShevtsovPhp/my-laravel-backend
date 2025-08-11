@@ -12,9 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 #[AllowDynamicProperties]
-class CategoryApiController extends Controller
+class CategoryManage extends Controller
 {
-
     /**
      * @return JsonResponse
      */

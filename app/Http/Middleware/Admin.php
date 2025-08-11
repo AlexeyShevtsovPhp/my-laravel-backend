@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Admin
 {
-
     /**
      * @param Request $request
      * @param Closure(Request): (Response) $next
@@ -31,5 +30,4 @@ class Admin
 
         return $next($request);
     }
-
 }

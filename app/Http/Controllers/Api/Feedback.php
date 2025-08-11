@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Mail;
 #[AllowDynamicProperties]
 class Feedback extends Controller
 {
-
     /**
      * @param SendMail $request
      * @return JsonResponse

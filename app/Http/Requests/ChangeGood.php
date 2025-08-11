@@ -9,7 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ChangeGood extends FormRequest
 {
-
     /**
      * @return bool
      */

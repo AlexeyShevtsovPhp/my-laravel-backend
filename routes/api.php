@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\AllUsers;
 use App\Http\Controllers\Api\Cart;
-use App\Http\Controllers\Api\CategoryApiController;
+use App\Http\Controllers\Api\CategoryManage;
 use App\Http\Controllers\Api\CommentManage;
 use App\Http\Controllers\Api\CreateGood;
 use App\Http\Controllers\Api\Feedback;
@@ -14,7 +14,6 @@ use App\Http\Controllers\Api\UserManage;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
-
     Route::get('/comments/user/{userId}', [CommentManage::class, 'show']);
     Route::post('/comments', [CommentManage::class, 'create']);
     Route::delete('/comments/{comment}', [CommentManage::class, 'delete']);
@@ -45,7 +44,7 @@ Route::post('/register', [Registration::class, 'create']);
 
 Route::post('/login', [UserManage::class, 'login']);
 
-Route::get('/categories', [CategoryApiController::class, 'index']);
+Route::get('/categories', [CategoryManage::class, 'index']);
 
 Route::get('/comments', [CommentManage::class, 'read']);
 

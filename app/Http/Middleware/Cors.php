@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class Cors
 {
-
     /**
      * @param Request $request
      * @param Closure $next

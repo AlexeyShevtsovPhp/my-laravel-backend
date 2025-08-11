@@ -21,7 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Comment extends Model
 {
     /** @use HasFactory<CommentFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     public const PER_PAGE = 4;
 
@@ -38,9 +39,3 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 }
-
-
-
-
-
-

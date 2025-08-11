@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class User
 {
-
     /**
      * @param Request $request
      * @param Closure(Request): (Response) $next

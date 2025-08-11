@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Cart extends Controller
 {
-
     /**
      * @param ModelsUser $user
      * @return JsonResponse
@@ -42,7 +41,6 @@ class Cart extends Controller
         });
 
         $totalSum = $user->goods->sum(function ($item) {
-
             /** @var Pivot&object{quantity: int} $pivot */
             $pivot = $item->pivot;
 
@@ -72,7 +70,6 @@ class Cart extends Controller
         $goods = $user->goods()->paginate(5);
 
         $items = $goods->map(function ($item) {
-
             /** @var Pivot&object{quantity: int} $pivot */
             $pivot = $item->pivot;
 
@@ -85,7 +82,6 @@ class Cart extends Controller
         });
 
         $totalSum = $user->goods->sum(function ($item) {
-
             /** @var Pivot&object{quantity: int} $pivot */
             $pivot = $item->pivot;
 
@@ -115,7 +111,6 @@ class Cart extends Controller
         $exists = $user->goods()->where('product_id', $productId)->first();
 
         if ($exists) {
-
             /** @var Pivot&object{quantity: int} $pivot */
             $pivot = $exists->pivot;
 
