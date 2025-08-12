@@ -54,7 +54,12 @@ class Registration extends Controller
 
         return response()->json([
             'message' => 'Пользователь успешно зарегистрирован',
-            'user' => $user,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'role' => $user->role,
+                'email' => $user->email,
+            ],
         ], 201);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\ChatDelete;
 use App\Events\ChatUpdated;
+use App\Http\Resources\CommentCollectionResource;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -59,7 +60,6 @@ class CommentManage extends Controller
             'comment' => $comment,
         ], 201);
     }
-
     /**
      * @param Comment $comment
      * @return JsonResponse
@@ -96,10 +96,10 @@ class CommentManage extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return CommentCollectionResource
      */
 
-    public function read(Request $request): JsonResponse
+    public function read(Request $request)
     {
         $query = Comment::query()->with('user');
 
@@ -113,23 +113,6 @@ class CommentManage extends Controller
 
         $comments = $query->paginate(5);
 
-        $response = [
-            'comments' => $comments->getCollection()->map(function ($comment) {
-                return [
-                    'id' => $comment->id,
-                    'content' => $comment->content,
-                    'username' => $comment->user->name,
-                    'category_id' => $comment->category_id,
-                    'created_at' => $comment->created_at?->toDateTimeString() ?? 'N/A',
-                ];
-            }),
-            'meta' => [
-                'total_pages' => $comments->lastPage(),
-                'current_page' => $comments->currentPage(),
-                'total' => $comments->total(),
-            ],
-        ];
-
-        return response()->json($response);
+        return new CommentCollectionResource($comments);
     }
 }

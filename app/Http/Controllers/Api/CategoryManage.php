@@ -6,52 +6,21 @@ namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
 use App\Models\Category as CategoryModel;
-use App\Models\Comment;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Routing\Controller;
+use App\Http\Resources\CategoryResource;
 
 #[AllowDynamicProperties]
 class CategoryManage extends Controller
 {
     /**
-     * @return JsonResponse
+     * @return AnonymousResourceCollection
      */
 
-    public function index(): JsonResponse
+    public function index()
     {
-        $categories = CategoryModel::query()
-            ->paginate(CategoryModel::PER_PAGE);
+        $categories = CategoryModel::query()->get();
 
-        return response()->json($categories);
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
-
-    public function read(Request $request): JsonResponse
-    {
-        $comments = Comment::query()
-            ->where('category_id', $request->input('category_id'))
-            ->with('user')
-            ->paginate(Comment::PER_PAGE);
-
-        $response = [
-            'comments' => $comments->map(function (Comment $comment) {
-                return [
-                    'id' => $comment->id,
-                    'content' => $comment->content,
-                    'username' => $comment->user->name,
-                ];
-            }),
-            'meta' => [
-                'total_pages' => $comments->lastPage(),
-                'current_page' => $comments->currentPage(),
-            ],
-        ];
-
-        return response()->json($response);
+        return CategoryResource::collection($categories);
     }
 }

@@ -20,6 +20,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $role
  * @property string $email
  * @property Collection<int, Good> $goods
+ * @property \Illuminate\Support\Collection<int, int> $liked
+ * @property float|int $totalSum
+ * @property Collection<int, Good> $allGoods
  */
 class User extends Authenticatable
 {
@@ -38,7 +41,6 @@ class User extends Authenticatable
     protected $table = 'users';
 
     /**
-     * The attributes that are mass assignable.
      *
      * @var list<string>
      */
@@ -52,7 +54,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
@@ -62,7 +63,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
      *
      * @return array<string, string>
      */
