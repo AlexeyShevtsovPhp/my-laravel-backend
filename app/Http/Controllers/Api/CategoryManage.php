@@ -17,7 +17,7 @@ class CategoryManage extends Controller
      * @return AnonymousResourceCollection
      */
 
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $categories = CategoryModel::query()->get();
 

@@ -99,17 +99,9 @@ class CommentManage extends Controller
      * @return CommentCollectionResource
      */
 
-    public function read(Request $request)
+    public function read(Request $request): CommentCollectionResource
     {
-        $query = Comment::query()->with('user');
-
-        if ($request->has('category_id')) {
-            $query->where('category_id', $request->input('category_id'));
-        }
-
-        if ($request->has('user_id')) {
-            $query->where('user_id', $request->input('user_id'));
-        }
+        $query = Comment::buildCommentQuery($request);
 
         $comments = $query->paginate(5);
 

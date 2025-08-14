@@ -8,13 +8,14 @@ use AllowDynamicProperties;
 use App\Http\Requests\SendMail;
 use App\Models\Good;
 use App\Models\User;
+use App\Services\BuildPurchaseMessage;
+use App\Services\FeedbackService;
+use App\Services\PurchaseMailerService;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 #[AllowDynamicProperties]
 class Feedback extends Controller
@@ -26,14 +27,11 @@ class Feedback extends Controller
 
     public function send(SendMail $request): JsonResponse
     {
+        /** @var array{message: string, email: string, name: string, subject: string} $validated */
         $validated = $request->validated();
 
-        Mail::raw($validated['message'], function ($mail) use ($validated) {
-            $mail->from($validated['email'], $validated['name']);
-            $mail->to('shautsou.aliaksei@innowise.com')
-                ->subject('Обратная связь: '.$validated['subject'])
-                ->replyTo($validated['email'], $validated['name']);
-        });
+        $service = new FeedbackService();
+        $service->sendFeedback($validated);
 
         return response()->json(['message' => 'Сообщение успешно отправлено!']);
     }
@@ -55,41 +53,15 @@ class Feedback extends Controller
                 return response()->json(['message' => 'Корзина пуста.'], 400);
             }
 
-            $message = "Здравствуйте, {$user->name}, спасибо за вашу покупку.\n\n";
-            $message .= "Список приобретенных товаров:\n";
+            $service = new BuildPurchaseMessage();
+            $message = $service->buildPurchaseMessage($user, $cartItems);
 
-            $totalSum = 0;
+            $purchaseMailer = new PurchaseMailerService();
+            $purchaseMailer->sendPurchaseConfirmation($user, $message);
 
-            foreach ($cartItems as $good) {
-                /** @var Pivot&object{quantity: int} $pivot */
-                $pivot = $good->pivot;
-
-                $quantity = $pivot->quantity;
-                $price = $good->price;
-                $lineSum = $price * $quantity;
-
-                $message .= "{$good->name} x{$quantity} = {$lineSum}₽\n";
-                $totalSum += $lineSum;
-            }
-
-
-            $message .= "\nИтог к оплате: {$totalSum}₽";
-
-            Mail::raw($message, function ($mail) use ($user) {
-                $mail->from('laravelShop@gmail.com');
-                $mail->to($user->email, $user->name)
-                    ->subject('Спасибо за покупку');
-            });
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Сообщение успешно отправлено!',
-            ]);
+            return response()->json(['success' => true, 'message' => 'Сообщение успешно отправлено!']);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'error' => 'Произошла ошибка при оплате товаров',
-            ], 500);
+            return response()->json(['success' => false, 'error' => 'Произошла ошибка при оплате товаров'], 500);
         }
     }
 }

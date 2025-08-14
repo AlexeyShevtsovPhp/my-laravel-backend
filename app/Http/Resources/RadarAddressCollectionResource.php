@@ -12,7 +12,7 @@ class RadarAddressCollectionResource extends ResourceCollection
      * @param Request $request
      * @return array<string, mixed>
      */
-    public function toArray(Request $request)
+    public function toArray(Request $request): array
     {
         JsonResource::withoutWrapping();
         return ['addresses' => RadarAddressResource::collection($this->collection)];

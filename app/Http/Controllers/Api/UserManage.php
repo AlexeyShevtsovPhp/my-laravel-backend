@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\JsonResponse;
@@ -27,12 +28,10 @@ class UserManage extends Controller
             'max_per_page' => $usersPerPage,
             'total_pages' => $users->lastPage(),
         ];
-        $response = [
-            'users' => $users->items(),
+        return response()->json([
+            'users' => UserResource::collection($users->items()),
             'meta' => $meta,
-        ];
-
-        return response()->json($response);
+        ]);
     }
 
     /**
@@ -61,12 +60,7 @@ class UserManage extends Controller
 
         return response()->json([
             'token' => $token,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'role' => $user->role,
-                'email' => $user->email,
-            ],
+            'user' => new UserResource($user),
         ]);
     }
 

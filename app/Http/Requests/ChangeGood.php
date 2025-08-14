@@ -19,7 +19,6 @@ class ChangeGood extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */

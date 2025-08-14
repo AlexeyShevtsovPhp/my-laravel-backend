@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\CommentFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -37,5 +39,25 @@ class Comment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @param Request $request
+     * @return Builder<$this>
+ */
+
+    public static function buildCommentQuery(Request $request): Builder
+    {
+        $query = Comment::query()->with('user');
+
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->input('category_id'));
+        }
+
+        if ($request->has('user_id')) {
+            $query->where('user_id', $request->input('user_id'));
+        }
+
+        return $query;
     }
 }

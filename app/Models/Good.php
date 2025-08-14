@@ -46,4 +46,25 @@ class Good extends Model
     {
         return $this->belongsToMany(User::class, 'likes', 'good_id', 'user_id');
     }
+
+    /**
+     * @param int $categoryId
+     * @param User $user
+     * @return array<string, mixed>
+     */
+
+    public static function favoriteGoods(int $categoryId, User $user): array
+    {
+        $allGoods = self::all();
+
+        $goods = self::where('category_id', $categoryId)->get();
+
+        $liked = $user->likedGoods()->pluck('goods.id');
+
+        return [
+            'goods' => $goods,
+            'liked_ids' => $liked,
+            'allGoods' => $allGoods,
+        ];
+    }
 }

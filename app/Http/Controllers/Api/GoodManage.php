@@ -20,18 +20,10 @@ class GoodManage extends Controller
     public function show(int $category_id): JsonResponse
     {
         /** @var User $user */
+
         $user = Auth::user();
+        $liked = Good::favoriteGoods($category_id, $user);
 
-        $allGoods = Good::all();
-
-        $goods = Good::query()
-            ->where('category_id', $category_id)->get();
-        $liked = $user->likedGoods()->pluck('goods.id');
-
-        return response()->json([
-            'goods' => $goods,
-            'liked_ids' => $liked,
-            'allGoods' => $allGoods,
-        ]);
+        return response()->json($liked);
     }
 }

@@ -8,6 +8,7 @@ use AllowDynamicProperties;
 use App\Http\Requests\ChangeGood;
 use App\Http\Requests\CreateNewGood;
 use App\Models\Good;
+use App\Services\ImageUploadService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
@@ -21,13 +22,11 @@ class CreateGood extends Controller
 
     public function create(CreateNewGood $request): JsonResponse
     {
-        $validated = $request->validated();
+        $uploadService = new ImageUploadService();
+        $path = $uploadService->handle($request);
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $path = $file->store('images', 'public');
-            $validated['image'] = $path;
-        }
+        $validated = $request->validated();
+        $validated['image'] = $path;
 
         if (Good::where('name', $validated['name'])->exists()) {
             return response()->json([
@@ -35,7 +34,6 @@ class CreateGood extends Controller
                 'message' => 'Данный товар уже существует',
             ], 422);
         }
-
         $good = Good::create($validated);
 
         $response = [
@@ -55,20 +53,16 @@ class CreateGood extends Controller
 
     public function change(ChangeGood $request, Good $good): JsonResponse
     {
-        $validated = $request->validated();
+        $uploadService = new ImageUploadService();
+        $path = $uploadService->handle($request);
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $path = $image->store('images', 'public');
-            $validated['image'] = $path;
-        }
+        $validated = $request->validated();
+        $validated['image'] = $path;
 
         $changes = array_diff_assoc($validated, $good->getAttributes());
 
         if (empty($changes)) {
-            return response()->json([
-                'success' => false,
-            ], 422);
+            return response()->json(['success' => false], 422);
         }
 
         $good->update($validated);

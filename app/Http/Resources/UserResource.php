@@ -22,8 +22,8 @@ class UserResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'role' => $this->resource->role,
+            'email' => $this->resource->email,
             'created_at' => optional($this->resource->created_at)->toDateTimeString(),
-            'content' => $this->resource->content ?? null,
         ];
     }
 }

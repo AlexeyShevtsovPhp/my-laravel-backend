@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddCartItem;
+use App\Http\Resources\UserGoodResource;
 use App\Models\User as ModelsUser;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\JsonResponse;
@@ -27,25 +28,12 @@ class Cart extends Controller
             return response()->json(['message' => 'Доступ запрещён'], 403);
         }
 
+        $user->load('goods');
+
         $goods = $user->goods()->get();
+        $items = UserGoodResource::collection($goods);
 
-        $items = $goods->map(function ($item) {
-            /** @var Pivot&object{quantity: int} $pivot */
-            $pivot = $item->pivot;
-            return [
-                'id' => $item->id,
-                'name' => $item->name,
-                'price' => $item->price,
-                'quantity' => $pivot->quantity,
-            ];
-        });
-
-        $totalSum = $user->goods->sum(function ($item) {
-            /** @var Pivot&object{quantity: int} $pivot */
-            $pivot = $item->pivot;
-
-            return $item->price * $pivot->quantity;
-        });
+        $totalSum = $user->getTotalGoodsSum();
 
         return response()->json([
             'items' => $items,
@@ -53,7 +41,6 @@ class Cart extends Controller
             'totalItems' => $goods->count(),
         ]);
     }
-
     /**
      * @param ModelsUser $user
      * @return JsonResponse
@@ -68,25 +55,10 @@ class Cart extends Controller
         }
 
         $goods = $user->goods()->paginate(5);
+        $items = UserGoodResource::collection($goods);
 
-        $items = $goods->map(function ($item) {
-            /** @var Pivot&object{quantity: int} $pivot */
-            $pivot = $item->pivot;
-
-            return [
-                'id' => $item->id,
-                'name' => $item->name,
-                'price' => $item->price,
-                'quantity' => $pivot->quantity,
-            ];
-        });
-
-        $totalSum = $user->goods->sum(function ($item) {
-            /** @var Pivot&object{quantity: int} $pivot */
-            $pivot = $item->pivot;
-
-            return $item->price * $pivot->quantity;
-        });
+        $user->load('goods');
+        $totalSum = $user->getTotalGoodsSum();
 
         return response()->json([
             'items' => $items,
@@ -108,19 +80,8 @@ class Cart extends Controller
         /** @var ModelsUser $user */
         $user = Auth::user();
         $productId = $validated['product_id'];
-        $exists = $user->goods()->where('product_id', $productId)->first();
 
-        if ($exists) {
-            /** @var Pivot&object{quantity: int} $pivot */
-            $pivot = $exists->pivot;
-
-            $currentQuantity = $pivot->quantity;
-            $user->goods()->updateExistingPivot($productId, [
-                'quantity' => $currentQuantity + 1,
-            ]);
-        } else {
-            $user->goods()->attach($productId, ['quantity' => 1]);
-        }
+        $user->addToCart($productId);
         $user->load('goods');
 
         $totalQuantity = $user->goods()->count();
@@ -168,8 +129,8 @@ class Cart extends Controller
     public function clearAll(): JsonResponse
     {
         /** @var ModelsUser $user */
-        $user = Auth::user();
 
+        $user = Auth::user();
         $user->goods()->detach();
 
         return response()->json(['message' => 'Корзина успешно очищена']);

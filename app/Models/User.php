@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -100,5 +101,42 @@ class User extends Authenticatable
     public function likedGoods(): BelongsToMany
     {
         return $this->belongsToMany(Good::class, 'likes', 'user_id', 'good_id');
+    }
+
+    public function addLike(Good $good): bool
+    {
+        if ($this->likedGoods()->where('good_id', $good->id)->exists()) {
+            $this->likedGoods()->detach($good->id);
+            return false;
+        } else {
+            $this->likedGoods()->attach($good->id);
+            return true;
+        }
+    }
+
+    public function getTotalGoodsSum(): float
+    {
+        return $this->goods->sum(function (Good $item) {
+            /** @var Pivot&object{quantity: int} $pivot */
+            $pivot = $item->pivot;
+            return $item->price * $pivot->quantity;
+        });
+    }
+
+    public function addToCart(int $productId): void
+    {
+        $existing = $this->goods()->where('product_id', $productId)->first();
+
+        if ($existing) {
+            /** @var Pivot&object{quantity: int} $pivot */
+            $pivot = $existing->pivot;
+            $currentQuantity = $pivot->quantity;
+
+            $this->goods()->updateExistingPivot($productId, [
+                'quantity' => $currentQuantity + 1,
+            ]);
+        } else {
+            $this->goods()->attach($productId, ['quantity' => 1]);
+        }
     }
 }

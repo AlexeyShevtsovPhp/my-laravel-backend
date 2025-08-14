@@ -22,16 +22,10 @@ class Like extends Controller
     public function toggleLike(Good $good): JsonResponse
     {
         /** @var User $user */
+
         $user = Auth::user();
+        $liked = $user->addLike($good);
 
-        if ($user->likedGoods()->where('good_id', $good->id)->exists()) {
-            $user->likedGoods()->detach($good->id);
-
-            return response()->json(['success' => true, 'liked' => false]);
-        } else {
-            $user->likedGoods()->attach($good->id);
-
-            return response()->json(['success' => true, 'liked' => true]);
-        }
+        return response()->json(['success' => true, 'liked' => $liked]);
     }
 }
