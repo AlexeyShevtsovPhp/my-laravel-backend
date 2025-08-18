@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\AllUsers;
+use App\Http\Controllers\Api\AllUserCart;
+use App\Http\Controllers\Api\AllUserComments;
 use App\Http\Controllers\Api\Cart;
 use App\Http\Controllers\Api\CategoryManage;
 use App\Http\Controllers\Api\CommentManage;
@@ -37,7 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/goods/{category_id}', [GoodManage::class, 'show']);
 
-    Route::middleware('auth:sanctum')->get('/users/{user}', [AllUsers::class, 'info']);
+    Route::middleware('auth:sanctum')->get('/users/{user}', [AllUserComments::class, 'info']);
+    Route::middleware('auth:sanctum')->get('/cart/{user}', [AllUserCart::class, 'info']);
 });
 
 Route::post('/register', [Registration::class, 'create']);

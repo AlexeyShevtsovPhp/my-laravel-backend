@@ -2,25 +2,25 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Good;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property Good $resource
  */
 
-class UserGoodResource extends JsonResource
+class LikedResource extends JsonResource
 {
     /**
-     * @param $request
+     * @param  mixed  $request
      * @return array<string, mixed>
      */
-    public function toArray($request): array
+
+    public function toArray($request)
     {
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
-            'quantity' => $this->resource->pivot->quantity ?? 0,
         ];
     }
 }
