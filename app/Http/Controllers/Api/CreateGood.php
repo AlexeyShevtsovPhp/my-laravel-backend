@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use AllowDynamicProperties;
 use App\Http\Requests\ChangeGood;
 use App\Http\Requests\CreateNewGood;
+use App\Http\Resources\GoodChangeResource;
 use App\Models\Good;
 use App\Services\ImageUploadService;
 use Illuminate\Http\JsonResponse;
@@ -34,12 +35,11 @@ class CreateGood extends Controller
                 'message' => 'Данный товар уже существует',
             ], 422);
         }
-        $good = Good::create($validated);
+        Good::create($validated);
 
         $response = [
             'success' => true,
             'message' => 'Товар успешно добавлен',
-            'good' => $good,
         ];
 
         return response()->json($response);
@@ -57,20 +57,23 @@ class CreateGood extends Controller
         $path = $uploadService->handle($request);
 
         $validated = $request->validated();
-        $validated['image'] = $path;
 
-        $changes = array_diff_assoc($validated, $good->getAttributes());
+        if ($path) {
+            $validated['image'] = $path;
+        }
 
-        if (empty($changes)) {
+        $good->fill($validated);
+
+        if (!$good->isDirty()) {
             return response()->json(['success' => false], 422);
         }
 
-        $good->update($validated);
+        $good->save();
 
         return response()->json([
             'success' => true,
             'message' => 'Товар успешно обновлен',
-            'good' => $good,
+            'good' => new GoodChangeResource($good),
         ]);
     }
 }

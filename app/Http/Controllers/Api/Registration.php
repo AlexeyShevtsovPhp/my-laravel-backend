@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserRegistrationResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,7 +20,6 @@ class Registration extends Controller
      * @throws ValidationException
      * @throws RandomException
      */
-
     /**
      * @param Request $request
      * @return JsonResponse
@@ -54,12 +54,7 @@ class Registration extends Controller
 
         return response()->json([
             'message' => 'Пользователь успешно зарегистрирован',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'role' => $user->role,
-                'email' => $user->email,
-            ],
+            'user' => new UserRegistrationResource($user),
         ], 201);
     }
 }

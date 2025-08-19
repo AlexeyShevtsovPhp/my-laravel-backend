@@ -2,13 +2,7 @@
 
 namespace App\Enums;
 
-enum Status
+enum Status: string
 {
-    case DRAFT;
-    case PUBLISHED;
-    case ARCHIVED;
-
-    public const DEFAULT = self::DRAFT;
-
-    public const ADMIN = 'admin';
+    case ADMIN = 'admin';
 }

@@ -40,14 +40,6 @@ class Good extends Model
     }
 
     /**
-     * @return BelongsToMany<User, $this>
-     */
-    public function likedByUsers(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'likes', 'good_id', 'user_id');
-    }
-
-    /**
      * @param int $categoryId
      * @param User $user
      * @return array<string, mixed>
@@ -55,8 +47,6 @@ class Good extends Model
 
     public static function favoriteGoods(int $categoryId, User $user): array
     {
-        $allGoods = self::all();
-
         $goods = self::where('category_id', $categoryId)->get();
 
         $liked = $user->likedGoods()->pluck('goods.id');
@@ -64,7 +54,6 @@ class Good extends Model
         return [
             'goods' => $goods,
             'liked_ids' => $liked,
-            'allGoods' => $allGoods,
         ];
     }
 }

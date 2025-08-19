@@ -22,7 +22,7 @@ class AllUserCart extends Controller
         /** @var ModelsUser $userSelf */
         $userSelf = Auth::user();
 
-        if ($userSelf->role !== Status::ADMIN  && $user->id !== $userSelf->id) {
+        if ($userSelf->role !== Status::ADMIN->value  && $user->id !== $userSelf->id) {
             abort(403, 'Доступ запрещён');
         }
 

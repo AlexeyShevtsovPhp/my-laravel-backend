@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Models\Comment;
@@ -11,7 +13,6 @@ use Illuminate\Support\Collection;
 /**
  * @property Collection<int, Good> $allGoods
  * @property Collection<int, int> $liked
- *
  * @property LengthAwarePaginator<int, Comment> $comments
  * @property LengthAwarePaginator<int, Good> $goods
  */

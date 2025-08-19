@@ -6,13 +6,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Comment;
 
-/**
- * @property Comment $resource
- */
-
-class CommentResource extends JsonResource
+class UserRegistrationResource extends JsonResource
 {
     /**
      * @param Request $request
@@ -22,9 +17,10 @@ class CommentResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'content' => $this->resource->content,
-            'username' => $this->resource->user->name,
-            'category_id' => $this->resource->category_id,
+            'name' => $this->resource->name,
+            'email' => $this->resource->email,
+            'role' => $this->resource->role,
+            'created_at' => $this->resource->created_at->toIso8601String(),
         ];
     }
 }

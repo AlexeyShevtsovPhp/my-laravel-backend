@@ -17,10 +17,6 @@ class Radar extends Controller
      */
 
     /**
-     * @throws ConnectionException
-     */
-
-    /**
      * @param Request $request
      * @return RadarAddressCollectionResource
      * @throws ConnectionException

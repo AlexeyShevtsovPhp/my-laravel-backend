@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Events\ChatDelete;
 use App\Events\ChatUpdated;
 use App\Http\Resources\CommentCollectionResource;
+use App\Http\Resources\CommentCreateResource;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -57,7 +58,7 @@ class CommentManage extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Комментарий успешно добавлен',
-            'comment' => $comment,
+            'comment' => new CommentCreateResource($comment),
         ], 201);
     }
     /**

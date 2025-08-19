@@ -13,11 +13,12 @@ use Illuminate\Support\Collection;
 /**
  * @property Collection<int, Good> $allGoods
  * @property Collection<int, int> $liked
+ *
  * @property LengthAwarePaginator<int, Comment> $comments
  * @property LengthAwarePaginator<int, Good> $goods
  */
 
-class UserFullCart extends JsonResource
+class UserFullCartPage extends JsonResource
 {
     /**
      * @param $request
@@ -28,25 +29,12 @@ class UserFullCart extends JsonResource
         JsonResource::withoutWrapping();
 
         $goods = $this->resource->goods()->paginate(5);
-        $commentsCount = Comment::query()->where('user_id', $this->resource->id)->count();
-        $totalSum = $this->resource->getTotalGoodsSum();
-        $liked = LikedResource::collection($this->resource->likedGoods);
-        $goodsCount = $this->resource->goods()->count();
 
         return [
-            'user' => [
-                'id' => $this->resource->id,
-                'name' => $this->resource->name,
-                'role' => $this->resource->role,
-
-                'comments_count' => $commentsCount,
-                'total_sum' => $totalSum,
-
                 'goods' => [
                     'data' => [
-                        'cart' => UserGoodResource::collection($goods),
-                        'liked' => $liked,
-                        'goods_count' => $goodsCount,
+                        'cart' => UserCartPageResource::collection($goods),
+                        'total_sum' => $this->resource->getTotalGoodsSum(),
                     ],
                     'meta' => [
                         'current_page' => $goods->currentPage(),
@@ -54,7 +42,6 @@ class UserFullCart extends JsonResource
                         'total' => $goods->total(),
                     ],
                 ],
-            ],
         ];
     }
 }

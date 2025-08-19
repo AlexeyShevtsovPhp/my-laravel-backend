@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddCartItem;
-use App\Http\Resources\UserGoodResource;
 use App\Models\User as ModelsUser;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\JsonResponse;
@@ -16,65 +15,11 @@ use Illuminate\Support\Facades\Auth;
 class Cart extends Controller
 {
     /**
-     * @param ModelsUser $user
-     * @return JsonResponse
-     */
-
-    public function all(ModelsUser $user): JsonResponse
-    {
-        /** @var ModelsUser $userSelf */
-        $userSelf = Auth::user();
-        if ($userSelf->role !== 'admin' && $user->id !== $userSelf->id) {
-            return response()->json(['message' => 'Доступ запрещён'], 403);
-        }
-
-        $user->load('goods');
-
-        $goods = $user->goods()->get();
-        $items = UserGoodResource::collection($goods);
-
-        $totalSum = $user->getTotalGoodsSum();
-
-        return response()->json([
-            'items' => $items,
-            'totalSum' => $totalSum,
-            'totalItems' => $goods->count(),
-        ]);
-    }
-    /**
-     * @param ModelsUser $user
-     * @return JsonResponse
-     */
-
-    public function show(ModelsUser $user): JsonResponse
-    {
-        /** @var ModelsUser $userSelf */
-        $userSelf = Auth::user();
-        if ($userSelf->role !== 'admin' && $user->id !== $userSelf->id) {
-            return response()->json(['message' => 'Доступ запрещён'], 403);
-        }
-
-        $goods = $user->goods()->paginate(5);
-        $items = UserGoodResource::collection($goods);
-
-        $user->load('goods');
-        $totalSum = $user->getTotalGoodsSum();
-
-        return response()->json([
-            'items' => $items,
-            'totalSum' => $totalSum,
-            'currentPage' => $goods->currentPage(),
-            'lastPage' => $goods->lastPage(),
-            'totalItems' => $goods->total(),
-        ]);
-    }
-
-    /**
      * @param AddCartItem $request
      * @return JsonResponse
      */
 
-    public function create(AddCartItem $request): JsonResponse
+    public function add(AddCartItem $request): JsonResponse
     {
         $validated = $request->validated();
         /** @var ModelsUser $user */
@@ -109,15 +54,11 @@ class Cart extends Controller
 
         /** @var Pivot&object{quantity: int} $pivot */
         $pivot = $existing->pivot;
-        $currentQuantity = $pivot->quantity;
+        $newQuantity = $pivot->quantity - 1;
 
-        if ($currentQuantity > 1) {
-            $user->goods()->updateExistingPivot($productId, [
-                'quantity' => $currentQuantity - 1,
-            ]);
-        } else {
-            $user->goods()->detach($productId);
-        }
+        $newQuantity > 0
+            ? $user->goods()->updateExistingPivot($productId, ['quantity' => $newQuantity])
+            : $user->goods()->detach($productId);
 
         return response()->json(['message' => 'Товар обновлён или удалён']);
     }
@@ -126,7 +67,7 @@ class Cart extends Controller
      * @return JsonResponse
      */
 
-    public function clearAll(): JsonResponse
+    public function clear(): JsonResponse
     {
         /** @var ModelsUser $user */
 
