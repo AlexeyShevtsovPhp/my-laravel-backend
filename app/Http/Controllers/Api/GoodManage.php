@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\GoodInspectResource;
 use App\Models\Good;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -25,5 +26,12 @@ class GoodManage extends Controller
         $liked = Good::favoriteGoods($category_id, $user);
 
         return response()->json($liked);
+    }
+
+    public function info(int $productId): GoodInspectResource
+    {
+        $info = Good::where('id', $productId)->first();
+
+        return new GoodInspectResource($info);
     }
 }

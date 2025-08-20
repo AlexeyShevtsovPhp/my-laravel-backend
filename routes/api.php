@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/change/{good}', [CreateGood::class, 'change'])->middleware(['auth:sanctum', 'admin']);
 
     Route::get('/goods/{category_id}', [GoodManage::class, 'show']);
+    Route::get('/goodInfo/{good}', [GoodManage::class, 'info']);
 
     Route::middleware('auth:sanctum')->get('/cartPage/{user}', [AllCartPage::class, 'info']);
     Route::middleware('auth:sanctum')->get('/users/{user}', [AllUserComments::class, 'info']);
