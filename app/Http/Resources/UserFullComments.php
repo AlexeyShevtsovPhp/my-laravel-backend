@@ -43,7 +43,7 @@ class UserFullComments extends JsonResource
                         'last_page' => $comments->lastPage(),
                         'total' => $comments->total(),
                     ],
-                    'cart_items_count' => (int)$this->resource->goods()->sum('quantity'),
+                    'cart_items_count' => $this->resource->goods()->count(),
                 ],
             ],
         ];

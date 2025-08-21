@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/users', [UserManage::class, 'index'])->middleware(['auth:sanctum', 'admin']);
     Route::delete('/user/{user}', [UserManage::class, 'delete'])->middleware(['auth:sanctum', 'admin']);
-    Route::get('/userCategoryInfo/{user}', [UserCategoryInfo::class, 'info'])->middleware(['auth:sanctum', 'admin']);
+    Route::get('/userCategoryInfo/{user}', [UserCategoryInfo::class, 'info']);
 
     Route::post('/create', [CreateGood::class, 'create'])->middleware(['auth:sanctum', 'admin']);
     Route::put('/change/{good}', [CreateGood::class, 'change'])->middleware(['auth:sanctum', 'admin']);

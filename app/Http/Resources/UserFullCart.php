@@ -28,10 +28,6 @@ class UserFullCart extends JsonResource
         JsonResource::withoutWrapping();
 
         $goods = $this->resource->goods()->paginate(5);
-        $commentsCount = Comment::query()->where('user_id', $this->resource->id)->count();
-        $totalSum = $this->resource->getTotalGoodsSum();
-        $liked = LikedResource::collection($this->resource->likedGoods);
-        $goodsCount = $this->resource->goods()->count();
 
         return [
             'user' => [
@@ -39,14 +35,14 @@ class UserFullCart extends JsonResource
                 'name' => $this->resource->name,
                 'role' => $this->resource->role,
 
-                'comments_count' => $commentsCount,
-                'total_sum' => $totalSum,
+                'comments_count' => Comment::query()->where('user_id', $this->resource->id)->count(),
+                'total_sum' => $this->resource->getTotalGoodsSum(),
 
                 'goods' => [
                     'data' => [
                         'cart' => UserGoodResource::collection($goods),
-                        'liked' => $liked,
-                        'goods_count' => $goodsCount,
+                        'liked' => LikedResource::collection($this->resource->likedGoods),
+                        'likes_count' => $this->resource->likedGoods->count(),
                     ],
                     'meta' => [
                         'current_page' => $goods->currentPage(),
