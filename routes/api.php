@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Feedback;
 use App\Http\Controllers\Api\GoodManage;
 use App\Http\Controllers\Api\Like;
 use App\Http\Controllers\Api\Radar;
+use App\Http\Controllers\Api\RatingGoods;
 use App\Http\Controllers\Api\Registration;
 use App\Http\Controllers\Api\UserCategoryInfo;
 use App\Http\Controllers\Api\UserManage;
@@ -27,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/feedback', [Feedback::class, 'send']);
     Route::post('/buy', [Feedback::class, 'get']);
+
+    Route::post('/rate', [RatingGoods::class, 'rate']);
 
     Route::post('/goods/like/{good}', [Like::class, 'toggleLike']);
 

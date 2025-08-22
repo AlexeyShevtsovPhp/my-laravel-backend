@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
@@ -55,5 +56,13 @@ class Good extends Model
             'goods' => $goods,
             'liked_ids' => $liked,
         ];
+    }
+
+    /**
+     * @return HasMany<Rate, $this>
+     */
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rate::class, 'product_id');
     }
 }
