@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Repositories\User\UserRepository;
 
 class UserManage extends Controller
 {
@@ -18,41 +18,34 @@ class UserManage extends Controller
      * @return JsonResponse
      */
 
+    protected UserRepository $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function index(): JsonResponse
     {
-        $usersPerPage = ModelsUser::PER_PAGE;
-        $users = ModelsUser::query()->paginate($usersPerPage);
+        $users = $this->userRepository->all();
 
-        $meta = [
-            'total' => $users->total(),
-            'max_per_page' => $usersPerPage,
-            'total_pages' => $users->lastPage(),
-        ];
         return response()->json([
-            'users' => UserResource::collection($users->items()),
-            'meta' => $meta,
+            'users' => UserResource::collection($users),
         ]);
     }
 
     /**
-     * @param Request $request
+     * @param LoginRequest $request
      * @return JsonResponse
      */
 
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'password' => 'required|string|min:4',
-        ]);
+        $credentials = $request->validated();
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
+        $user = $this->userRepository->findByName($credentials['name']);
 
-        $user = User::where('name', $request->name)->first();
-
-        if (! $user || ! password_verify($request->password, $user->password)) {
+        if (!$user || !password_verify($credentials['password'], $user->password)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
@@ -69,7 +62,7 @@ class UserManage extends Controller
      * @return JsonResponse
      */
 
-    public function delete(ModelsUser $user): JsonResponse
+    public function delete(User $user): JsonResponse
     {
         if ($user->role === 'admin') {
             return response()->json([
@@ -77,7 +70,7 @@ class UserManage extends Controller
                 'success' => false, ], 403);
         }
 
-        $user->delete();
+        $this->userRepository->delete($user->id);
 
         return response()->json([
             'message' => 'Пользователь успешно удалён',

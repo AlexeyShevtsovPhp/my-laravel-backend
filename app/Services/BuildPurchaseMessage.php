@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Good;
 use App\Models\User;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class BuildPurchaseMessage

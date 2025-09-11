@@ -103,17 +103,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Good::class, 'likes', 'user_id', 'good_id');
     }
 
-    public function addLike(Good $good): bool
-    {
-        if ($this->likedGoods()->where('good_id', $good->id)->exists()) {
-            $this->likedGoods()->detach($good->id);
-            return false;
-        } else {
-            $this->likedGoods()->attach($good->id);
-            return true;
-        }
-    }
-
     public function getTotalGoodsSum(): float
     {
         return $this->goods->sum(function (Good $item) {

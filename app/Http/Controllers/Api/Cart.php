@@ -8,12 +8,19 @@ use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddCartItem;
 use App\Models\User as ModelsUser;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\User\UserRepository;
 
 class Cart extends Controller
 {
+    protected UserRepository $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * @param AddCartItem $request
      * @return JsonResponse
@@ -24,12 +31,7 @@ class Cart extends Controller
         $validated = $request->validated();
         /** @var ModelsUser $user */
         $user = Auth::user();
-        $productId = $validated['product_id'];
-
-        $user->addToCart($productId);
-        $user->load('goods');
-
-        $totalQuantity = $user->goods()->count();
+        $totalQuantity = $this->userRepository->addToCart($user, $validated['product_id']);
 
         event(new CartUpdated($user, $totalQuantity));
 
@@ -46,19 +48,11 @@ class Cart extends Controller
         /** @var ModelsUser $user */
         $user = Auth::user();
 
-        $existing = $user->goods()->where('product_id', $productId)->first();
+        $existing = $this->userRepository->removeFromCart($user, $productId);
 
         if (! $existing) {
             return response()->json(['message' => 'Товар не найден в корзине'], 404);
         }
-
-        /** @var Pivot&object{quantity: int} $pivot */
-        $pivot = $existing->pivot;
-        $newQuantity = $pivot->quantity - 1;
-
-        $newQuantity > 0
-            ? $user->goods()->updateExistingPivot($productId, ['quantity' => $newQuantity])
-            : $user->goods()->detach($productId);
 
         return response()->json(['message' => 'Товар обновлён или удалён']);
     }
@@ -72,7 +66,7 @@ class Cart extends Controller
         /** @var ModelsUser $user */
 
         $user = Auth::user();
-        $user->goods()->detach();
+        $this->userRepository->clearCart($user);
 
         return response()->json(['message' => 'Корзина успешно очищена']);
     }

@@ -5,32 +5,28 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
-use App\Models\Rate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\RateProduct;
+use App\Repositories\Rate\RateRepository;
 
 #[AllowDynamicProperties]
 class RatingGoods extends Controller
 {
+    protected RateRepository $rateRepository;
+
+    public function __construct(RateRepository $rateRepository)
+    {
+        $this->rateRepository = $rateRepository;
+    }
+
     public function rate(RateProduct $request): JsonResponse
     {
+        /** @var array{productId: int, userId: int, rating: int|float} $data */
+
         $data = $request->validated();
 
-        $rating = Rate::where('product_id', $data['productId'])
-            ->where('user_id', $data['userId'])
-            ->first();
-
-        if ($rating) {
-            $rating->rating = $data['rating'];
-            $rating->save();
-        } else {
-            Rate::create([
-                'product_id' => $data['productId'],
-                'user_id' => $data['userId'],
-                'rating' => $data['rating'],
-            ]);
-        }
+        $this->rateRepository->updateOrCreateRating($data);
 
         return response()->json(['success' => true]);
     }

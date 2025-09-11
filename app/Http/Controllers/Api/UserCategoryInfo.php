@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 class UserCategoryInfo extends Controller
 {
     /**
+     * @param ModelsUser $user
      * @return JsonResponse
      */
 

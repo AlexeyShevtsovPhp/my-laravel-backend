@@ -46,18 +46,6 @@ class Good extends Model
      * @return array<string, mixed>
      */
 
-    public static function favoriteGoods(int $categoryId, User $user): array
-    {
-        $goods = self::where('category_id', $categoryId)->get();
-
-        $liked = $user->likedGoods()->pluck('goods.id');
-
-        return [
-            'goods' => $goods,
-            'liked_ids' => $liked,
-        ];
-    }
-
     /**
      * @return HasMany<Rate, $this>
      */

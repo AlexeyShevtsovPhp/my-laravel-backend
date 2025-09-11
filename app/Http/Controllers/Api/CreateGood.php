@@ -10,6 +10,7 @@ use App\Http\Requests\CreateNewGood;
 use App\Http\Resources\GoodChangeResource;
 use App\Models\Good;
 use App\Services\ImageUploadService;
+use App\Repositories\Good\GoodRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 
@@ -21,21 +22,30 @@ class CreateGood extends Controller
      * @return JsonResponse
      */
 
+    protected GoodRepository $goodRepository;
+    protected ImageUploadService $uploadService;
+
+    public function __construct(GoodRepository $goodRepository, ImageUploadService $uploadService)
+    {
+        $this->goodRepository = $goodRepository;
+        $this->uploadService = $uploadService;
+    }
+
     public function create(CreateNewGood $request): JsonResponse
     {
-        $uploadService = new ImageUploadService();
-        $path = $uploadService->handle($request);
+        $path = $this->uploadService->handle($request);
 
         $validated = $request->validated();
         $validated['image'] = $path;
 
-        if (Good::where('name', $validated['name'])->exists()) {
+        if ($this->goodRepository->existsByName($validated['name'])) { // <-- Стало
             return response()->json([
                 'success' => false,
                 'message' => 'Данный товар уже существует',
             ], 422);
         }
-        Good::create($validated);
+
+        $this->goodRepository->create($validated);
 
         $response = [
             'success' => true,
@@ -53,27 +63,24 @@ class CreateGood extends Controller
 
     public function change(ChangeGood $request, Good $good): JsonResponse
     {
-        $uploadService = new ImageUploadService();
-        $path = $uploadService->handle($request);
+        $path = $this->uploadService->handle($request);
 
         $validated = $request->validated();
-
         if ($path) {
             $validated['image'] = $path;
         }
 
         $good->fill($validated);
-
         if (!$good->isDirty()) {
             return response()->json(['success' => false], 422);
         }
 
-        $good->save();
+        $updatedGood = $this->goodRepository->update($good->id, $validated);
 
         return response()->json([
             'success' => true,
             'message' => 'Товар успешно обновлен',
-            'good' => new GoodChangeResource($good),
+            'good' => new GoodChangeResource($updatedGood),
         ]);
     }
 }
