@@ -20,19 +20,11 @@ class Registration extends Controller
      * @throws RandomException
      */
     /**
-     * @param Request $request
-     * @return JsonResponse
-     * @throws RandomException
-     * @throws ValidationException
+     * @param UserService $userService
      */
-
-    protected UserService $userService;
-
-    public function __construct(UserService $userService)
+    public function __construct(protected UserService $userService)
     {
-        $this->userService = $userService;
     }
-
     /**
      * @throws RandomException
      */

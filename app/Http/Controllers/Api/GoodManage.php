@@ -17,11 +17,9 @@ class GoodManage extends Controller
      * @param int $category_id
      * @return JsonResponse
      */
-    protected GoodRepository $goodRepository;
 
-    public function __construct(GoodRepository $goodRepository)
+    public function __construct(protected GoodRepository $goodRepository)
     {
-        $this->goodRepository = $goodRepository;
     }
 
     public function show(int $category_id): JsonResponse

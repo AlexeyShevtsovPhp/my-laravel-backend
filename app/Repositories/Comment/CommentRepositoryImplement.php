@@ -9,11 +9,9 @@ use LaravelEasyRepository\Implementations\Eloquent;
 
 class CommentRepositoryImplement extends Eloquent implements CommentRepository
 {
-    protected Comment $model;
 
-    public function __construct(Comment $model)
+    public function __construct(protected Comment $model)
     {
-        $this->model = $model;
     }
     /**
      * @param array{post_id: int, user_id: int, content: string} $data

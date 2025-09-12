@@ -10,10 +10,8 @@ class CategoryRepositoryImplement extends Eloquent implements CategoryRepository
     /**
     * @property Category $model;
     */
-    protected Category $model;
 
-    public function __construct(Category $model)
+    public function __construct(protected Category $model)
     {
-        $this->model = $model;
     }
 }

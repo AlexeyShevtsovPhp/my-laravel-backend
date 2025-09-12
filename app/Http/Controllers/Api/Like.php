@@ -15,11 +15,9 @@ use Illuminate\Support\Facades\Auth;
 #[AllowDynamicProperties]
 class Like extends Controller
 {
-    protected UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(protected UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
     /**
      * @param Good $good

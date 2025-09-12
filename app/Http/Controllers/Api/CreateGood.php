@@ -18,16 +18,11 @@ use Illuminate\Routing\Controller;
 class CreateGood extends Controller
 {
     /**
-     * @param CreateNewGood $request
-     * @return JsonResponse
+     * @param GoodRepository $goodRepository
+     * @param ImageUploadService $uploadService
      */
-    protected GoodRepository $goodRepository;
-    protected ImageUploadService $uploadService;
-
-    public function __construct(GoodRepository $goodRepository, ImageUploadService $uploadService)
+    public function __construct(protected GoodRepository $goodRepository, protected ImageUploadService $uploadService)
     {
-        $this->goodRepository = $goodRepository;
-        $this->uploadService = $uploadService;
     }
 
     public function create(CreateNewGood $request): JsonResponse

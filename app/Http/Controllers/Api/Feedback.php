@@ -19,21 +19,12 @@ use App\Repositories\User\UserRepository;
 #[AllowDynamicProperties]
 class Feedback extends Controller
 {
-    protected FeedbackService $feedbackService;
-    protected BuildPurchaseMessage $buildPurchaseMessage;
-    protected PurchaseMailerService $purchaseMailerService;
-    protected UserRepository $userRepository;
-
     public function __construct(
-        FeedbackService $feedbackService,
-        BuildPurchaseMessage $buildPurchaseMessage,
-        PurchaseMailerService $purchaseMailerService,
-        UserRepository $userRepository
-    ) {
-        $this->feedbackService = $feedbackService;
-        $this->buildPurchaseMessage = $buildPurchaseMessage;
-        $this->purchaseMailerService = $purchaseMailerService;
-        $this->userRepository = $userRepository;
+        protected FeedbackService $feedbackService,
+        protected BuildPurchaseMessage $buildPurchaseMessage,
+        protected PurchaseMailerService $purchaseMailerService,
+        protected UserRepository $userRepository)
+    {
     }
     /**
      * @param SendMail $request

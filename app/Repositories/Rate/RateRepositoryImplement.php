@@ -8,13 +8,10 @@ use LaravelEasyRepository\Implementations\Eloquent;
 class RateRepositoryImplement extends Eloquent implements RateRepository
 {
     /**
-     * @var Rate
+     * @return void
      */
-    protected Rate $model;
-
-    public function __construct(Rate $model)
+    public function __construct(protected Rate $model)
     {
-        $this->model = $model;
     }
     /**
      * @param array{productId: int, userId: int, rating: int} $data

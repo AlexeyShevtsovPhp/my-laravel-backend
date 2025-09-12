@@ -13,11 +13,8 @@ use App\Repositories\Rate\RateRepository;
 #[AllowDynamicProperties]
 class RatingGoods extends Controller
 {
-    protected RateRepository $rateRepository;
-
-    public function __construct(RateRepository $rateRepository)
+    public function __construct(protected RateRepository $rateRepository)
     {
-        $this->rateRepository = $rateRepository;
     }
 
     public function rate(RateProduct $request): JsonResponse

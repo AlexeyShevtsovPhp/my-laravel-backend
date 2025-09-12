@@ -15,15 +15,12 @@ use App\Repositories\User\UserRepository;
 class UserManage extends Controller
 {
     /**
-     * @return JsonResponse
+     * @return void
      */
-    protected UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(protected UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
-
     public function index(): JsonResponse
     {
         $users = $this->userRepository->all();

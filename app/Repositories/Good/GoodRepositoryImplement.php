@@ -9,13 +9,11 @@ use LaravelEasyRepository\Implementations\Eloquent;
 class GoodRepositoryImplement extends Eloquent implements GoodRepository
 {
     /**
-     * @var Good
+     * @return void
      */
-    protected Good $model;
 
-    public function __construct(Good $model)
+    public function __construct(protected Good $model)
     {
-        $this->model = $model;
     }
     /**
      * @param int $categoryId

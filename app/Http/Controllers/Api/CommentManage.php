@@ -19,11 +19,8 @@ use App\Repositories\Comment\CommentRepository;
 
 class CommentManage extends Controller
 {
-    protected CommentRepository $commentRepository;
-
-    public function __construct(CommentRepository $commentRepository)
+    public function __construct(protected CommentRepository $commentRepository)
     {
-        $this->commentRepository = $commentRepository;
     }
     /**
      * @param CreateCommentRequest $request

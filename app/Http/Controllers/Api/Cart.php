@@ -49,7 +49,6 @@ class Cart extends Controller
         if (! $existing) {
             return response()->json(['message' => 'Товар не найден в корзине'], 404);
         }
-
         return response()->json(['message' => 'Товар обновлён или удалён']);
     }
     /**
