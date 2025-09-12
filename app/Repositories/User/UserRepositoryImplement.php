@@ -3,7 +3,6 @@
 namespace App\Repositories\User;
 
 use App\Models\Good;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use LaravelEasyRepository\Implementations\Eloquent;
 use App\Models\User;
@@ -12,7 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 class UserRepositoryImplement extends Eloquent implements UserRepository
 {
     /**
-    * @property Model|mixed $model;
+    * @property User $model;
     */
     protected User $model;
 
@@ -31,22 +30,19 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
         $result = $user->likedGoods()->toggle($good->id);
         return count($result['attached']) > 0;
     }
-
     /**
+     * @param User $user
      * @return Collection<int, Good>
-     */
-
+ */
     public function getCartItems(User $user): Collection
     {
         return $user->goods()->withPivot('quantity')->get();
     }
-
     /**
      * @param User $user
      * @param int $productId
      * @return int
      */
-
     public function addToCart(User $user, int $productId): int
     {
         $existing = $user->goods()->where('product_id', $productId)->first();
@@ -62,7 +58,6 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
 
         return $user->goods()->count();
     }
-
     /**
      * @param User $user
      * @param int $productId
@@ -88,7 +83,6 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
 
         return true;
     }
-
     /**
      * @param User $user
      * @return void

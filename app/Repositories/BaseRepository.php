@@ -5,46 +5,34 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @template TModel of \Illuminate\Database\Eloquent\Model
- * @implements RepositoryInterface<TModel>
- */
-
 class BaseRepository implements RepositoryInterface
 {
     /**
-     * @var TModel
+     * @var Model
      */
-    protected $model;
-
+    protected Model $model;
     /**
-     * BaseRepository constructor.
-     * @param TModel $model
+     * @param Model $model
      */
     public function __construct(Model $model)
     {
         $this->model = $model;
     }
-
     /**
-     * @return Collection<int, TModel>
+     * @return Collection<int, Model>
      */
     public function all(): Collection
     {
         return $this->model->all();
     }
-
     /**
      * @param array<string, mixed> $attributes
      * @return Model
      */
     public function create(array $attributes): Model
     {
-        $model = $this->model->create($attributes);
-        /** @var TModel $model */
-        return $model;
+        return $this->model->create($attributes);
     }
-
     /**
      * @param Model $model
      * @param array<string, mixed> $data
@@ -55,7 +43,6 @@ class BaseRepository implements RepositoryInterface
         $model->update($data);
         return $model;
     }
-
     /**
      * @param Model $model
      * @return bool
@@ -64,15 +51,12 @@ class BaseRepository implements RepositoryInterface
     {
         return (bool) $model->delete();
     }
-
     /**
-     * @param int $id
+     * @param $id
      * @return Model|null
      */
     public function find($id): ?Model
     {
-        $model = $this->model->find($id);
-        /** @var TModel|null $model */
-        return $model;
+        return $this->model->find($id);
     }
 }

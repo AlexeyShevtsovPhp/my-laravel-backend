@@ -15,36 +15,28 @@ class ChatUpdated implements ShouldBroadcast
     use SerializesModels;
 
     public int $userId;
-
     public Comment $comment;
-
     public string $username;
-
     /**
      * @param User $user
      * @param Comment $comment
      */
-
     public function __construct(User $user, Comment $comment)
     {
         $this->userId = $user->id;
         $this->comment = $comment;
         $this->username = $user->name;
     }
-
     /**
      * @return Channel
      */
-
     public function broadcastOn(): Channel
     {
         return new Channel('chat.'.$this->userId);
     }
-
     /**
      * @return string
      */
-
     public function broadcastAs(): string
     {
         return 'chat.updated';

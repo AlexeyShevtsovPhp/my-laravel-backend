@@ -12,17 +12,14 @@ class ChangeGood extends FormRequest
     /**
      * @return bool
      */
-
     public function authorize(): bool
     {
         return true;
     }
-
     /**
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
@@ -32,11 +29,9 @@ class ChangeGood extends FormRequest
             'image' => 'nullable|image|mimes:png|max:1024',
         ];
     }
-
     /**
      * @return string[]
      */
-
     public function messages(): array
     {
         return [

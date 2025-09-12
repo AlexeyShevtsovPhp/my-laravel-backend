@@ -13,27 +13,23 @@ class RadarService
     {
         $this->apiKey = config('radar.api_key');
     }
-
     /**
      * @return array<string, string>
      */
-
     protected function getHeaders(): array
     {
         return [
             'Authorization' => $this->apiKey,
         ];
     }
-
     /**
      * @throws ConnectionException
      * @return array<int, array<string, mixed>>
      */
-
     public function searchAddresses(string $query): array
     {
         $response = Http::withHeaders($this->getHeaders())
-            ->get('https://api.radar.io/v1/search/autocomplete', [
+            ->get(env('RADAR_AUTOCOMPLETE_URL'), [
                 'query' => $query,
                 'country' => 'BY',
                 'near' => '52.4345,30.9754',

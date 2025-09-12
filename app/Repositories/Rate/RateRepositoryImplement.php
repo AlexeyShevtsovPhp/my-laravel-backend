@@ -10,18 +10,16 @@ class RateRepositoryImplement extends Eloquent implements RateRepository
     /**
      * @var Rate
      */
-    protected $model;
+    protected Rate $model;
 
     public function __construct(Rate $model)
     {
         $this->model = $model;
     }
-
     /**
-     * @param array{productId: int, userId: int, rating: int|float} $data
+     * @param array{productId: int, userId: int, rating: int} $data
      * @return Rate
      */
-
     public function updateOrCreateRating(array $data): Rate
     {
         return $this->model->updateOrCreate(

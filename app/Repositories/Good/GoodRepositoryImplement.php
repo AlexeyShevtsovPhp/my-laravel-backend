@@ -11,19 +11,17 @@ class GoodRepositoryImplement extends Eloquent implements GoodRepository
     /**
      * @var Good
      */
-    protected $model;
+    protected Good $model;
 
     public function __construct(Good $model)
     {
         $this->model = $model;
     }
-
     /**
      * @param int $categoryId
      * @param User $user
      * @return array<string, mixed>
      */
-
     public function getGoodsByCategoryWithLikes(int $categoryId, User $user): array
     {
         $goods = $this->model->where('category_id', $categoryId)->get();

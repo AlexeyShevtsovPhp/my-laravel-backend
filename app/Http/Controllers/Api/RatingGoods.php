@@ -23,8 +23,9 @@ class RatingGoods extends Controller
     public function rate(RateProduct $request): JsonResponse
     {
         /** @var array{productId: int, userId: int, rating: int|float} $data */
-
         $data = $request->validated();
+
+        $data['rating'] = (int) $data['rating'];
 
         $this->rateRepository->updateOrCreateRating($data);
 

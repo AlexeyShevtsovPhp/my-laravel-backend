@@ -15,23 +15,21 @@ class CommentRepositoryImplement extends Eloquent implements CommentRepository
     {
         $this->model = $model;
     }
-
     /**
-     * @param array{user_id: int, content: string, category_id: int} $data
+     * @param array{post_id: int, user_id: int, content: string} $data
      * @return Comment
      */
-
     public function createComment(array $data): Comment
     {
         return $this->model->create($data);
     }
-
     public function deleteComment(Comment $comment): bool
     {
         return (bool) $comment->delete();
     }
-
     /**
+     * @param Request $request
+     * @param int $perPage
      * @return LengthAwarePaginator<int, Comment>
      */
     public function getPaginatedComments(Request $request, int $perPage = 5): LengthAwarePaginator

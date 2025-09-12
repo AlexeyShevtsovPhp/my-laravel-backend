@@ -10,11 +10,9 @@ class CreateCommentRequest extends FormRequest
     {
         return auth()->check();
     }
-
     /**
      * @return array<string, string>
      */
-
     public function rules(): array
     {
         return [

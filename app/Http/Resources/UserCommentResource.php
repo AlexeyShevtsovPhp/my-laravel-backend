@@ -10,7 +10,6 @@ use App\Models\Comment;
 /**
  * @property Comment $resource
  */
-
 class UserCommentResource extends JsonResource
 {
     /**

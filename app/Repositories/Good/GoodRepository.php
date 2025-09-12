@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Good;
 
+use App\Models\Good;
 use App\Models\User;
 use LaravelEasyRepository\Repository;
 
 interface GoodRepository extends Repository
 {
     /**
-     *
      * @param int $categoryId
      * @param User $user
-     * @return array<string, mixed>
+     * @return array<Good>
      */
     public function getGoodsByCategoryWithLikes(int $categoryId, User $user): array;
 

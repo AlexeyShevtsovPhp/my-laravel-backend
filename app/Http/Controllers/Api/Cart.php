@@ -20,12 +20,10 @@ class Cart extends Controller
     {
         $this->userRepository = $userRepository;
     }
-
     /**
      * @param AddCartItem $request
      * @return JsonResponse
      */
-
     public function add(AddCartItem $request): JsonResponse
     {
         $validated = $request->validated();
@@ -37,12 +35,10 @@ class Cart extends Controller
 
         return response()->json(['message' => 'Товар добавлен в корзину']);
     }
-
     /**
      * @param int $productId
      * @return JsonResponse
      */
-
     public function delete(int $productId): JsonResponse
     {
         /** @var ModelsUser $user */
@@ -56,15 +52,12 @@ class Cart extends Controller
 
         return response()->json(['message' => 'Товар обновлён или удалён']);
     }
-
     /**
      * @return JsonResponse
      */
-
     public function clear(): JsonResponse
     {
         /** @var ModelsUser $user */
-
         $user = Auth::user();
         $this->userRepository->clearCart($user);
 

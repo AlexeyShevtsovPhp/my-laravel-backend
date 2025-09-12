@@ -15,7 +15,6 @@ class UserCategoryInfo extends Controller
      * @param ModelsUser $user
      * @return JsonResponse
      */
-
     public function info(ModelsUser $user): JsonResponse
     {
         return response()->json(new UserCategoryPageResource($user));

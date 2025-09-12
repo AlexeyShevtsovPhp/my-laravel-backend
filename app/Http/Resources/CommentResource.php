@@ -11,7 +11,6 @@ use App\Models\Comment;
 /**
  * @property Comment $resource
  */
-
 class CommentResource extends JsonResource
 {
     /**

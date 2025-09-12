@@ -25,12 +25,10 @@ class CommentManage extends Controller
     {
         $this->commentRepository = $commentRepository;
     }
-
     /**
      * @param CreateCommentRequest $request
      * @return JsonResponse
      */
-
     public function create(CreateCommentRequest $request): JsonResponse
     {
         /** @var User $user */
@@ -54,7 +52,6 @@ class CommentManage extends Controller
      * @param Comment $comment
      * @return JsonResponse
      */
-
     public function delete(Comment $comment): JsonResponse
     {
         /** @var User $user */
@@ -76,12 +73,10 @@ class CommentManage extends Controller
             'message' => 'Комментарий успешно удалён',
         ]);
     }
-
     /**
      * @param Request $request
      * @return CommentCollectionResource
      */
-
     public function read(Request $request): CommentCollectionResource
     {
         $comments = $this->commentRepository->getPaginatedComments($request, 5);

@@ -13,9 +13,7 @@ class SendMail extends FormRequest
     {
         return true;
     }
-
     /**
-     *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
@@ -27,11 +25,9 @@ class SendMail extends FormRequest
             'email' => 'required|email|max:255',
         ];
     }
-
     /**
      * @return string[]
      */
-
     public function messages(): array
     {
         return [

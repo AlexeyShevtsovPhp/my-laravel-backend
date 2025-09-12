@@ -17,7 +17,6 @@ class User
      * @param Closure(Request): (Response) $next
      * @return Response
      */
-
     public function handle(Request $request, Closure $next): Response
     {
         $commentId = $request->input('id');
@@ -27,6 +26,7 @@ class User
         $comment = Comment::query()->find($commentId);
 
         /** @var UserModel $user */
+
         $user = auth()->user();
 
         if ($comment === null) {

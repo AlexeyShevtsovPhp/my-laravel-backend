@@ -16,7 +16,6 @@ class AllUserComments extends Controller
      * @param ModelsUser $user
      * @return UserFullComments
      */
-
     public function info(ModelsUser $user): UserFullComments
     {
         /** @var ModelsUser $userSelf */

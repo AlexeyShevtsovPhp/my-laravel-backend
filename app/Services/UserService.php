@@ -14,14 +14,11 @@ class UserService
     {
         $this->userRepository = $userRepository;
     }
-
-
     /**
-     * @param array{name: string, password: string} $validatedData // <-- Вот так правильно
+     * @param array{name: string, password: string} $validatedData
      * @return User
      * @throws RandomException
      */
-
     public function registerNewUser(array $validatedData): User
     {
         $userDataToCreate = [
@@ -31,8 +28,8 @@ class UserService
             'email' => 'user' . bin2hex(random_bytes(5)) . '@mail.com',
             'email_verified_at' => now(),
         ];
-        /** @var User $user */
 
+        /** @var User $user */
         $user = $this->userRepository->create($userDataToCreate);
 
         return $user;

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-
 /**
  * @property int $id
  * @property int $price
@@ -20,32 +19,26 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class Good extends Model
 {
     protected $fillable = ['name', 'price', 'category_id', 'image'];
-
     /**
      * @return BelongsTo<Category, $this>
      */
-
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
-
     /**
      * @return BelongsToMany<User, $this>
      */
-
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'carts', 'product_id', 'user_id')
             ->withPivot('quantity');
     }
-
     /**
      * @param int $categoryId
      * @param User $user
      * @return array<string, mixed>
      */
-
     /**
      * @return HasMany<Rate, $this>
      */

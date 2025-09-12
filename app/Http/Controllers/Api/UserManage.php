@@ -17,7 +17,6 @@ class UserManage extends Controller
     /**
      * @return JsonResponse
      */
-
     protected UserRepository $userRepository;
 
     public function __construct(UserRepository $userRepository)
@@ -33,12 +32,10 @@ class UserManage extends Controller
             'users' => UserResource::collection($users),
         ]);
     }
-
     /**
      * @param LoginRequest $request
      * @return JsonResponse
      */
-
     public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->validated();
@@ -56,12 +53,10 @@ class UserManage extends Controller
             'user' => new UserResource($user),
         ]);
     }
-
     /**
      * @param ModelsUser $user
      * @return JsonResponse
      */
-
     public function delete(User $user): JsonResponse
     {
         if ($user->role === 'admin') {

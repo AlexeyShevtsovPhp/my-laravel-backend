@@ -15,13 +15,11 @@ class Radar extends Controller
     /**
      * @throws ConnectionException
      */
-
     /**
      * @param Request $request
      * @return RadarAddressCollectionResource
      * @throws ConnectionException
      */
-
     public function load(Request $request): RadarAddressCollectionResource
     {
         $radarService = new RadarService();

@@ -16,7 +16,6 @@ class AllUserCart extends Controller
      * @param ModelsUser $user
      * @return UserFullCart
      */
-
     public function info(ModelsUser $user): UserFullCart
     {
         /** @var ModelsUser $userSelf */

@@ -16,30 +16,24 @@ class ChatDelete implements ShouldBroadcast
     public Comment $comment;
 
     public int $commentId;
-
     /**
      * @param Comment $comment
      */
-
     public function __construct(Comment $comment)
     {
         $this->comment = $comment;
         $this->commentId = $comment->id;
     }
-
     /**
      * @return Channel
      */
-
     public function broadcastOn(): Channel
     {
         return new Channel('deleteComment');
     }
-
     /**
      * @return string
      */
-
     public function broadcastAs(): string
     {
         return 'chat.delete';

@@ -16,7 +16,6 @@ use Illuminate\Support\Collection;
  * @property LengthAwarePaginator<int, Comment> $comments
  * @property LengthAwarePaginator<int, Good> $goods
  */
-
 class UserCategoryPageResource extends JsonResource
 {
     /**

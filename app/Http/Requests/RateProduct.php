@@ -12,20 +12,16 @@ class RateProduct extends FormRequest
     /**
      * @return bool
      */
-
     public function authorize(): bool
     {
         return true;
     }
-
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-
     /**
      * @return string[]
      */
-
     public function rules(): array
     {
         return [
@@ -34,11 +30,9 @@ class RateProduct extends FormRequest
             'rating' => 'required|integer|min:1|max:5',
         ];
     }
-
     /**
      * @return string[]
      */
-
     public function messages(): array
     {
         return [

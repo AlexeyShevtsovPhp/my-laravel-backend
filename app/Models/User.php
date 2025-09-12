@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
 /**
  * @property int $id
  * @property string $name
@@ -40,9 +39,7 @@ class User extends Authenticatable
     public $timestamps = true;
 
     protected $table = 'users';
-
     /**
-     *
      * @var list<string>
      */
     protected $fillable = [
@@ -53,7 +50,6 @@ class User extends Authenticatable
         'email',
         'quantity',
     ];
-
     /**
      *
      * @var list<string>
@@ -62,7 +58,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
     /**
      *
      * @return array<string, string>
@@ -75,7 +70,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
     /**
      * @return HasMany<Comment, $this>
      */
@@ -84,7 +78,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
-
     /**
      * @return BelongsToMany<Good, $this>
      */
@@ -94,7 +87,6 @@ class User extends Authenticatable
             ->withPivot('quantity')
             ->withTimestamps();
     }
-
     /**
      * @return BelongsToMany<Good, $this>
      */

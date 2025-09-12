@@ -35,12 +35,10 @@ class Feedback extends Controller
         $this->purchaseMailerService = $purchaseMailerService;
         $this->userRepository = $userRepository;
     }
-
     /**
      * @param SendMail $request
      * @return JsonResponse
      */
-
     public function send(SendMail $request): JsonResponse
     {
         /** @var array{message: string, email: string, name: string, subject: string} $validated */
@@ -49,11 +47,9 @@ class Feedback extends Controller
         $this->feedbackService->sendFeedback($validated);
         return response()->json(['message' => 'Сообщение успешно отправлено!']);
     }
-
     /**
      * @return JsonResponse
      */
-
     public function get(): JsonResponse
     {
         try {

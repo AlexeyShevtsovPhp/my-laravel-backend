@@ -10,7 +10,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property User $resource
  */
-
 class UserCartPageResource extends JsonResource
 {
     /**

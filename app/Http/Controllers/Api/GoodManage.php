@@ -17,7 +17,6 @@ class GoodManage extends Controller
      * @param int $category_id
      * @return JsonResponse
      */
-
     protected GoodRepository $goodRepository;
 
     public function __construct(GoodRepository $goodRepository)
@@ -28,7 +27,6 @@ class GoodManage extends Controller
     public function show(int $category_id): JsonResponse
     {
         /** @var User $user */
-
         $user = Auth::user();
         $liked = $this->goodRepository->getGoodsByCategoryWithLikes($category_id, $user);
 

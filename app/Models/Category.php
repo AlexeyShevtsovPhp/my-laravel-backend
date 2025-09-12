@@ -16,13 +16,9 @@ class Category extends Model
     use HasFactory;
     use Notifiable;
     public $timestamps = false;
-
-    public const PER_PAGE = 10;
-
     /**
      * @return HasMany<Good, $this>
      */
-
     public function goods(): HasMany
     {
         return $this->hasMany(Good::class);

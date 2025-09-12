@@ -12,11 +12,10 @@ interface UserRepository extends Repository
     public function findByName(string $name): ?User;
 
     public function toggleLike(User $user, Good $good): bool;
-
     /**
+     * @param User $user
      * @return Collection<int, Good>
      */
-
     public function getCartItems(User $user): Collection;
 
     public function addToCart(User $user, int $productId): int;

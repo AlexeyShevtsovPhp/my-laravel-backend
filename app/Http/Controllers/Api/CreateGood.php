@@ -21,7 +21,6 @@ class CreateGood extends Controller
      * @param CreateNewGood $request
      * @return JsonResponse
      */
-
     protected GoodRepository $goodRepository;
     protected ImageUploadService $uploadService;
 
@@ -54,13 +53,11 @@ class CreateGood extends Controller
 
         return response()->json($response);
     }
-
     /**
      * @param ChangeGood $request
      * @param Good $good
      * @return JsonResponse
      */
-
     public function change(ChangeGood $request, Good $good): JsonResponse
     {
         $path = $this->uploadService->handle($request);

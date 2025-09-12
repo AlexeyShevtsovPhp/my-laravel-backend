@@ -21,16 +21,13 @@ class Like extends Controller
     {
         $this->userRepository = $userRepository;
     }
-
     /**
      * @param Good $good
      * @return JsonResponse
      */
-
     public function toggleLike(Good $good): JsonResponse
     {
         /** @var User $user */
-
         $user = Auth::user();
         $liked = $this->userRepository->toggleLike($user, $good);
 

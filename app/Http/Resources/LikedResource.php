@@ -10,14 +10,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property Good $resource
  */
-
 class LikedResource extends JsonResource
 {
     /**
      * @param  mixed  $request
      * @return array<string, mixed>
      */
-
     public function toArray($request)
     {
         return [

@@ -9,16 +9,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateNewGood extends FormRequest
 {
-    /**
-     */
     public function authorize(): bool
     {
         return true;
     }
 
     /**
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -29,11 +26,9 @@ class CreateNewGood extends FormRequest
             'image' => 'nullable|file|image|mimes:png|max:1024',
         ];
     }
-
     /**
      * @return string[]
      */
-
     public function messages(): array
     {
         return [

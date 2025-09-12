@@ -12,17 +12,14 @@ class RegistrationRequest extends FormRequest
     /**
      * @return bool
      */
-
     public function authorize(): bool
     {
         return true;
     }
-
     /**
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
-
     public function rules(): array
     {
         return [
@@ -30,11 +27,9 @@ class RegistrationRequest extends FormRequest
             'password' => 'required|string|min:4',
         ];
     }
-
     /**
      * @return string[]
      */
-
     public function messages(): array
     {
         return [
