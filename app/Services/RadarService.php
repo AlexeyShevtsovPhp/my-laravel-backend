@@ -28,8 +28,9 @@ class RadarService
      */
     public function searchAddresses(string $query): array
     {
+        $url = config('radar.autocomplete_url');
         $response = Http::withHeaders($this->getHeaders())
-            ->get(env('RADAR_AUTOCOMPLETE_URL'), [
+            ->get($url, [
                 'query' => $query,
                 'country' => 'BY',
                 'near' => '52.4345,30.9754',

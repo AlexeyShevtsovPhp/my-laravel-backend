@@ -13,15 +13,13 @@ use App\Repositories\Good\GoodRepository;
 
 class GoodManage extends Controller
 {
+    public function __construct(protected GoodRepository $goodRepository)
+    {
+    }
     /**
      * @param int $category_id
      * @return JsonResponse
      */
-
-    public function __construct(protected GoodRepository $goodRepository)
-    {
-    }
-
     public function show(int $category_id): JsonResponse
     {
         /** @var User $user */

@@ -33,7 +33,7 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
     /**
      * @param User $user
      * @return Collection<int, Good>
- */
+     */
     public function getCartItems(User $user): Collection
     {
         return $user->goods()->withPivot('quantity')->get();

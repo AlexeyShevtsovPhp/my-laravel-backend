@@ -9,7 +9,6 @@ use LaravelEasyRepository\Implementations\Eloquent;
 
 class CommentRepositoryImplement extends Eloquent implements CommentRepository
 {
-
     public function __construct(protected Comment $model)
     {
     }

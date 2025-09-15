@@ -9,6 +9,7 @@ use App\Models\Good;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+
 /**
  * @property Collection<int, Good> $allGoods
  * @property Collection<int, int> $liked

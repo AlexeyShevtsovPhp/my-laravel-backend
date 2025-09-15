@@ -15,7 +15,7 @@ class CreateNewGood extends FormRequest
     }
 
     /**
-     * @return array<string, ValidationRule|array|string>
+     * @return array<string, ValidationRule|string|array<string>>
      */
     public function rules(): array
     {

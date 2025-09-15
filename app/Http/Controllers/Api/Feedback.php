@@ -23,9 +23,10 @@ class Feedback extends Controller
         protected FeedbackService $feedbackService,
         protected BuildPurchaseMessage $buildPurchaseMessage,
         protected PurchaseMailerService $purchaseMailerService,
-        protected UserRepository $userRepository)
-    {
+        protected UserRepository $userRepository
+    ) {
     }
+
     /**
      * @param SendMail $request
      * @return JsonResponse
