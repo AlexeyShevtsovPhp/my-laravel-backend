@@ -17,6 +17,7 @@ class CommentCollectionResource extends ResourceCollection
     {
         return ['data' => CommentResource::collection($this->collection)];
     }
+
     /**
      * @param Request $request
      * @return array<string, mixed>
@@ -31,6 +32,7 @@ class CommentCollectionResource extends ResourceCollection
             ],
         ];
     }
+
     /**
      * @param Request $request
      * @param array<string, mixed> $default

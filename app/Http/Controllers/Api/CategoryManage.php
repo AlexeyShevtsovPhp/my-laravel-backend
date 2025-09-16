@@ -16,6 +16,7 @@ class CategoryManage extends Controller
     public function __construct(protected CategoryRepository $categoryRepository)
     {
     }
+
     /**
      * @return AnonymousResourceCollection
      */

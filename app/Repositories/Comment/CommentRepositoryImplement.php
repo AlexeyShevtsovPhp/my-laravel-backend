@@ -12,6 +12,7 @@ class CommentRepositoryImplement extends Eloquent implements CommentRepository
     public function __construct(protected Comment $model)
     {
     }
+
     /**
      * @param array{post_id: int, user_id: int, content: string} $data
      * @return Comment
@@ -20,10 +21,12 @@ class CommentRepositoryImplement extends Eloquent implements CommentRepository
     {
         return $this->model->create($data);
     }
+
     public function deleteComment(Comment $comment): bool
     {
-        return (bool) $comment->delete();
+        return (bool)$comment->delete();
     }
+
     /**
      * @param Request $request
      * @param int $perPage

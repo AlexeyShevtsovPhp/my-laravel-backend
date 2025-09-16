@@ -26,6 +26,7 @@ class CreateNewGood extends FormRequest
             'image' => 'nullable|file|image|mimes:png|max:1024',
         ];
     }
+
     /**
      * @return string[]
      */

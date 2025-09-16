@@ -16,10 +16,9 @@ class RateProduct extends FormRequest
     {
         return true;
     }
+
     /**
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
-    /**
+     * @return array<string, ValidationRule|array|string>
      * @return string[]
      */
     public function rules(): array
@@ -30,6 +29,7 @@ class RateProduct extends FormRequest
             'rating' => 'required|integer|min:1|max:5',
         ];
     }
+
     /**
      * @return string[]
      */

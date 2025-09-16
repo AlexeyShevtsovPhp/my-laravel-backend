@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Collection;
 class UserRepositoryImplement extends Eloquent implements UserRepository
 {
     /**
-    * @property User $model;
-    */
+     * @property User $model;
+     */
     protected User $model;
 
     public function __construct(User $model)
@@ -30,6 +30,7 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
         $result = $user->likedGoods()->toggle($good->id);
         return count($result['attached']) > 0;
     }
+
     /**
      * @param User $user
      * @return Collection<int, Good>
@@ -38,6 +39,7 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
     {
         return $user->goods()->withPivot('quantity')->get();
     }
+
     /**
      * @param User $user
      * @param int $productId
@@ -58,6 +60,7 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
 
         return $user->goods()->count();
     }
+
     /**
      * @param User $user
      * @param int $productId
@@ -83,6 +86,7 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
 
         return true;
     }
+
     /**
      * @param User $user
      * @return void

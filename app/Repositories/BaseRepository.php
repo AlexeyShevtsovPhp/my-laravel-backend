@@ -11,6 +11,7 @@ class BaseRepository implements RepositoryInterface
      * @var Model
      */
     protected Model $model;
+
     /**
      * @param Model $model
      */
@@ -18,6 +19,7 @@ class BaseRepository implements RepositoryInterface
     {
         $this->model = $model;
     }
+
     /**
      * @return Collection<int, Model>
      */
@@ -25,6 +27,7 @@ class BaseRepository implements RepositoryInterface
     {
         return $this->model->all();
     }
+
     /**
      * @param array<string, mixed> $attributes
      * @return Model
@@ -33,6 +36,7 @@ class BaseRepository implements RepositoryInterface
     {
         return $this->model->create($attributes);
     }
+
     /**
      * @param Model $model
      * @param array<string, mixed> $data
@@ -43,14 +47,16 @@ class BaseRepository implements RepositoryInterface
         $model->update($data);
         return $model;
     }
+
     /**
      * @param Model $model
      * @return bool
      */
     public function delete(Model $model): bool
     {
-        return (bool) $model->delete();
+        return (bool)$model->delete();
     }
+
     /**
      * @param $id
      * @return Model|null

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -16,10 +17,13 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $name
  * @property Pivot $pivot
  * @property int $quantity
+ * @property string|null $image
+ * @property Carbon $created_at
  */
 class Good extends Model
 {
     protected $fillable = ['name', 'price', 'category_id', 'image'];
+
     /**
      * @return BelongsTo<Category, $this>
      */
@@ -27,6 +31,7 @@ class Good extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
     /**
      * @return BelongsToMany<User, $this>
      */

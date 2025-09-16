@@ -21,7 +21,7 @@ class AllCartPage extends Controller
             $userSelf = Auth::user();
 
             if ($userSelf->role !== Status::ADMIN->value && $user->id !== $userSelf->id) {
-                abort(403, 'Доступ запрещён');
+                abort(403);
             }
             return new UserFullCartPage($user);
         }

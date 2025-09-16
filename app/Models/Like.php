@@ -12,6 +12,7 @@ class Like extends Model
     public $timestamps = false;
 
     protected $fillable = ['user_id', 'good_id'];
+
     /**
      * @return BelongsTo<User, $this>
      */
@@ -19,6 +20,7 @@ class Like extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     /**
      * @return BelongsTo<Good, $this>
      */

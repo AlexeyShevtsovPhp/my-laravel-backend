@@ -13,6 +13,7 @@ class RadarService
     {
         $this->apiKey = config('radar.api_key');
     }
+
     /**
      * @return array<string, string>
      */
@@ -22,21 +23,21 @@ class RadarService
             'Authorization' => $this->apiKey,
         ];
     }
+
     /**
-     * @throws ConnectionException
      * @return array<int, array<string, mixed>>
+     * @throws ConnectionException
      */
     public function searchAddresses(string $query): array
     {
-        $url = config('radar.autocomplete_url');
         $response = Http::withHeaders($this->getHeaders())
-            ->get($url, [
+            ->get(config('radar.autocomplete_url'), [
                 'query' => $query,
-                'country' => 'BY',
-                'near' => '52.4345,30.9754',
+                'country' => config('radar.country'),
+                'near' => config('radar.near'),
             ]);
 
-        if (! $response->successful()) {
+        if (!$response->successful()) {
             return [];
         }
 

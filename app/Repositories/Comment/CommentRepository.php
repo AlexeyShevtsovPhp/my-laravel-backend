@@ -14,7 +14,9 @@ interface CommentRepository extends Repository
      * @return Comment
      */
     public function createComment(array $data): Comment;
+
     public function deleteComment(Comment $comment): bool;
+
     /**
      * @return LengthAwarePaginator<int, Comment>
      */

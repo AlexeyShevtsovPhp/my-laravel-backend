@@ -44,7 +44,7 @@ class Comment extends Model
     /**
      * @param Request $request
      * @return Builder<$this>
- */
+     */
 
     public static function buildCommentQuery(Request $request): Builder
     {

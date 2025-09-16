@@ -15,6 +15,7 @@ class LoginRequest extends FormRequest
     {
         return true;
     }
+
     /**
      * @return array<string, string>
      */
@@ -25,6 +26,7 @@ class LoginRequest extends FormRequest
             'password' => 'required|string|min:4',
         ];
     }
+
     /**
      * @return string[]
      */

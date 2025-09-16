@@ -16,6 +16,7 @@ class ChatDelete implements ShouldBroadcast
     public Comment $comment;
 
     public int $commentId;
+
     /**
      * @param Comment $comment
      */
@@ -24,6 +25,7 @@ class ChatDelete implements ShouldBroadcast
         $this->comment = $comment;
         $this->commentId = $comment->id;
     }
+
     /**
      * @return Channel
      */
@@ -31,6 +33,7 @@ class ChatDelete implements ShouldBroadcast
     {
         return new Channel('deleteComment');
     }
+
     /**
      * @return string
      */

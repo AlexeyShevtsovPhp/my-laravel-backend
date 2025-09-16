@@ -15,7 +15,9 @@ class Category extends Model
     /** @use HasFactory<CommentFactory> */
     use HasFactory;
     use Notifiable;
+
     public $timestamps = false;
+
     /**
      * @return HasMany<Good, $this>
      */

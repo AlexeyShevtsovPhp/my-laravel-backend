@@ -21,8 +21,8 @@ class AllUserComments extends Controller
         /** @var ModelsUser $userSelf */
         $userSelf = Auth::user();
 
-        if ($userSelf->role !== Status::ADMIN->value  && $user->id !== $userSelf->id) {
-            abort(403, 'Доступ запрещён');
+        if ($userSelf->role !== Status::ADMIN->value && $user->id !== $userSelf->id) {
+            abort(403);
         }
 
         return new UserFullComments($user);

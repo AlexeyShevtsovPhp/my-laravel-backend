@@ -4,79 +4,82 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Status;
 use App\Events\ChatDelete;
 use App\Events\ChatUpdated;
 use App\Http\Requests\CreateCommentRequest;
 use App\Http\Resources\CommentCollectionResource;
 use App\Http\Resources\CommentCreateResource;
 use App\Models\Comment;
-use App\Models\User;
+use App\Models\User as ModelsUser;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Comment\CommentRepository;
 
 class CommentManage extends Controller
 {
+    protected ?ModelsUser $user = null;
+
     public function __construct(protected CommentRepository $commentRepository)
     {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            return $next($request);
+        });
     }
+
     /**
-     * @param CreateCommentRequest $request
+     * @param CreateCommentRequest $createCommentRequest
      * @return JsonResponse
      */
-    public function create(CreateCommentRequest $request): JsonResponse
+    public function create(CreateCommentRequest $createCommentRequest): JsonResponse
     {
-        /** @var User $user */
-        $user = Auth::user();
+        if ($this->user === null) {
+            return response()->json(['', 401]);
+        }
 
         $comment = $this->commentRepository->createComment([
-            'user_id' => $user->id,
-            'content' => $request->input('comment'),
-            'category_id' => $request->input('category_id'),
+            'user_id' => $this->user->id,
+            'content' => $createCommentRequest->input('comment'),
+            'category_id' => $createCommentRequest->input('category_id'),
         ]);
 
-        event(new ChatUpdated($user, $comment));
+        event(new ChatUpdated($this->user, $comment));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Комментарий успешно добавлен',
-            'comment' => new CommentCreateResource($comment),
-        ], 201);
+        return response()->json(new CommentCreateResource($comment), 201);
     }
+
     /**
      * @param Comment $comment
-     * @return JsonResponse
+     * @return Response
      */
-    public function delete(Comment $comment): JsonResponse
+    public function delete(Comment $comment): Response
     {
-        /** @var User $user */
-        $user = Auth::user();
+        if ($this->user === null) {
+            return response('', 401);
+        }
 
-        if ($user->role !== 'admin' && $comment->user_id !== $user->id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Нет прав на удаление этого комментария',
-            ], 403);
+        if ($this->user->role !== Status::ADMIN->value && $comment->user_id !== $this->user->id) {
+            return response('', 403);
         }
 
         event(new ChatDelete($comment));
 
         $this->commentRepository->deleteComment($comment);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Комментарий успешно удалён',
-        ]);
+        return response()->noContent();
     }
+
     /**
      * @param Request $request
      * @return CommentCollectionResource
      */
     public function read(Request $request): CommentCollectionResource
     {
-        $comments = $this->commentRepository->getPaginatedComments($request, 5);
+        $comments = $this->commentRepository->getPaginatedComments($request);
 
         return new CommentCollectionResource($comments);
     }

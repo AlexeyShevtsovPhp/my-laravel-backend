@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
+use App\Http\Resources\ToggleLikeResource;
 use App\Models\Good;
 use App\Models\User;
 use App\Repositories\User\UserRepository;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,16 +18,17 @@ class Like extends Controller
     public function __construct(protected UserRepository $userRepository)
     {
     }
+
     /**
      * @param Good $good
-     * @return JsonResponse
+     * @return ToggleLikeResource
      */
-    public function toggleLike(Good $good): JsonResponse
+    public function toggleLike(Good $good): ToggleLikeResource
     {
         /** @var User $user */
         $user = Auth::user();
         $liked = $this->userRepository->toggleLike($user, $good);
 
-        return response()->json(['success' => true, 'liked' => $liked]);
+        return new ToggleLikeResource($liked);
     }
 }

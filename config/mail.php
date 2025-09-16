@@ -112,5 +112,9 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
+    'shopEmail' => env('SHOP_EMAIL', 'default@example.com'),
+    'shopName' => env('SHOP_NAME', 'Laravel Shop'),
+
+    'shopKeeperEmail' => env('SHOP_KEEPER_EMAIL', 'Boss@example.com'),
 
 ];

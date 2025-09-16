@@ -16,9 +16,9 @@ class ChangeGood extends FormRequest
     {
         return true;
     }
+
     /**
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, string|array<string>|ValidationRule>
      */
     public function rules(): array
     {
@@ -29,6 +29,7 @@ class ChangeGood extends FormRequest
             'image' => 'nullable|image|mimes:png|max:1024',
         ];
     }
+
     /**
      * @return string[]
      */

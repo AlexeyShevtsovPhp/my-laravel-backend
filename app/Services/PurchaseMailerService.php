@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Mail;
 
 class PurchaseMailerService
 {
-    public function sendPurchaseConfirmation(User $user, string $message): void
+    public function sendPurchaseConfirmation(User $user, string $messageHtml): void
     {
-        Mail::raw($message, function ($mail) use ($user) {
-            $mail->from('laravelShop@gmail.com');
+        Mail::send([], [], function ($mail) use ($user, $messageHtml) {
+            $mail->from(config('mail.shopEmail'), config('mail.shopName'));
             $mail->to($user->email, $user->name)
-                ->subject('Спасибо за покупку');
+                ->subject('Thank you for your purchase!')
+                ->html($messageHtml);
         });
     }
 }

@@ -16,11 +16,9 @@ class AddCartItem extends FormRequest
     {
         return true;
     }
+
     /**
-     *
      * @return array<string, ValidationRule|array|string>
-     */
-    /**
      * @return string[]
      */
     public function rules(): array
@@ -29,6 +27,7 @@ class AddCartItem extends FormRequest
             'product_id' => 'required|integer|exists:goods,id',
         ];
     }
+
     /**
      * @return string[]
      */

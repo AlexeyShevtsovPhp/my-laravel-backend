@@ -17,6 +17,7 @@ class ChatUpdated implements ShouldBroadcast
     public int $userId;
     public Comment $comment;
     public string $username;
+
     /**
      * @param User $user
      * @param Comment $comment
@@ -27,13 +28,15 @@ class ChatUpdated implements ShouldBroadcast
         $this->comment = $comment;
         $this->username = $user->name;
     }
+
     /**
      * @return Channel
      */
     public function broadcastOn(): Channel
     {
-        return new Channel('chat.'.$this->userId);
+        return new Channel('chat.' . $this->userId);
     }
+
     /**
      * @return string
      */

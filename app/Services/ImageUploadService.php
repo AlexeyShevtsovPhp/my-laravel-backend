@@ -14,7 +14,7 @@ class ImageUploadService
      */
     public function handle(Request $request, string $field = 'image', string $folder = 'images'): ?string
     {
-        if (! $request->hasFile($field)) {
+        if (!$request->hasFile($field)) {
             return null;
         }
 

@@ -10,10 +10,12 @@ use App\Models\User;
 class UserService
 {
     protected UserRepository $userRepository;
+
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }
+
     /**
      * @param array{name: string, password: string} $validatedData
      * @return User

@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Good;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property Good $resource
+ * @property string|null $image
+ */
 class GoodInspectResource extends JsonResource
 {
     /**
@@ -26,18 +31,17 @@ class GoodInspectResource extends JsonResource
                 $userRating = $ratingModel->rating;
             }
         }
-
         $averageRating = $this->resource->ratings()->avg('rating');
 
         return [
             'item' => [
-            'id' => $this->resource->id,
-            'name' => $this->resource->name,
-            'image' => $this->resource->image,
-            'price' => $this->resource->price,
-            'created_at' => $this->resource->created_at,
+                'id' => $this->resource->id,
+                'name' => $this->resource->name,
+                'image' => $this->resource->image,
+                'price' => $this->resource->price,
+                'created_at' => $this->resource->created_at,
                 'user_rating' => $userRating,
                 'average_rating' => $averageRating,
-        ]];
+            ]];
     }
 }

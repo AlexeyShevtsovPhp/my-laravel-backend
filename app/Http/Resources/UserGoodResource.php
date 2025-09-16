@@ -10,7 +10,6 @@ use App\Models\Good;
 /**
  * @property Good $resource
  */
-
 class UserGoodResource extends JsonResource
 {
     /**

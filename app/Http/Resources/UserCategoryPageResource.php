@@ -30,7 +30,7 @@ class UserCategoryPageResource extends JsonResource
 
         return [
             'info' => [
-                    'goods_count' => $goodsCount,
+                'goods_count' => $goodsCount,
             ],
         ];
     }

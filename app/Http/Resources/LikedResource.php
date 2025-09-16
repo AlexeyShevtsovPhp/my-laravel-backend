@@ -13,10 +13,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class LikedResource extends JsonResource
 {
     /**
-     * @param  mixed  $request
+     * @param mixed $request
      * @return array<string, mixed>
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->resource->id,

@@ -8,58 +8,68 @@ use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddCartItem;
 use App\Models\User as ModelsUser;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\User\UserRepository;
 
 class Cart extends Controller
 {
-    protected UserRepository $userRepository;
+    protected ?ModelsUser $user = null;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(protected UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            return $next($request);
+        });
     }
+
     /**
      * @param AddCartItem $request
-     * @return JsonResponse
+     * @return Response
      */
-    public function add(AddCartItem $request): JsonResponse
+    public function add(AddCartItem $request): Response
     {
+        if ($this->user === null) {
+            abort(401);
+        }
+
         $validated = $request->validated();
-        /** @var ModelsUser $user */
-        $user = Auth::user();
-        $totalQuantity = $this->userRepository->addToCart($user, $validated['product_id']);
+        $totalQuantity = $this->userRepository->addToCart($this->user, $validated['product_id']);
 
-        event(new CartUpdated($user, $totalQuantity));
+        event(new CartUpdated($this->user->id, $totalQuantity));
 
-        return response()->json(['message' => 'Товар добавлен в корзину']);
+        return response()->noContent();
     }
+
     /**
      * @param int $productId
-     * @return JsonResponse
+     * @return Response
      */
-    public function delete(int $productId): JsonResponse
+    public function delete(int $productId): Response
     {
-        /** @var ModelsUser $user */
-        $user = Auth::user();
-
-        $existing = $this->userRepository->removeFromCart($user, $productId);
-
-        if (! $existing) {
-            return response()->json(['message' => 'Товар не найден в корзине'], 404);
+        if ($this->user === null) {
+            abort(401);
         }
-        return response()->json(['message' => 'Товар обновлён или удалён']);
-    }
-    /**
-     * @return JsonResponse
-     */
-    public function clear(): JsonResponse
-    {
-        /** @var ModelsUser $user */
-        $user = Auth::user();
-        $this->userRepository->clearCart($user);
 
-        return response()->json(['message' => 'Корзина успешно очищена']);
+        $existing = $this->userRepository->removeFromCart($this->user, $productId);
+
+        if (!$existing) {
+            abort(404);
+        }
+        return response()->noContent();
+    }
+
+    /**
+     * @return Response
+     */
+    public function clear(): Response
+    {
+        if ($this->user === null) {
+            abort(401);
+        }
+
+        $this->userRepository->clearCart($this->user);
+        return response()->noContent();
     }
 }

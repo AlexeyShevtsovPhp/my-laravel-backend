@@ -59,6 +59,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
     /**
      *
      * @return array<string, string>
@@ -71,6 +72,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     /**
      * @return HasMany<Comment, $this>
      */
@@ -79,6 +81,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
     /**
      * @return BelongsToMany<Good, $this>
      */
@@ -88,6 +91,7 @@ class User extends Authenticatable
             ->withPivot('quantity')
             ->withTimestamps();
     }
+
     /**
      * @return BelongsToMany<Good, $this>
      */

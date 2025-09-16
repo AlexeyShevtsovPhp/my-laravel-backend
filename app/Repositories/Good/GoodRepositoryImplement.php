@@ -15,6 +15,7 @@ class GoodRepositoryImplement extends Eloquent implements GoodRepository
     public function __construct(protected Good $model)
     {
     }
+
     /**
      * @param int $categoryId
      * @param User $user
@@ -35,5 +36,20 @@ class GoodRepositoryImplement extends Eloquent implements GoodRepository
     public function existsByName(string $name): bool
     {
         return $this->model->where('name', $name)->exists();
+    }
+
+    /**
+     * @param mixed $id
+     * @param array<string, mixed> $data
+     * @return Good
+     */
+    public function update(mixed $id, array $data): Good
+    {
+        /** @var Good $good */
+        $good = $this->model->newQuery()->findOrFail($id);
+        $good->fill($data);
+        $good->save();
+
+        return $good;
     }
 }

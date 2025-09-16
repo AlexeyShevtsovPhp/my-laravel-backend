@@ -16,8 +16,8 @@ class RegistrationRequest extends FormRequest
     {
         return true;
     }
+
     /**
-     *
      * @return array<string, ValidationRule|string|array<string>>
      */
     public function rules(): array
@@ -27,6 +27,7 @@ class RegistrationRequest extends FormRequest
             'password' => 'required|string|min:4',
         ];
     }
+
     /**
      * @return string[]
      */

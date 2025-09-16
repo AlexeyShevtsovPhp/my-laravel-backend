@@ -11,7 +11,7 @@ use App\Services\BuildPurchaseMessage;
 use App\Services\FeedbackService;
 use App\Services\PurchaseMailerService;
 use Exception;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\User\UserRepository;
@@ -28,21 +28,22 @@ class Feedback extends Controller
     }
 
     /**
-     * @param SendMail $request
-     * @return JsonResponse
+     * @param SendMail $sendMail
+     * @return Response
      */
-    public function send(SendMail $request): JsonResponse
+    public function send(SendMail $sendMail): Response
     {
         /** @var array{message: string, email: string, name: string, subject: string} $validated */
 
-        $validated = $request->validated();
+        $validated = $sendMail->validated();
         $this->feedbackService->sendFeedback($validated);
-        return response()->json(['message' => 'Сообщение успешно отправлено!']);
+        return response()->noContent();
     }
+
     /**
-     * @return JsonResponse
+     * @return Response
      */
-    public function get(): JsonResponse
+    public function get(): Response
     {
         try {
             /** @var User $user */
@@ -51,15 +52,15 @@ class Feedback extends Controller
             $cartItems = $this->userRepository->getCartItems($user);
 
             if ($cartItems->isEmpty()) {
-                return response()->json(['message' => 'Корзина пуста.'], 400);
+                return response()->noContent(400);
             }
 
             $message = $this->buildPurchaseMessage->buildPurchaseMessage($user, $cartItems);
             $this->purchaseMailerService->sendPurchaseConfirmation($user, $message);
 
-            return response()->json(['success' => true, 'message' => 'Сообщение успешно отправлено!']);
+            return response()->noContent(200);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Произошла ошибка при отправке сообщения'], 500);
+            return response()->noContent(500);
         }
     }
 }

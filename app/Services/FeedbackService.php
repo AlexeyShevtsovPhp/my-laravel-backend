@@ -18,8 +18,8 @@ class FeedbackService
     {
         Mail::raw($data['message'], function ($mail) use ($data) {
             $mail->from($data['email'], $data['name']);
-            $mail->to('shautsou.aliaksei@innowise.com')
-                ->subject('Обратная связь: ' . $data['subject'])
+            $mail->to(config('mail.shopKeeperEmail'))
+                ->subject('Guest message: ' . $data['subject'])
                 ->replyTo($data['email'], $data['name']);
         });
     }

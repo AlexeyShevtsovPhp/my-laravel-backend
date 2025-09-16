@@ -13,9 +13,6 @@ use Illuminate\Routing\Controller;
 class Radar extends Controller
 {
     /**
-     * @throws ConnectionException
-     */
-    /**
      * @param Request $request
      * @return RadarAddressCollectionResource
      * @throws ConnectionException
@@ -26,8 +23,8 @@ class Radar extends Controller
 
         $query = $request->input('query');
 
-        if (! $query) {
-            return new RadarAddressCollectionResource(collect([]));
+        if (!$query) {
+            return new RadarAddressCollectionResource(collect());
         }
 
         $addresses = $radarService->searchAddresses($query);

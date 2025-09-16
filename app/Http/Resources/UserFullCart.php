@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use App\Models\Comment;
 use App\Models\Good;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -15,6 +16,7 @@ use Illuminate\Support\Collection;
  * @property Collection<int, int> $liked
  * @property LengthAwarePaginator<int, Comment> $comments
  * @property LengthAwarePaginator<int, Good> $goods
+ * @property User $resource
  */
 class UserFullCart extends JsonResource
 {

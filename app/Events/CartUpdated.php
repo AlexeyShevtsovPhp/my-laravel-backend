@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Events;
 
-use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
@@ -16,22 +15,25 @@ class CartUpdated implements ShouldBroadcast
     public int $userId;
 
     public int $totalQuantity;
+
     /**
-     * @param User $user
+     * @param int $userId
      * @param int $totalQuantity
      */
-    public function __construct(User $user, int $totalQuantity)
+    public function __construct(int $userId, int $totalQuantity)
     {
-        $this->userId = $user->id;
+        $this->userId = $userId;
         $this->totalQuantity = $totalQuantity;
     }
+
     /**
      * @return Channel
      */
     public function broadcastOn(): Channel
     {
-        return new Channel('cart.'.$this->userId);
+        return new Channel('cart.' . $this->userId);
     }
+
     /**
      * @return string
      */

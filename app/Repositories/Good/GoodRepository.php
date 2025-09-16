@@ -16,4 +16,11 @@ interface GoodRepository extends Repository
     public function getGoodsByCategoryWithLikes(int $categoryId, User $user): array;
 
     public function existsByName(string $name): bool;
+
+    /**
+     * @param mixed $id
+     * @param array<string, mixed> $data
+     * @return Good
+     */
+    public function update(mixed $id, array $data): Good;
 }
