@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\AuthResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\UserCollection;
 use App\Models\User;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\JsonResponse;
@@ -26,7 +26,7 @@ class UserManage extends Controller
     public function index(): JsonResponse
     {
         $users = $this->userRepository->all();
-        return response()->json(['users' => UserResource::collection($users),]);
+        return response()->json(new UserCollection($users));
     }
 
     /**

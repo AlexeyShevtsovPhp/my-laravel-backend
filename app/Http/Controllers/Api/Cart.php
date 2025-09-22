@@ -14,12 +14,16 @@ use App\Repositories\User\UserRepository;
 
 class Cart extends Controller
 {
-    protected ?ModelsUser $user = null;
+    protected ModelsUser $user;
 
     public function __construct(protected UserRepository $userRepository)
     {
         $this->middleware(function ($request, $next) {
-            $this->user = Auth::user();
+            $user = Auth::user();
+            if ($user === null) {
+                abort(401, 'Unauthorized');
+            }
+            $this->user = $user;
             return $next($request);
         });
     }
@@ -30,10 +34,6 @@ class Cart extends Controller
      */
     public function add(AddCartItem $request): Response
     {
-        if ($this->user === null) {
-            abort(401);
-        }
-
         $validated = $request->validated();
         $totalQuantity = $this->userRepository->addToCart($this->user, $validated['product_id']);
 
@@ -48,15 +48,7 @@ class Cart extends Controller
      */
     public function delete(int $productId): Response
     {
-        if ($this->user === null) {
-            abort(401);
-        }
-
-        $existing = $this->userRepository->removeFromCart($this->user, $productId);
-
-        if (!$existing) {
-            abort(404);
-        }
+        $this->userRepository->removeFromCart($this->user, $productId);
         return response()->noContent();
     }
 
@@ -65,10 +57,6 @@ class Cart extends Controller
      */
     public function clear(): Response
     {
-        if ($this->user === null) {
-            abort(401);
-        }
-
         $this->userRepository->clearCart($this->user);
         return response()->noContent();
     }

@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use AllowDynamicProperties;
 use App\Http\Requests\SendMail;
 use App\Models\User;
-use App\Services\BuildPurchaseMessage;
 use App\Services\FeedbackService;
 use App\Services\PurchaseMailerService;
 use Exception;
@@ -21,7 +20,6 @@ class Feedback extends Controller
 {
     public function __construct(
         protected FeedbackService $feedbackService,
-        protected BuildPurchaseMessage $buildPurchaseMessage,
         protected PurchaseMailerService $purchaseMailerService,
         protected UserRepository $userRepository
     ) {
@@ -52,13 +50,17 @@ class Feedback extends Controller
             $cartItems = $this->userRepository->getCartItems($user);
 
             if ($cartItems->isEmpty()) {
-                return response()->noContent(400);
+                return response()->noContent(404);
             }
 
-            $message = $this->buildPurchaseMessage->buildPurchaseMessage($user, $cartItems);
+            $message = view('purchaseConfirm', [
+                'user' => $user,
+                'cartItems' => $cartItems,
+            ])->render();
+
             $this->purchaseMailerService->sendPurchaseConfirmation($user, $message);
 
-            return response()->noContent(200);
+            return response()->noContent();
         } catch (Exception $e) {
             return response()->noContent(500);
         }

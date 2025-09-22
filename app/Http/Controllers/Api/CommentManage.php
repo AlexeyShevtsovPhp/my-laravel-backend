@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\Status;
 use App\Events\ChatDelete;
 use App\Events\ChatUpdated;
 use App\Http\Requests\CreateCommentRequest;
@@ -21,12 +20,18 @@ use App\Repositories\Comment\CommentRepository;
 
 class CommentManage extends Controller
 {
-    protected ?ModelsUser $user = null;
+    protected ModelsUser $user;
 
     public function __construct(protected CommentRepository $commentRepository)
     {
+        $this->middleware('auth:sanctum');
+
         $this->middleware(function ($request, $next) {
-            $this->user = Auth::user();
+            $user = Auth::user();
+            if ($user === null) {
+                abort(401, 'Unauthorized');
+            }
+            $this->user = $user;
             return $next($request);
         });
     }
@@ -37,15 +42,11 @@ class CommentManage extends Controller
      */
     public function create(CreateCommentRequest $createCommentRequest): JsonResponse
     {
-        if ($this->user === null) {
-            return response()->json(['', 401]);
-        }
+        $data = $createCommentRequest->validated();
 
-        $comment = $this->commentRepository->createComment([
-            'user_id' => $this->user->id,
-            'content' => $createCommentRequest->input('comment'),
-            'category_id' => $createCommentRequest->input('category_id'),
-        ]);
+        $data['user_id'] = $this->user->id;
+
+        $comment = $this->commentRepository->createComment($data);
 
         event(new ChatUpdated($this->user, $comment));
 
@@ -58,14 +59,6 @@ class CommentManage extends Controller
      */
     public function delete(Comment $comment): Response
     {
-        if ($this->user === null) {
-            return response('', 401);
-        }
-
-        if ($this->user->role !== Status::ADMIN->value && $comment->user_id !== $this->user->id) {
-            return response('', 403);
-        }
-
         event(new ChatDelete($comment));
 
         $this->commentRepository->deleteComment($comment);

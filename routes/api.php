@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/comments/user/{userId}', [CommentManage::class, 'show']);
     Route::post('/comments', [CommentManage::class, 'create']);
-    Route::delete('/comments/{comment}', [CommentManage::class, 'delete']);
+    Route::delete('/comments/{comment}', [CommentManage::class, 'delete'])->middleware('can.modify.comment');
 
     Route::post('/cart', [Cart::class, 'add']);
     Route::post('/cart/clear', [Cart::class, 'clear']);
@@ -43,9 +43,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/goods/{category_id}', [GoodManage::class, 'show']);
     Route::get('/goodInfo/{good}', [GoodManage::class, 'info']);
 
-    Route::middleware('auth:sanctum')->get('/cartPage/{user}', [AllCartPage::class, 'info']);
-    Route::middleware('auth:sanctum')->get('/users/{user}', [AllUserComments::class, 'info']);
-    Route::middleware('auth:sanctum')->get('/cart/{user}', [AllUserCart::class, 'info']);
+    Route::get('/cartPage/{user}', [AllCartPage::class, 'info'])->middleware('can.view.user.cart');
+    Route::get('/users/{user}', [AllUserComments::class, 'info'])->middleware('can.view.user.cart');
+    Route::get('/cart/{user}', [AllUserCart::class, 'info'])->middleware('can.view.user.cart');
 });
 
 Route::post('/register', [Registration::class, 'create']);
