@@ -7,12 +7,7 @@ use Illuminate\Support\Facades\Mail;
 class FeedbackService
 {
     /**
-     * @param array{
-     *   message: string,
-     *   email: string,
-     *   name: string,
-     *   subject: string
-     * } $data
+     * @param array{message: string, email: string, name: string, subject: string} $data
      */
     public function sendFeedback(array $data): void
     {

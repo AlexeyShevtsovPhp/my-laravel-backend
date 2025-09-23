@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use AllowDynamicProperties;
 use App\Http\Resources\ToggleLikeResource;
 use App\Models\Good;
-use App\Models\User;
 use App\Repositories\User\UserRepository;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -25,10 +24,6 @@ class Like extends Controller
      */
     public function toggleLike(Good $good): ToggleLikeResource
     {
-        /** @var User $user */
-        $user = Auth::user();
-        $liked = $this->userRepository->toggleLike($user, $good);
-
-        return new ToggleLikeResource($liked);
+        return new ToggleLikeResource($this->userRepository->toggleLike(Auth::user(), $good));
     }
 }

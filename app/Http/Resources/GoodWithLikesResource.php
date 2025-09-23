@@ -18,6 +18,8 @@ class GoodWithLikesResource extends JsonResource
         /** @var Good[] $goods */
         $goods = $this->resource['goods'];
 
+        JsonResource::withoutWrapping();
+
         return [
             'goods' => collect($goods)->map(function (Good $good) {
                 return [

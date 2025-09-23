@@ -27,8 +27,6 @@ class Radar extends Controller
             return new RadarAddressCollectionResource(collect());
         }
 
-        $addresses = $radarService->searchAddresses($query);
-
-        return new RadarAddressCollectionResource(collect($addresses));
+        return new RadarAddressCollectionResource(collect($radarService->searchAddresses($query)));
     }
 }

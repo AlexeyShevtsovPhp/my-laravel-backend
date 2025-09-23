@@ -45,9 +45,9 @@ class CreateGood extends Controller
     /**
      * @param ChangeGood $changeGood
      * @param Good $good
-     * @return JsonResponse
+     * @return Response|GoodChangeResource
      */
-    public function change(ChangeGood $changeGood, Good $good): JsonResponse
+    public function change(ChangeGood $changeGood, Good $good): Response|GoodChangeResource
     {
         $validated = $changeGood->validated();
         $path = $this->uploadService->handle($changeGood);
@@ -58,10 +58,8 @@ class CreateGood extends Controller
 
         $good->fill($validated);
         if (!$good->isDirty()) {
-            return response()->json('', 204);
+            return response()->noContent(204);
         }
-
-        $updatedGood = $this->goodRepository->update($good->id, $validated);
-        return response()->json(new GoodChangeResource($updatedGood), 201);
+        return new GoodChangeResource($this->goodRepository->update($good->id, $validated));
     }
 }

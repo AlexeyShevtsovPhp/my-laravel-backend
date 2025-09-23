@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\GoodInspectResource;
 use App\Http\Resources\GoodWithLikesResource;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Good\GoodRepository;
@@ -20,15 +19,14 @@ class GoodManage extends Controller
 
     /**
      * @param int $category_id
-     * @return JsonResponse
+     * @return GoodWithLikesResource
      */
-    public function show(int $category_id): JsonResponse
+    public function show(int $category_id): GoodWithLikesResource
     {
         /** @var User $user */
         $user = Auth::user();
-        $liked = $this->goodRepository->getGoodsByCategoryWithLikes($category_id, $user);
 
-        return response()->json(new GoodWithLikesResource($liked));
+        return new GoodWithLikesResource($this->goodRepository->getGoodsByCategoryWithLikes($category_id, $user));
     }
 
     public function info(int $productId): GoodInspectResource

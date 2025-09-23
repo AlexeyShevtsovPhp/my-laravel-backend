@@ -11,11 +11,9 @@ use App\Http\Resources\CommentCollectionResource;
 use App\Http\Resources\CommentCreateResource;
 use App\Models\Comment;
 use App\Models\User as ModelsUser;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Repositories\Comment\CommentRepository;
 
 class CommentManage extends Controller
@@ -24,33 +22,23 @@ class CommentManage extends Controller
 
     public function __construct(protected CommentRepository $commentRepository)
     {
-        $this->middleware('auth:sanctum');
-
-        $this->middleware(function ($request, $next) {
-            $user = Auth::user();
-            if ($user === null) {
-                abort(401, 'Unauthorized');
-            }
-            $this->user = $user;
-            return $next($request);
-        });
     }
 
     /**
      * @param CreateCommentRequest $createCommentRequest
-     * @return JsonResponse
+     * @return CommentCreateResource
      */
-    public function create(CreateCommentRequest $createCommentRequest): JsonResponse
+    public function create(CreateCommentRequest $createCommentRequest): CommentCreateResource
     {
         $data = $createCommentRequest->validated();
 
-        $data['user_id'] = $this->user->id;
+        $data['user_id'] = $createCommentRequest->user()->id;
 
         $comment = $this->commentRepository->createComment($data);
 
-        event(new ChatUpdated($this->user, $comment));
+        event(new ChatUpdated($createCommentRequest->user(), $comment));
 
-        return response()->json(new CommentCreateResource($comment), 201);
+        return new CommentCreateResource($comment);
     }
 
     /**
@@ -72,8 +60,6 @@ class CommentManage extends Controller
      */
     public function read(Request $request): CommentCollectionResource
     {
-        $comments = $this->commentRepository->getPaginatedComments($request);
-
-        return new CommentCollectionResource($comments);
+        return new CommentCollectionResource($this->commentRepository->getPaginatedComments($request));
     }
 }

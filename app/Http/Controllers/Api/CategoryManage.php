@@ -22,8 +22,6 @@ class CategoryManage extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $categories = $this->categoryRepository->all();
-
-        return CategoryResource::collection($categories);
+        return CategoryResource::collection($this->categoryRepository->all());
     }
 }

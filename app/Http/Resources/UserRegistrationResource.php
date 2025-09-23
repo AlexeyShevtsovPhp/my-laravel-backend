@@ -23,7 +23,7 @@ class UserRegistrationResource extends JsonResource
     {
         /** @var Carbon $createdAt */
         $createdAt = $this->resource->created_at;
-
+        JsonResource::withoutWrapping();
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,

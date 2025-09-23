@@ -6,10 +6,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddCartItem;
+use App\Http\Requests\AddCartItem as Request;
 use App\Models\User as ModelsUser;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use App\Repositories\User\UserRepository;
 
 class Cart extends Controller
@@ -18,21 +17,13 @@ class Cart extends Controller
 
     public function __construct(protected UserRepository $userRepository)
     {
-        $this->middleware(function ($request, $next) {
-            $user = Auth::user();
-            if ($user === null) {
-                abort(401, 'Unauthorized');
-            }
-            $this->user = $user;
-            return $next($request);
-        });
     }
 
     /**
-     * @param AddCartItem $request
+     * @param Request $request
      * @return Response
      */
-    public function add(AddCartItem $request): Response
+    public function add(Request $request): Response
     {
         $validated = $request->validated();
         $totalQuantity = $this->userRepository->addToCart($this->user, $validated['product_id']);

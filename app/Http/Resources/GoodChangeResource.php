@@ -19,6 +19,7 @@ class GoodChangeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        JsonResource::withoutWrapping();
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,

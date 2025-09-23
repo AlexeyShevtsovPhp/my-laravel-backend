@@ -6,17 +6,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCategoryPageResource;
-use App\Models\User as ModelsUser;
-use Illuminate\Http\JsonResponse;
+use App\Models\User;
 
 class UserCategoryInfo extends Controller
 {
     /**
-     * @param ModelsUser $user
-     * @return JsonResponse
+     * @param User $user
+     * @return UserCategoryPageResource
      */
-    public function info(ModelsUser $user): JsonResponse
+    public function info(User $user): UserCategoryPageResource
     {
-        return response()->json(new UserCategoryPageResource($user));
+        return new UserCategoryPageResource($user);
     }
 }

@@ -9,7 +9,6 @@ interface RateRepository extends Repository
 {
     /**
      * @param array{productId: int, userId: int, rating: int} $data
-     * @return Rate
      */
-    public function updateOrCreateRating(array $data): Rate;
+    public function updateOrCreateRating(array $data): Void;
 }
