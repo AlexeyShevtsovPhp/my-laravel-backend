@@ -6,29 +6,30 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddCartItem as Request;
-use App\Models\User as ModelsUser;
+use App\Http\Requests\AddCartItem;
+use App\Models\User;
 use Illuminate\Http\Response;
 use App\Repositories\User\UserRepository;
+use Illuminate\Support\Facades\Auth;
 
 class Cart extends Controller
 {
-    protected ModelsUser $user;
-
     public function __construct(protected UserRepository $userRepository)
     {
     }
 
     /**
-     * @param Request $request
+     * @param AddCartItem $request
      * @return Response
      */
-    public function add(Request $request): Response
+    public function add(AddCartItem $request): Response
     {
         $validated = $request->validated();
-        $totalQuantity = $this->userRepository->addToCart($this->user, $validated['product_id']);
+        /** @var User $user */
+        $user = Auth::user();
+        $totalQuantity = $this->userRepository->addToCart($user, $validated['product_id']);
 
-        event(new CartUpdated($this->user->id, $totalQuantity));
+        event(new CartUpdated($user->id, $totalQuantity));
 
         return response()->noContent();
     }
@@ -39,7 +40,9 @@ class Cart extends Controller
      */
     public function delete(int $productId): Response
     {
-        $this->userRepository->removeFromCart($this->user, $productId);
+        /** @var User $user */
+        $user = Auth::user();
+        $this->userRepository->removeFromCart($user, $productId);
         return response()->noContent();
     }
 
@@ -48,7 +51,9 @@ class Cart extends Controller
      */
     public function clear(): Response
     {
-        $this->userRepository->clearCart($this->user);
+        /** @var User $user */
+        $user = Auth::user();
+        $this->userRepository->clearCart($user);
         return response()->noContent();
     }
 }

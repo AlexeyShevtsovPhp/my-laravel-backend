@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -14,8 +16,6 @@ class ToggleLikeResource extends JsonResource
     {
         JsonResource::withoutWrapping();
 
-        return [
-            'liked' => $this->resource,
-        ];
+        return ['liked' => $this->resource];
     }
 }

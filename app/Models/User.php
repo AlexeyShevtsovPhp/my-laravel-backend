@@ -33,13 +33,10 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
 
-    public const ROLE_ADMIN = 'admin';
-
-    public const PER_PAGE = 100;
-
     public $timestamps = true;
 
     protected $table = 'users';
+
     /**
      * @var list<string>
      */
@@ -51,19 +48,20 @@ class User extends Authenticatable
         'email',
         'quantity',
     ];
+
     /**
-     *
      * @var list<string>
      */
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
     /**
-     *
      * @return array<string, string>
      */
+
     protected function casts(): array
     {
         return [

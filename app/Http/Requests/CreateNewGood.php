@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateNewGood extends FormRequest
 {
@@ -14,13 +14,11 @@ class CreateNewGood extends FormRequest
         return true;
     }
 
-    /**
-     * @return array<string, ValidationRule|string|array<string>>
-     */
+    /** @phpstan-ignore-next-line */
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255', Rule::unique('goods', 'name')],
             'price' => 'required|numeric',
             'category_id' => 'required|integer|exists:categories,id',
             'image' => 'nullable|file|image|mimes:png|max:1024',

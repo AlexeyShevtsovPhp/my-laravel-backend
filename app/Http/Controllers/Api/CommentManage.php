@@ -10,7 +10,7 @@ use App\Http\Requests\CreateCommentRequest;
 use App\Http\Resources\CommentCollectionResource;
 use App\Http\Resources\CommentCreateResource;
 use App\Models\Comment;
-use App\Models\User as ModelsUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -18,7 +18,7 @@ use App\Repositories\Comment\CommentRepository;
 
 class CommentManage extends Controller
 {
-    protected ModelsUser $user;
+    protected User $user;
 
     public function __construct(protected CommentRepository $commentRepository)
     {
@@ -30,13 +30,15 @@ class CommentManage extends Controller
      */
     public function create(CreateCommentRequest $createCommentRequest): CommentCreateResource
     {
+        /** @var User $user */
+        $user = $createCommentRequest->user();
+
         $data = $createCommentRequest->validated();
-
-        $data['user_id'] = $createCommentRequest->user()->id;
-
+        $data['user_id'] = $user->id;
         $comment = $this->commentRepository->createComment($data);
 
-        event(new ChatUpdated($createCommentRequest->user(), $comment));
+        event(new ChatUpdated($user, $comment));
+
 
         return new CommentCreateResource($comment);
     }

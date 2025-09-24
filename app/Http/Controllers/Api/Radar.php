@@ -20,7 +20,6 @@ class Radar extends Controller
     public function load(Request $request): RadarAddressCollectionResource
     {
         $radarService = new RadarService();
-
         $query = $request->input('query');
 
         if (!$query) {

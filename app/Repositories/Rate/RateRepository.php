@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Rate;
 
-use App\Models\Rate;
 use LaravelEasyRepository\Repository;
 
 interface RateRepository extends Repository

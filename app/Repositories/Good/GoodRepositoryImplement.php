@@ -24,7 +24,6 @@ class GoodRepositoryImplement extends Eloquent implements GoodRepository
     public function getGoodsByCategoryWithLikes(int $categoryId, User $user): array
     {
         $goods = $this->model->where('category_id', $categoryId)->get();
-
         $liked = $user->likedGoods()->pluck('goods.id');
 
         return [

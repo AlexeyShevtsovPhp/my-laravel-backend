@@ -13,6 +13,7 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
     /**
      * @property User $model;
      */
+
     protected User $model;
 
     public function __construct(User $model)
@@ -52,14 +53,13 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
         if ($existing) {
             /** @var Pivot&object{quantity: int} $pivot */
             $pivot = $existing->pivot;
-            $newQuantity = $pivot->quantity + 1;
-            $user->goods()->updateExistingPivot($productId, ['quantity' => $newQuantity]);
+            $user->goods()->updateExistingPivot($productId, ['quantity' => $pivot->quantity + 1]);
         } else {
             $user->goods()->attach($productId, ['quantity' => 1]);
         }
-
         return $user->goods()->count();
     }
+
 
     /**
      * @param User $user
@@ -83,7 +83,6 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
         } else {
             $user->goods()->detach($productId);
         }
-
         return true;
     }
 

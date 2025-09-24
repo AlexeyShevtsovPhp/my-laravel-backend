@@ -28,10 +28,6 @@ class UserCategoryPageResource extends JsonResource
 
         $goodsCount = $this->resource->goods()->count();
 
-        return [
-            'info' => [
-                'goods_count' => $goodsCount,
-            ],
-        ];
+        return ['info' => ['goods_count' => $goodsCount]];
     }
 }

@@ -26,11 +26,10 @@ class GoodInspectResource extends JsonResource
 
         $userRating = null;
         if ($user) {
-            $ratingModel = $this->resource->ratings()->where('user_id', $user->id)->first();
-            if ($ratingModel) {
-                $userRating = $ratingModel->rating;
-            }
+            $userRatingModel = $this->resource->ratings()->first();
+            $userRating = $userRatingModel?->rating;
         }
+
         $averageRating = $this->resource->ratings()->avg('rating');
 
         return [

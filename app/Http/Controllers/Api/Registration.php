@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RegistrationRequest as Request;
+use App\Http\Requests\RegistrationRequest;
 use App\Http\Resources\UserRegistrationResource;
 use Random\RandomException;
 use App\Services\UserService;
@@ -22,9 +22,11 @@ class Registration extends Controller
     /**
      * @throws RandomException
      */
-    public function create(Request $request): UserRegistrationResource
+    public function create(RegistrationRequest $registrationRequest): UserRegistrationResource
     {
         /** @var array{name: string, password: string} $validatedData */
-        return new UserRegistrationResource($this->userService->registerNewUser($request->validated()));
+        $validatedData = $registrationRequest->validated();
+
+        return new UserRegistrationResource($this->userService->registerNewUser($validatedData));
     }
 }

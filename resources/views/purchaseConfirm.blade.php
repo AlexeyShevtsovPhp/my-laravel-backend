@@ -9,18 +9,13 @@
 
 <p>Список приобретенных товаров:</p>
 <ul>
-    @php
-        $totalSum = 0;
-    @endphp
+    @php $totalSum = 0; @endphp
 
     @foreach($cartItems as $good)
-        @php
-            $quantity = $good->pivot->quantity;
-            $lineSum = $good->price * $quantity;
-            $totalSum += $lineSum;
-        @endphp
+        @php $totalSum += $good->price * $good->pivot->quantity; @endphp
 
-        <li>{{ $good->name }} x{{ $quantity }} = {{ $lineSum }}₽</li>
+        <li>{{ $good->name }} x {{ $good->pivot->quantity }} = {{ $good->price * $good->pivot->quantity }}₽</li>
+
     @endforeach
 </ul>
 

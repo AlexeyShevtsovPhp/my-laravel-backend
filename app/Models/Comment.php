@@ -26,12 +26,9 @@ class Comment extends Model
     use HasFactory;
     use Notifiable;
 
-    public const PER_PAGE = 4;
-
     protected $table = 'comments';
 
     protected $fillable = ['user_id', 'content', 'category_id'];
-
 
     /**
      * @return BelongsTo<User, $this>

@@ -11,7 +11,6 @@ use App\Http\Resources\GoodChangeResource;
 use App\Models\Good;
 use App\Services\ImageUploadService;
 use App\Repositories\Good\GoodRepository;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
@@ -28,14 +27,8 @@ class CreateGood extends Controller
 
     public function create(CreateNewGood $createNewGood): Response
     {
-        $path = $this->uploadService->handle($createNewGood);
-
         $validated = $createNewGood->validated();
-        $validated['image'] = $path;
-
-        if ($this->goodRepository->existsByName($validated['name'])) {
-            return response()->noContent(422);
-        }
+        $validated['image'] = $this->uploadService->handle($createNewGood);
 
         $this->goodRepository->create($validated);
 
@@ -58,7 +51,7 @@ class CreateGood extends Controller
 
         $good->fill($validated);
         if (!$good->isDirty()) {
-            return response()->noContent(204);
+            return response()->noContent();
         }
         return new GoodChangeResource($this->goodRepository->update($good->id, $validated));
     }

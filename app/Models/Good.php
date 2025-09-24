@@ -40,11 +40,7 @@ class Good extends Model
         return $this->belongsToMany(User::class, 'carts', 'product_id', 'user_id')
             ->withPivot('quantity');
     }
-    /**
-     * @param int $categoryId
-     * @param User $user
-     * @return array<string, mixed>
-     */
+
     /**
      * @return HasMany<Rate, $this>
      */

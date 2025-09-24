@@ -25,14 +25,12 @@ class GoodManage extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-
         return new GoodWithLikesResource($this->goodRepository->getGoodsByCategoryWithLikes($category_id, $user));
     }
 
     public function info(int $productId): GoodInspectResource
     {
         $info = $this->goodRepository->find($productId);
-
         return new GoodInspectResource($info);
     }
 }

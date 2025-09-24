@@ -28,8 +28,7 @@ class UserFullComments extends JsonResource
     {
         JsonResource::withoutWrapping();
 
-        $comments = $this->resource->comments()
-            ->paginate(5, ['*'], 'page', request()->query('page', 1));
+        $comments = $this->resource->comments()->paginate(5, ['*'], 'page', request()->query('page', 1));
 
         return [
             'user' => [

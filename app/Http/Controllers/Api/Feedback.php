@@ -31,10 +31,9 @@ class Feedback extends Controller
      */
     public function send(SendMail $sendMail): Response
     {
-        /** @var array{message: string, email: string, name: string, subject: string} $validated */
-
-        $validated = $sendMail->validated();
-        $this->feedbackService->sendFeedback($validated);
+        /** @var array{message: string, email: string, name: string, subject: string} $validatedData */
+        $validatedData = $sendMail->validated();
+        $this->feedbackService->sendFeedback($validatedData);
         return response()->noContent();
     }
 
@@ -50,14 +49,10 @@ class Feedback extends Controller
             $cartItems = $this->userRepository->getCartItems($user);
 
             if ($cartItems->isEmpty()) {
-                return response()->noContent(404);
+                return response()->noContent();
             }
 
-            $message = view('purchaseConfirm', [
-                'user' => $user,
-                'cartItems' => $cartItems,
-            ])->render();
-
+            $message = view('purchaseConfirm', ['user' => $user, 'cartItems' => $cartItems,])->render();
             $this->purchaseMailerService->sendPurchaseConfirmation($user, $message);
 
             return response()->noContent();
