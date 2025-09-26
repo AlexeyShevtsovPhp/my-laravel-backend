@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\Status;
+use App\Enums\Role;
 use App\Models\Comment;
 use App\Models\User;
 use Closure;
@@ -14,7 +14,7 @@ class EnsureUserCanModifyComment
 {
     public function handle(Request $request, Closure $next): Response
     {
-        /** @var User|null $user */
+        /** @var User $user */
         $user = Auth::user();
         /** @var Comment|null $comment */
         $comment = $request->route('comment');
@@ -22,12 +22,8 @@ class EnsureUserCanModifyComment
         if (!$comment) {
             return response('Comment not found', 404);
         }
-
-        if (!$user) {
-            return response('Unauthorized', 401);
-        }
-
-        if ($user->role !== Status::ADMIN->value && $comment->user_id !== $user->id) {
+        /** @var User $user */
+        if ($user->role !== Role::ADMIN->value && $comment->user_id !== $user->id) {
             return response('Forbidden', 403);
         }
 

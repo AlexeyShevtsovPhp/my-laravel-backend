@@ -19,9 +19,9 @@ interface UserRepository extends Repository
      */
     public function getCartItems(User $user): Collection;
 
-    public function addToCart(User $user, int $productId): int;
+    public function addToCart(int $productId): int;
 
-    public function removeFromCart(User $user, int $productId): bool;
+    public function removeFromCart(int $productId): bool;
 
-    public function clearCart(User $user): void;
+    public function clearCart(): void;
 }

@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddCartItem;
-use App\Models\User;
 use Illuminate\Http\Response;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Auth;
@@ -25,11 +24,9 @@ class Cart extends Controller
     public function add(AddCartItem $request): Response
     {
         $validated = $request->validated();
-        /** @var User $user */
-        $user = Auth::user();
-        $totalQuantity = $this->userRepository->addToCart($user, $validated['product_id']);
+        $totalQuantity = $this->userRepository->addToCart($validated['product_id']);
 
-        event(new CartUpdated($user->id, $totalQuantity));
+        event(new CartUpdated((int)Auth::id(), $totalQuantity));
 
         return response()->noContent();
     }
@@ -40,9 +37,7 @@ class Cart extends Controller
      */
     public function delete(int $productId): Response
     {
-        /** @var User $user */
-        $user = Auth::user();
-        $this->userRepository->removeFromCart($user, $productId);
+        $this->userRepository->removeFromCart($productId);
         return response()->noContent();
     }
 
@@ -51,9 +46,7 @@ class Cart extends Controller
      */
     public function clear(): Response
     {
-        /** @var User $user */
-        $user = Auth::user();
-        $this->userRepository->clearCart($user);
+        $this->userRepository->clearCart();
         return response()->noContent();
     }
 }

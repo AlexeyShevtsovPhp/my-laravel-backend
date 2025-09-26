@@ -18,7 +18,7 @@ class RateRepositoryImplement extends Eloquent implements RateRepository
      * @param array{productId: int, userId: int, rating: int} $data
      * @return Void
      */
-    public function updateOrCreateRating(array $data): Void
+    public function updateOrCreateRating(array $data): void
     {
         $this->model->updateOrCreate(
             [

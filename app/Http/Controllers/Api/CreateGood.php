@@ -28,9 +28,9 @@ class CreateGood extends Controller
     public function create(CreateNewGood $createNewGood): Response
     {
         $validated = $createNewGood->validated();
-        $validated['image'] = $this->uploadService->handle($createNewGood);
 
-        $this->goodRepository->create($validated);
+        $this->goodRepository->
+        create(array_merge($validated, ['image' => $this->uploadService->handle($createNewGood)]));
 
         return response()->noContent(201);
     }
@@ -43,16 +43,17 @@ class CreateGood extends Controller
     public function change(ChangeGood $changeGood, Good $good): Response|GoodChangeResource
     {
         $validated = $changeGood->validated();
+
         $path = $this->uploadService->handle($changeGood);
 
-        if ($path) {
-            $validated['image'] = $path;
-        }
+        $data = array_merge($validated, $path ? ['image' => $path] : []);
 
-        $good->fill($validated);
+        $good->fill($data);
+
         if (!$good->isDirty()) {
             return response()->noContent();
         }
-        return new GoodChangeResource($this->goodRepository->update($good->id, $validated));
+
+        return new GoodChangeResource($this->goodRepository->update($good->id, $data));
     }
 }

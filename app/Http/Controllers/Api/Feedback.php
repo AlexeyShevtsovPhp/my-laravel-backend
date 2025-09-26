@@ -52,7 +52,7 @@ class Feedback extends Controller
                 return response()->noContent();
             }
 
-            $message = view('purchaseConfirm', ['user' => $user, 'cartItems' => $cartItems,])->render();
+            $message = view('purchaseConfirm', ['user' => $user, 'cartItems' => $cartItems])->render();
             $this->purchaseMailerService->sendPurchaseConfirmation($user, $message);
 
             return response()->noContent();

@@ -32,7 +32,7 @@ class CommentRepositoryImplement extends Eloquent implements CommentRepository
      * @param int $perPage
      * @return LengthAwarePaginator<int, Comment>
      */
-    public function getPaginatedComments(Request $request, int $perPage = 5): LengthAwarePaginator
+    public function getPaginatedComments(Request $request, int $perPage): LengthAwarePaginator
     {
         $query = $this->model->buildCommentQuery($request);
 

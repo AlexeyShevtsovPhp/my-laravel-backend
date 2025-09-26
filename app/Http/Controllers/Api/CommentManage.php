@@ -33,12 +33,10 @@ class CommentManage extends Controller
         /** @var User $user */
         $user = $createCommentRequest->user();
 
-        $data = $createCommentRequest->validated();
-        $data['user_id'] = $user->id;
-        $comment = $this->commentRepository->createComment($data);
+        $comment = $this->commentRepository->
+        createComment(array_merge($createCommentRequest->validated(), ['user_id' => $user->id]));
 
         event(new ChatUpdated($user, $comment));
-
 
         return new CommentCreateResource($comment);
     }
@@ -62,6 +60,7 @@ class CommentManage extends Controller
      */
     public function read(Request $request): CommentCollectionResource
     {
-        return new CommentCollectionResource($this->commentRepository->getPaginatedComments($request));
+        return new CommentCollectionResource($this->commentRepository->
+        getPaginatedComments($request, $request->input('perPage', 5)));
     }
 }

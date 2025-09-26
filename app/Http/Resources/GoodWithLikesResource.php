@@ -24,7 +24,7 @@ class GoodWithLikesResource extends JsonResource
             'goods' => collect($goods)->map(function (Good $good) {
                 return [
                     'id' => $good->id,
-                    'name' => (string) $good->name,
+                    'name' => (string)$good->name,
                     'price' => $good->price,
                 ];
             })->all(),

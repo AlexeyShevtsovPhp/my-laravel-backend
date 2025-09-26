@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\Status;
+use App\Enums\Role;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -18,17 +18,13 @@ class CanViewUserCart
      */
     public function handle(Request $request, Closure $next): Response
     {
-        /** @var User|null $userSelf */
+        /** @var User $userSelf */
         $userSelf = Auth::user();
 
-        /** @var User|null $user */
+        /** @var User $user */
         $user = $request->route('user');
 
-        if (!$userSelf || !$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-
-        if ($userSelf->role !== Status::ADMIN->value && $userSelf->id !== $user->id) {
+        if ($userSelf->role !== Role::ADMIN->value && $userSelf->id !== $user->id) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 

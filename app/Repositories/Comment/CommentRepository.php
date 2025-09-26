@@ -20,5 +20,5 @@ interface CommentRepository extends Repository
     /**
      * @return LengthAwarePaginator<int, Comment>
      */
-    public function getPaginatedComments(Request $request, int $perPage = 5): LengthAwarePaginator;
+    public function getPaginatedComments(Request $request, int $perPage): LengthAwarePaginator;
 }

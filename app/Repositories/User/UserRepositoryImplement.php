@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 
 use App\Models\Good;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Auth;
 use LaravelEasyRepository\Implementations\Eloquent;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -42,12 +43,14 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
     }
 
     /**
-     * @param User $user
      * @param int $productId
      * @return int
      */
-    public function addToCart(User $user, int $productId): int
+    public function addToCart(int $productId): int
     {
+        /** @var User $user */
+        $user = Auth::user();
+
         $existing = $user->goods()->where('product_id', $productId)->first();
 
         if ($existing) {
@@ -60,14 +63,14 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
         return $user->goods()->count();
     }
 
-
     /**
-     * @param User $user
      * @param int $productId
      * @return bool
      */
-    public function removeFromCart(User $user, int $productId): bool
+    public function removeFromCart(int $productId): bool
     {
+        /** @var User $user */
+        $user = Auth::user();
         $existing = $user->goods()->where('product_id', $productId)->first();
 
         if (!$existing) {
@@ -87,11 +90,12 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
     }
 
     /**
-     * @param User $user
      * @return void
      */
-    public function clearCart(User $user): void
+    public function clearCart(): void
     {
+        /** @var User $user */
+        $user = Auth::user();
         $user->goods()->detach();
     }
 }

@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
+/**
+ * @property Comment|LengthAwarePaginator<int, Comment> $resource
+ */
 class CommentCollectionResource extends ResourceCollection
 {
     /**
@@ -24,14 +29,19 @@ class CommentCollectionResource extends ResourceCollection
      */
     public function with(Request $request): array
     {
-        return [
-            'meta' => [
+        $meta = [];
+
+        if ($this->resource instanceof LengthAwarePaginator) {
+            $meta = [
                 'current_page' => $this->resource->currentPage(),
                 'last_page' => $this->resource->lastPage(),
                 'total' => $this->resource->total(),
-            ],
-        ];
+            ];
+        }
+
+        return ['meta' => $meta];
     }
+
 
     /**
      * @param Request $request
