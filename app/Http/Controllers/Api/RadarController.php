@@ -10,7 +10,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class Radar extends Controller
+class RadarController extends Controller
 {
     /**
      * @param Request $request

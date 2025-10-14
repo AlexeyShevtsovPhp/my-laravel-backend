@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller;
 use App\Http\Resources\CategoryResource;
 
 #[AllowDynamicProperties]
-class CategoryManage extends Controller
+class CategoryManageController extends Controller
 {
     public function __construct(protected CategoryRepository $categoryRepository)
     {

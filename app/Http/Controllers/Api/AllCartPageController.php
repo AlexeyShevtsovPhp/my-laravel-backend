@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Routing\Controller;
 
 #[AllowDynamicProperties]
-class AllCartPage extends Controller
+class AllCartPageController extends Controller
 {
     public function info(User $user): UserFullCartPage
     {

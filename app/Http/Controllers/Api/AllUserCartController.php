@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserFullCart;
 use App\Models\User;
 
-class AllUserCart extends Controller
+class AllUserCartController extends Controller
 {
     /**
      * @param User $user

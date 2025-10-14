@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Auth;
 
-class Cart extends Controller
+class CartController extends Controller
 {
     public function __construct(protected UserRepository $userRepository)
     {

@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCategoryPageResource;
 use App\Models\User;
 
-class UserCategoryInfo extends Controller
+class UserCategoryInfoController extends Controller
 {
     /**
      * @param User $user

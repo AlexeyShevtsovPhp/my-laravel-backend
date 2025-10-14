@@ -14,7 +14,7 @@ use App\Repositories\User\UserRepository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-class UserManage extends Controller
+class UserManageController extends Controller
 {
     public function __construct(protected UserRepository $userRepository)
     {

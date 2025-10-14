@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Good\GoodRepository;
 
-class GoodManage extends Controller
+class GoodManageController extends Controller
 {
     public function __construct(protected GoodRepository $goodRepository)
     {
@@ -30,7 +30,6 @@ class GoodManage extends Controller
 
     public function info(int $productId): GoodInspectResource
     {
-        $info = $this->goodRepository->find($productId);
-        return new GoodInspectResource($info);
+        return new GoodInspectResource($this->goodRepository->find($productId));
     }
 }

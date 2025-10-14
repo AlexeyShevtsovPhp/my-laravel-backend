@@ -13,7 +13,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 #[AllowDynamicProperties]
-class Like extends Controller
+class LikeController extends Controller
 {
     public function __construct(protected UserRepository $userRepository)
     {

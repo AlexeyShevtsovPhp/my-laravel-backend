@@ -16,13 +16,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Repositories\User\UserRepository;
 
 #[AllowDynamicProperties]
-class Feedback extends Controller
+class FeedbackController extends Controller
 {
     public function __construct(
         protected FeedbackService $feedbackService,
         protected PurchaseMailerService $purchaseMailerService,
         protected UserRepository $userRepository
-    ) {
+    )
+    {
     }
 
     /**
@@ -40,24 +41,16 @@ class Feedback extends Controller
     /**
      * @return Response
      */
-    public function get(): Response
+    public function buy(): Response
     {
-        try {
-            /** @var User $user */
-            $user = Auth::user();
+        /** @var User $user */
+        $user = Auth::user();
 
-            $cartItems = $this->userRepository->getCartItems($user);
+        $cartItems = $this->userRepository->getCartItems($user);
 
-            if ($cartItems->isEmpty()) {
-                return response()->noContent();
-            }
+        $message = view('purchaseConfirm', ['user' => $user, 'cartItems' => $cartItems])->render();
+        $this->purchaseMailerService->sendPurchaseConfirmation($user, $message);
 
-            $message = view('purchaseConfirm', ['user' => $user, 'cartItems' => $cartItems])->render();
-            $this->purchaseMailerService->sendPurchaseConfirmation($user, $message);
-
-            return response()->noContent();
-        } catch (Exception $e) {
-            return response()->noContent(500);
-        }
+        return response()->noContent();
     }
 }

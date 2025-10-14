@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserFullComments;
 use App\Models\User;
 
-class AllUserComments extends Controller
+class AllUserCommentsController extends Controller
 {
     /**
      * @param User $user

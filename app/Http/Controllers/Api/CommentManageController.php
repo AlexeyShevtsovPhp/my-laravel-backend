@@ -8,7 +8,6 @@ use App\Events\ChatDelete;
 use App\Events\ChatUpdated;
 use App\Http\Requests\CreateCommentRequest;
 use App\Http\Resources\CommentCollectionResource;
-use App\Http\Resources\CommentCreateResource;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,7 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Repositories\Comment\CommentRepository;
 
-class CommentManage extends Controller
+class CommentManageController extends Controller
 {
     protected User $user;
 
@@ -26,9 +25,9 @@ class CommentManage extends Controller
 
     /**
      * @param CreateCommentRequest $createCommentRequest
-     * @return CommentCreateResource
+     * @return Response
      */
-    public function create(CreateCommentRequest $createCommentRequest): CommentCreateResource
+    public function create(CreateCommentRequest $createCommentRequest): Response
     {
         /** @var User $user */
         $user = $createCommentRequest->user();
@@ -38,7 +37,7 @@ class CommentManage extends Controller
 
         event(new ChatUpdated($user, $comment));
 
-        return new CommentCreateResource($comment);
+        return response()->noContent();
     }
 
     /**

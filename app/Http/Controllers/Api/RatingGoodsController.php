@@ -11,7 +11,7 @@ use App\Http\Requests\RateProduct;
 use App\Repositories\Rate\RateRepository;
 
 #[AllowDynamicProperties]
-class RatingGoods extends Controller
+class RatingGoodsController extends Controller
 {
     public function __construct(protected RateRepository $rateRepository)
     {
