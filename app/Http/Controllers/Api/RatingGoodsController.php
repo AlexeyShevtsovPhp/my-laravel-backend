@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api;
 use AllowDynamicProperties;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use App\Http\Requests\RateProduct;
+use App\Http\Requests\RateProductRequest;
 use App\Repositories\Rate\RateRepository;
 
 #[AllowDynamicProperties]
@@ -17,7 +17,7 @@ class RatingGoodsController extends Controller
     {
     }
 
-    public function rate(RateProduct $request): Response
+    public function rate(RateProductRequest $request): Response
     {
         /** @var array{productId: int, userId: int, rating: int|float} $data */
 

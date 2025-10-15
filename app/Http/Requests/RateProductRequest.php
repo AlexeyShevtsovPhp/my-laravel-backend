@@ -7,7 +7,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RateProduct extends FormRequest
+class RateProductRequest extends FormRequest
 {
     /**
      * @return bool

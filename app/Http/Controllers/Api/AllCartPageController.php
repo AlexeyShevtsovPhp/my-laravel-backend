@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
-use App\Http\Resources\UserFullCartPage;
+use App\Http\Resources\UserFullCartPageResource;
 use App\Models\User;
 use Illuminate\Routing\Controller;
 
 #[AllowDynamicProperties]
 class AllCartPageController extends Controller
 {
-    public function info(User $user): UserFullCartPage
+    public function info(User $user): UserFullCartPageResource
     {
         {
-            return new UserFullCartPage($user);
+            return new UserFullCartPageResource($user);
         }
     }
 }

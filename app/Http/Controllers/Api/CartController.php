@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\CartUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddCartItem;
+use App\Http\Requests\AddCartItemRequest;
 use Illuminate\Http\Response;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Auth;
@@ -18,15 +18,15 @@ class CartController extends Controller
     }
 
     /**
-     * @param AddCartItem $request
+     * @param AddCartItemRequest $request
      * @return Response
      */
-    public function add(AddCartItem $request): Response
+    public function add(AddCartItemRequest $request): Response
     {
         $validated = $request->validated();
         $totalQuantity = $this->userRepository->addToCart($validated['product_id']);
 
-        event(new CartUpdated((int)Auth::id(), $totalQuantity));
+        CartUpdated::dispatch((int)Auth::id(), $totalQuantity);
 
         return response()->noContent();
     }

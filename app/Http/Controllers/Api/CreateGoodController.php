@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
-use App\Http\Requests\ChangeGood;
-use App\Http\Requests\CreateNewGood;
+use App\Http\Requests\ChangeGoodRequest;
+use App\Http\Requests\CreateNewGoodRequest;
 use App\Models\Good;
 use App\Services\ImageUploadService;
 use App\Repositories\Good\GoodRepository;
@@ -24,7 +24,7 @@ class CreateGoodController extends Controller
     {
     }
 
-    public function create(CreateNewGood $createNewGood): Response
+    public function create(CreateNewGoodRequest $createNewGood): Response
     {
         $validated = $createNewGood->validated();
 
@@ -35,11 +35,11 @@ class CreateGoodController extends Controller
     }
 
     /**
-     * @param ChangeGood $changeGood
+     * @param ChangeGoodRequest $changeGood
      * @param Good $good
      * @return Response
      */
-    public function change(ChangeGood $changeGood, Good $good): Response
+    public function change(ChangeGoodRequest $changeGood, Good $good): Response
     {
         $validated = $changeGood->validated();
         $path = $this->uploadService->handle($changeGood);

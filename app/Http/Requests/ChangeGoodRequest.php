@@ -7,7 +7,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChangeGood extends FormRequest
+class ChangeGoodRequest extends FormRequest
 {
     /**
      * @return bool

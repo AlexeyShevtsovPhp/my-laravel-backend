@@ -26,7 +26,7 @@ class AuthResource extends JsonResource
         JsonResource::withoutWrapping();
         return [
             'token' => $this->token,
-            'user' => new UserResource($this->resource),
+            'user' => new UserResourceResource($this->resource),
         ];
     }
 }

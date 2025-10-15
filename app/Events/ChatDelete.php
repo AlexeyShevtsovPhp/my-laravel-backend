@@ -8,10 +8,12 @@ use App\Models\Comment;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
 
 class ChatDelete implements ShouldBroadcast
 {
     use SerializesModels;
+    use Dispatchable;
 
     public Comment $comment;
 

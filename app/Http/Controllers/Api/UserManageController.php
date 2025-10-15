@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\AuthResource;
-use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserCollectionResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\User\UserRepository;
@@ -20,9 +20,9 @@ class UserManageController extends Controller
     {
     }
 
-    public function index(): UserCollection
+    public function index(): UserCollectionResource
     {
-        return new UserCollection($this->userRepository->all());
+        return new UserCollectionResource($this->userRepository->all());
     }
 
     /**

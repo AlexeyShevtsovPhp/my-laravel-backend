@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class UserCollection extends ResourceCollection
+class UserCollectionResource extends ResourceCollection
 {
     /**
      * @param Request $request
@@ -19,7 +19,7 @@ class UserCollection extends ResourceCollection
         JsonResource::withoutWrapping();
         return [
             'users' => $this->collection->map(function ($user) {
-                return new UserResource($user);
+                return new UserResourceResource($user);
             }),
         ];
     }

@@ -7,7 +7,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddCartItem extends FormRequest
+class AddCartItemRequest extends FormRequest
 {
     /**
      * @return bool

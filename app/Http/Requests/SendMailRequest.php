@@ -7,7 +7,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class SendMail extends FormRequest
+class SendMailRequest extends FormRequest
 {
     public function authorize(): bool
     {

@@ -18,7 +18,7 @@ use Illuminate\Support\Collection;
  * @property LengthAwarePaginator<int, Good> $goods
  * @property User $resource
  */
-class UserFullComments extends JsonResource
+class UserFullCommentsResource extends JsonResource
 {
     /**
      * @param $request

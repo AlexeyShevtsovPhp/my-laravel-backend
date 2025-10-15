@@ -7,9 +7,11 @@ namespace App\Events;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
 
 class CartUpdated implements ShouldBroadcast
 {
+    use Dispatchable;
     use SerializesModels;
 
     public int $userId;

@@ -8,11 +8,13 @@ use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class ChatUpdated implements ShouldBroadcast
 {
     use SerializesModels;
+    use Dispatchable;
 
     public int $userId;
     public Comment $comment;

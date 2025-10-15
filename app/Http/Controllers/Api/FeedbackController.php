@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use AllowDynamicProperties;
-use App\Http\Requests\SendMail;
+use App\Http\Requests\SendMailRequest;
 use App\Models\User;
 use App\Services\FeedbackService;
 use App\Services\PurchaseMailerService;
-use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -22,15 +21,14 @@ class FeedbackController extends Controller
         protected FeedbackService $feedbackService,
         protected PurchaseMailerService $purchaseMailerService,
         protected UserRepository $userRepository
-    )
-    {
+    ) {
     }
 
     /**
-     * @param SendMail $sendMail
+     * @param SendMailRequest $sendMail
      * @return Response
      */
-    public function send(SendMail $sendMail): Response
+    public function send(SendMailRequest $sendMail): Response
     {
         /** @var array{message: string, email: string, name: string, subject: string} $validatedData */
         $validatedData = $sendMail->validated();

@@ -35,7 +35,7 @@ class CommentManageController extends Controller
         $comment = $this->commentRepository->
         createComment(array_merge($createCommentRequest->validated(), ['user_id' => $user->id]));
 
-        event(new ChatUpdated($user, $comment));
+        ChatUpdated::dispatch($user, $comment);
 
         return response()->noContent();
     }
@@ -46,7 +46,7 @@ class CommentManageController extends Controller
      */
     public function delete(Comment $comment): Response
     {
-        event(new ChatDelete($comment));
+        ChatDelete::dispatch($comment);
 
         $this->commentRepository->deleteComment($comment);
 
