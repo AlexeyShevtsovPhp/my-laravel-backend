@@ -18,20 +18,20 @@ use App\Repositories\User\UserRepository;
 class FeedbackController extends Controller
 {
     public function __construct(
-        protected FeedbackService $feedbackService,
-        protected PurchaseMailerService $purchaseMailerService,
-        protected UserRepository $userRepository
+        public FeedbackService $feedbackService,
+        public PurchaseMailerService $purchaseMailerService,
+        public UserRepository $userRepository
     ) {
     }
 
     /**
-     * @param SendMailRequest $sendMail
+     * @param SendMailRequest $sendMailRequest
      * @return Response
      */
-    public function send(SendMailRequest $sendMail): Response
+    public function send(SendMailRequest $sendMailRequest): Response
     {
         /** @var array{message: string, email: string, name: string, subject: string} $validatedData */
-        $validatedData = $sendMail->validated();
+        $validatedData = $sendMailRequest->validated();
         $this->feedbackService->sendFeedback($validatedData);
         return response()->noContent();
     }
@@ -45,7 +45,6 @@ class FeedbackController extends Controller
         $user = Auth::user();
 
         $cartItems = $this->userRepository->getCartItems($user);
-
         $message = view('purchaseConfirm', ['user' => $user, 'cartItems' => $cartItems])->render();
         $this->purchaseMailerService->sendPurchaseConfirmation($user, $message);
 

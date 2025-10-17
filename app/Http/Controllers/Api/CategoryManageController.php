@@ -13,7 +13,7 @@ use App\Http\Resources\CategoryResource;
 #[AllowDynamicProperties]
 class CategoryManageController extends Controller
 {
-    public function __construct(protected CategoryRepository $categoryRepository)
+    public function __construct(public CategoryRepository $categoryRepository)
     {
     }
 

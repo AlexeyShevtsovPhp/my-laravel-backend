@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 #[AllowDynamicProperties]
 class LikeController extends Controller
 {
-    public function __construct(protected UserRepository $userRepository)
+    public function __construct(public UserRepository $userRepository)
     {
     }
 

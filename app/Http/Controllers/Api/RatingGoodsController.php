@@ -13,15 +13,15 @@ use App\Repositories\Rate\RateRepository;
 #[AllowDynamicProperties]
 class RatingGoodsController extends Controller
 {
-    public function __construct(protected RateRepository $rateRepository)
+    public function __construct(public RateRepository $rateRepository)
     {
     }
 
-    public function rate(RateProductRequest $request): Response
+    public function rate(RateProductRequest $rateProductRequest): Response
     {
         /** @var array{productId: int, userId: int, rating: int|float} $data */
 
-        $data = $request->validated();
+        $data = $rateProductRequest->validated();
         $data['rating'] = (int)$data['rating'];
 
         $this->rateRepository->updateOrCreateRating($data);

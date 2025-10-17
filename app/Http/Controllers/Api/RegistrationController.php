@@ -15,7 +15,7 @@ class RegistrationController extends Controller
     /**
      * @param UserService $userService
      */
-    public function __construct(protected UserService $userService)
+    public function __construct(public UserService $userService)
     {
     }
 

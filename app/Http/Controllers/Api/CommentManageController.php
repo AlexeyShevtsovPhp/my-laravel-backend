@@ -19,7 +19,7 @@ class CommentManageController extends Controller
 {
     protected User $user;
 
-    public function __construct(protected CommentRepository $commentRepository)
+    public function __construct(public CommentRepository $commentRepository)
     {
     }
 

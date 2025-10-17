@@ -13,7 +13,7 @@ use App\Repositories\Good\GoodRepository;
 
 class GoodManageController extends Controller
 {
-    public function __construct(protected GoodRepository $goodRepository)
+    public function __construct(public GoodRepository $goodRepository)
     {
     }
 

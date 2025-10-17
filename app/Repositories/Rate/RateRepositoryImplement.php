@@ -12,7 +12,7 @@ class RateRepositoryImplement extends Eloquent implements RateRepository
     /**
      * @return void
      */
-    public function __construct(protected Rate $model)
+    public function __construct(public Rate $model)
     {
     }
 

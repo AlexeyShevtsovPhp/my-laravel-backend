@@ -13,18 +13,19 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function __construct(protected UserRepository $userRepository)
+    public function __construct(public UserRepository $userRepository)
     {
     }
 
     /**
-     * @param AddCartItemRequest $request
+     * @param AddCartItemRequest $addCartItemRequest
      * @return Response
      */
-    public function add(AddCartItemRequest $request): Response
+    public function add(AddCartItemRequest $addCartItemRequest): Response
     {
-        $validated = $request->validated();
-        $totalQuantity = $this->userRepository->addToCart($validated['product_id']);
+        $user = Auth::user();
+        $validated = $addCartItemRequest->validated();
+        $totalQuantity = $this->userRepository->addToCart($user, $validated['product_id']);
 
         CartUpdated::dispatch((int)Auth::id(), $totalQuantity);
 
@@ -37,7 +38,8 @@ class CartController extends Controller
      */
     public function delete(int $productId): Response
     {
-        $this->userRepository->removeFromCart($productId);
+        $user = Auth::user();
+        $this->userRepository->removeFromCart($user, $productId);
         return response()->noContent();
     }
 
@@ -46,7 +48,8 @@ class CartController extends Controller
      */
     public function clear(): Response
     {
-        $this->userRepository->clearCart();
+        $user = Auth::user();
+        $this->userRepository->clearCart($user);
         return response()->noContent();
     }
 }

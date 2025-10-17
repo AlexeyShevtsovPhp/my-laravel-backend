@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserManageController extends Controller
 {
-    public function __construct(protected UserRepository $userRepository)
+    public function __construct(public UserRepository $userRepository)
     {
     }
 

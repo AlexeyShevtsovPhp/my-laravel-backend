@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class CategoriesSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
         $categories = [

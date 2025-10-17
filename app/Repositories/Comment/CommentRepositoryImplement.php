@@ -11,7 +11,7 @@ use LaravelEasyRepository\Implementations\Eloquent;
 
 class CommentRepositoryImplement extends Eloquent implements CommentRepository
 {
-    public function __construct(protected Comment $model)
+    public function __construct(public Comment $model)
     {
     }
 
@@ -37,7 +37,6 @@ class CommentRepositoryImplement extends Eloquent implements CommentRepository
     public function getPaginatedComments(Request $request, int $perPage): LengthAwarePaginator
     {
         $query = $this->model->buildCommentQuery($request);
-
         return $query->paginate($perPage);
     }
 }

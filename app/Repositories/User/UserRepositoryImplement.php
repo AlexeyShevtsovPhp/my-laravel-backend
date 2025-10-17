@@ -6,7 +6,6 @@ namespace App\Repositories\User;
 
 use App\Models\Good;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Support\Facades\Auth;
 use LaravelEasyRepository\Implementations\Eloquent;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,7 +16,7 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
      * @property User $model;
      */
 
-    protected User $model;
+    public User $model;
 
     public function __construct(User $model)
     {
@@ -45,14 +44,12 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
     }
 
     /**
+     * @param User $user
      * @param int $productId
      * @return int
      */
-    public function addToCart(int $productId): int
+    public function addToCart(User $user, int $productId): int
     {
-        /** @var User $user */
-        $user = Auth::user();
-
         $existing = $user->goods()->where('product_id', $productId)->first();
 
         if ($existing) {
@@ -66,13 +63,12 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
     }
 
     /**
+     * @param User $user
      * @param int $productId
      * @return bool
      */
-    public function removeFromCart(int $productId): bool
+    public function removeFromCart(User $user, int $productId): bool
     {
-        /** @var User $user */
-        $user = Auth::user();
         $existing = $user->goods()->where('product_id', $productId)->first();
 
         if (!$existing) {
@@ -92,12 +88,11 @@ class UserRepositoryImplement extends Eloquent implements UserRepository
     }
 
     /**
+     * @param User $user
      * @return void
      */
-    public function clearCart(): void
+    public function clearCart(User $user): void
     {
-        /** @var User $user */
-        $user = Auth::user();
         $user->goods()->detach();
     }
 }

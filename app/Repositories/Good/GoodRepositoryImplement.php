@@ -13,8 +13,7 @@ class GoodRepositoryImplement extends Eloquent implements GoodRepository
     /**
      * @return void
      */
-
-    public function __construct(protected Good $model)
+    public function __construct(public Good $model)
     {
     }
 

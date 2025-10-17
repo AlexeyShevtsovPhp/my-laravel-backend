@@ -20,7 +20,7 @@ class CreateGoodController extends Controller
      * @param GoodRepository $goodRepository
      * @param ImageUploadService $uploadService
      */
-    public function __construct(protected GoodRepository $goodRepository, protected ImageUploadService $uploadService)
+    public function __construct(public GoodRepository $goodRepository, public ImageUploadService $uploadService)
     {
     }
 
@@ -35,14 +35,14 @@ class CreateGoodController extends Controller
     }
 
     /**
-     * @param ChangeGoodRequest $changeGood
+     * @param ChangeGoodRequest $changeGoodRequest
      * @param Good $good
      * @return Response
      */
-    public function change(ChangeGoodRequest $changeGood, Good $good): Response
+    public function change(ChangeGoodRequest $changeGoodRequest, Good $good): Response
     {
-        $validated = $changeGood->validated();
-        $path = $this->uploadService->handle($changeGood);
+        $validated = $changeGoodRequest->validated();
+        $path = $this->uploadService->handle($changeGoodRequest);
         $data = array_merge($validated, $path ? ['image' => $path] : []);
         $good->fill($data);
 
