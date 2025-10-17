@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class GoodsSeeder extends Seeder
 {
-
     public function run(): void
     {
         $goods = [

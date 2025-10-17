@@ -10,7 +10,6 @@ use Illuminate\Database\Seeder;
 
 class CommentsSeeder extends Seeder
 {
-
     public function run(): void
     {
         $users = User::query()->whereIn('role', ['admin', 'guest'])->get();
